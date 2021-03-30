@@ -12,6 +12,16 @@ namespace Graphs
             public NodeSelection nodeSelection;
             public GameObject basicUI;
             public GameObject detailedUI;
+
+            private void Start()
+            {
+                SetDetailVisibility(false);
+            }
+
+            public void SetDetailVisibility(bool visibile)
+            {
+                detailedUI.SetActive(visibile);
+            }
         }
     }
 }

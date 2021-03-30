@@ -50,8 +50,18 @@ namespace Graphs
 
         public void SetNodeActive(Node node)
         {
-            activeNode?.nodeSelection.SetState(NodeSelection.MouseState.Normal);
+            if (activeNode)
+            {
+                activeNode.nodeSelection.SetState(NodeSelection.MouseState.Normal);
+                activeNode.nodeUI.SetDetailVisibility(false);
+            }
+            
             activeNode = node;
+
+            if (activeNode.owner == 1)
+            {
+                activeNode.nodeUI.SetDetailVisibility(true);
+            }
             CameraPivot.instance.SetTarget(node.transform);
         }
     }

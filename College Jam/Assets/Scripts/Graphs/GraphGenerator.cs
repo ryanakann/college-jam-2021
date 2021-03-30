@@ -64,8 +64,8 @@ namespace Graphs
                 nodes.Add(nodeObj);
             }
 
-            player1Node.SetOwner(0);
-            player2Node.SetOwner(1);
+            player1Node.SetOwner(1);
+            player2Node.SetOwner(2);
         }
 
         void ResetGraph()
