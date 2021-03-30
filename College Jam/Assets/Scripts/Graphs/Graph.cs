@@ -1,61 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using Graphs.Edges;
 using Graphs.Nodes;
 
-namespace Graphs
-{
-    public class Graph : MonoBehaviour
-    {
+namespace Graphs {
+    public class Graph : MonoBehaviour {
         public Node activeNode;
         public List<Node> nodes;
-        public Dictionary<Node, List<Node>> neighborMap;
+        public Dictionary<Node, List<Node>> edges;
 
-        void Awake()
-        {
+        void Awake() {
             nodes = new List<Node>();
-            neighborMap = new Dictionary<Node, List<Node>>();
+            edges = new Dictionary<Node, List<Node>>();
         }
-        
-        public void AddNode(Node node)
-        {
-            if (!nodes.Contains(node))
-            {
+
+        public void AddNode(Node node) {
+            if (!nodes.Contains(node)) {
                 nodes.Add(node);
                 node.nodeSelection.OnSelect?.AddListener(SetNodeActive);
             }
         }
 
-        public void AddNeighbor(Node node, Node neighbor)
-        {
-            if (neighborMap.ContainsKey(node))
-            {
-                if (!neighborMap[node].Contains(neighbor))
-                {
-                    neighborMap[node].Add(neighbor);
-                    node.AddNeighbor(neighbor);
+        public void AddEdge(Node a, Node b) {
+            if (edges.ContainsKey(a)) {
+                if (!edges[a].Contains(b)) {
+                    edges[a].Add(b);
+                    a.AddNeighbor(b);
                 }
             }
 
-            if (neighborMap.ContainsKey(neighbor))
-            {
-                if (!neighborMap[neighbor].Contains(node))
-                {
-                    neighborMap[neighbor].Add(node);
-                    neighbor.AddNeighbor(node);
+            if (edges.ContainsKey(b)) {
+                if (!edges[b].Contains(a)) {
+                    edges[b].Add(a);
+                    b.AddNeighbor(a);
                 }
             }
         }
 
-        public void SetNodeActive(Node node)
-        {
-            if (activeNode)
-            {
-                activeNode.nodeSelection.SetState(NodeSelection.MouseState.Normal);
-                activeNode.nodeUI.SetDetailVisibility(false);
-            }
-            
+        public void SetNodeActive(Node node) {
+            activeNode?.nodeSelection.SetState(NodeSelection.MouseState.Normal);
             activeNode = node;
 
             if (activeNode.owner == 1)
@@ -63,6 +48,24 @@ namespace Graphs
                 activeNode.nodeUI.SetDetailVisibility(true);
             }
             CameraPivot.instance.SetTarget(node.transform);
+        }
+
+        public static List<Node> GetImmediateNeighbors(Node start) {
+            return start.neighbors;
+        }
+
+        public List<Node> BFSOrder(Node start, Func<Node, List<Node>> getNeighbors) {
+            List<Node> results = new List<Node>();
+            //TODO: BFS using getNeighbors
+            return results;
+        }
+
+        public static List<Node> ShortestPath(Node start, Node finish, Func<Node, List<Node>> getNeighbors) {
+            List<Node> path = new List<Node>();
+            //TODO: get result of BFSOrder(start, getNeighbors)
+            //if finish not in BFSOrder, return empty
+            //else, construct path from BFSOrder
+            return path;
         }
     }
 }
