@@ -24,6 +24,7 @@ public class CameraPivot : MonoBehaviour {
     private float dragAmount;
     private Vector3 mousePosition;
     private Vector3 mousePositionLastFrame;
+    private Vector3 mouseDirection;
 
     [Header("Scale")]
     public float scaleDamping = 0.2f;
@@ -67,16 +68,19 @@ public class CameraPivot : MonoBehaviour {
         if (dragging)
         {
             mousePosition = Input.mousePosition;
-            dragAmount = Vector3.Distance(mousePosition, mousePositionLastFrame);
+            mousePosition.z = 0f;
 
-            Vector3 mouseDirection = mousePositionLastFrame - mousePosition;
-            rotationAxis = Vector3.Cross(mouseDirection, Camera.main.transform.forward);
+            mouseDirection = mousePositionLastFrame - mousePosition;
+            dragAmount = mouseDirection.magnitude;
+
+            mouseDirection = Camera.main.transform.right * mouseDirection.x + Camera.main.transform.up * mouseDirection.y;
+            rotationAxis = Vector3.Cross(mouseDirection, Camera.main.transform.forward).normalized;
 
             mousePositionLastFrame = mousePosition;
         }
         else
         {
-            dragAmount = 0f;
+            dragAmount = Mathf.SmoothDamp(dragAmount, 0f, ref rotationVelRef, rotationDamping);
         }
 
         // Scale
@@ -89,9 +93,9 @@ public class CameraPivot : MonoBehaviour {
 
         // Apply all transformations
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref positionVelRef, positionDamping);
-        
-        targetRotation = Mathf.SmoothDamp(targetRotation, dragAmount * rotationSensitivity, ref rotationVelRef, rotationDamping);
-        transform.Rotate(rotationAxis, targetRotation * Time.deltaTime);
+
+        targetRotation = dragAmount * rotationSensitivity * Time.deltaTime;
+        transform.Rotate(rotationAxis, targetRotation);
 
         transform.localScale = Vector3.one * targetScale;
     }
@@ -99,5 +103,11 @@ public class CameraPivot : MonoBehaviour {
     public void SetTarget(Transform target)
     {
         this.target = target;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(Camera.main.transform.position, mouseDirection * 10f);
     }
 }

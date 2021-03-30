@@ -487,10 +487,10 @@ MonoBehaviour:
   target: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   positionDamping: 0.2
-  rotationDamping: 0.1
+  rotationDamping: 0
   rotationSensitivity: 32
   scaleDamping: 0.01
-  scaleSensitivity: 10
+  scaleSensitivity: 1
   minScale: 0.1
   maxScale: 2
   scaleInput: 0
