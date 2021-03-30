@@ -60,7 +60,10 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FresnelExponent: 4
+    - _FresnelExponent: 3.82
+    - _FresnelExponentFreq: 12
+    - _FresnelExponentMax: 3
+    - _FresnelExponentMin: 1
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1

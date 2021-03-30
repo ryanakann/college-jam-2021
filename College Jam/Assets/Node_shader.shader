@@ -8,7 +8,8 @@ Shader "Custom/Node_shader"
         _Metallic ("Metallic", Range(0,1)) = 0.0
 
         _FresnelColor("Fresnel Color", Color) = (1,1,1,1)
-        [PowerSlider(4)] _FresnelExponent("Fresnel Exponent", Range(0.25, 8)) = 1
+        [PowerSlider(8)] _FresnelExponent("Fresnel Exponent", Range(0.25, 8)) = 1
+        _FresnelExponentFreq("Fresnel Frequency", Range(0, 16)) = 1
     }
     SubShader
     {
@@ -38,6 +39,7 @@ Shader "Custom/Node_shader"
 
         float3 _FresnelColor;
         float _FresnelExponent;
+        float _FresnelExponentFreq;
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
         // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -60,8 +62,10 @@ Shader "Custom/Node_shader"
             // Fresnel effect
             float fresnel = dot(IN.worldNormal, IN.viewDir);
             fresnel = saturate(1 - fresnel);
-            fresnel = pow(fresnel, _FresnelExponent);
-            float3 fresnelColor = fresnel * _FresnelColor;
+            float fresnelExponent = _FresnelExponent;
+            fresnel = pow(fresnel, fresnelExponent);
+            float fresnelTime = (cos(_Time * _FresnelExponentFreq * 4 * 3.1415926535) + 1) / 2; // Cycle between 0 and 1
+            float3 fresnelColor = lerp((0.0, 0.0, 0.0), fresnel * _FresnelColor, fresnelTime);
             o.Emission = fresnelColor;
         }
         ENDCG
