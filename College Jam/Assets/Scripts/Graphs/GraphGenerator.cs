@@ -12,20 +12,20 @@ namespace Graphs {
         public int nodeCount;
         public float distanceThreshold = 1f;
 
-        private List<GameObject> nodes;
-        private Vector3 bounds;
+        protected List<GameObject> nodes;
+        protected Vector3 bounds;
 
-        private Node player1StartNode;
-        private Node player2StartNode;
-        private float maxDistance;
+        protected Node player1StartNode;
+        protected Node player2StartNode;
+        protected float maxDistance;
 
-        void Start() {
+        protected virtual void Start() {
             bounds = GetComponent<BoxCollider>().bounds.extents;
             GetComponent<BoxCollider>().enabled = false;
             Generate();
         }
 
-        void Generate() {
+        protected virtual void Generate() {
             nodes = new List<GameObject>();
             maxDistance = 0f;
 
@@ -76,21 +76,22 @@ namespace Graphs {
             player2StartNode.SetOwner(2);
         }
 
-        void ResetGraph() {
+        protected virtual void ResetGraph() {
             //UnityEngine.SceneManagement.SceneManager.LoadScene(0);
             foreach (Transform child in transform) {
                 Destroy(child.gameObject);
             }
-            Generate();
+            graph.ResetGraph();
         }
 
-        Vector3 SampleRandomPoint() {
+        protected virtual Vector3 SampleRandomPoint() {
             return new Vector3(Random.Range(-bounds.x, bounds.x), Random.Range(-bounds.y, bounds.y), Random.Range(-bounds.z, bounds.z));
         }
 
-        void Update() {
+        protected virtual void Update() {
             if (Input.GetKeyDown(KeyCode.R)) {
                 ResetGraph();
+                Generate();
             }
         }
     }

@@ -17,14 +17,20 @@ namespace Graphs
             {
                 this.node1 = node1;
                 this.node2 = node2;
+                SetPosition();
+            }
+
+            void SetPosition()
+            {
+                transform.position = (node1.transform.position + node2.transform.position) / 2f;
+                transform.up = (node1.transform.position - node2.transform.position).normalized;
+                transform.localScale = new Vector3(edgeWidth, (node1.transform.position - node2.transform.position).magnitude / 2f, edgeWidth);
             }
 
             // Update is called once per frame
             void Update()
             {
-                transform.position = (node1.transform.position + node2.transform.position) / 2f;
-                transform.up = (node1.transform.position - node2.transform.position).normalized;
-                transform.localScale = new Vector3(edgeWidth, (node1.transform.position - node2.transform.position).magnitude / 2f, edgeWidth);
+                SetPosition();
             }
         }
     }

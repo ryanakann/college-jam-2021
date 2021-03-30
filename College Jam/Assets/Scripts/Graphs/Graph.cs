@@ -67,5 +67,12 @@ namespace Graphs {
             //else, construct path from BFSOrder
             return path;
         }
+
+        public void ResetGraph()
+        {
+            activeNode = null;
+            nodes.Clear();
+            edges.Clear();
+        }
     }
 }
