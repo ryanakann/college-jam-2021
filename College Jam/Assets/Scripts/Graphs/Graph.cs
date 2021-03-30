@@ -8,8 +8,9 @@ namespace Graphs
 {
     public class Graph : MonoBehaviour
     {
-        List<Node> nodes;
-        Dictionary<Node, List<Node>> neighborMap;
+        public Node activeNode;
+        public List<Node> nodes;
+        public Dictionary<Node, List<Node>> neighborMap;
 
         void Awake()
         {
@@ -33,6 +34,7 @@ namespace Graphs
                 if (!neighborMap[node].Contains(neighbor))
                 {
                     neighborMap[node].Add(neighbor);
+                    node.AddNeighbor(neighbor);
                 }
             }
 
@@ -41,12 +43,15 @@ namespace Graphs
                 if (!neighborMap[neighbor].Contains(node))
                 {
                     neighborMap[neighbor].Add(node);
+                    neighbor.AddNeighbor(node);
                 }
             }
         }
 
         public void SetNodeActive(Node node)
         {
+            activeNode?.nodeSelection.SetState(NodeSelection.MouseState.Normal);
+            activeNode = node;
             CameraPivot.instance.SetTarget(node.transform);
         }
     }

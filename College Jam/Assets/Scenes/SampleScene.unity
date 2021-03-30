@@ -132,11 +132,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 581847530}
+  - component: {fileID: 581847531}
   - component: {fileID: 581847529}
   - component: {fileID: 581847528}
-  - component: {fileID: 581847531}
   m_Layer: 0
-  m_Name: GraphGenerator
+  m_Name: Graph
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

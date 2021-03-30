@@ -13,33 +13,42 @@ namespace Graphs
         public GameObject edgePrefab;
         public int nodeCount;
         public float distanceThreshold = 1f;
-        private float distanceThresholdSqrd;
 
         private List<GameObject> nodes;
         private Vector3 bounds;
 
+        private Node player1Node;
+        private Node player2Node;
+        private float maxDistance;
+
         void Start()
         {
+            bounds = GetComponent<BoxCollider>().bounds.extents;
+            GetComponent<BoxCollider>().enabled = false;
             Generate();
         }
 
         void Generate()
         {
             nodes = new List<GameObject>();
-            bounds = GetComponent<BoxCollider>().bounds.extents;
-            distanceThresholdSqrd = distanceThreshold * distanceThreshold;
-            GetComponent<BoxCollider>().enabled = false;
+            maxDistance = 0f;
 
             for (int i = 0; i < nodeCount; i++)
             {
-                Vector3 pos = SampleRandomPoint();
-                GameObject nodeObj = Instantiate(nodePrefab, pos, Quaternion.identity);
+                GameObject nodeObj = Instantiate(nodePrefab, transform);
+                nodeObj.transform.position = SampleRandomPoint();
                 Node node = nodeObj.GetComponent<Node>();
                 graph.AddNode(node);
 
                 foreach (var other in nodes)
                 {
                     float distance = Vector3.Distance(other.transform.position, nodeObj.transform.position);
+                    if (distance > maxDistance)
+                    {
+                        player1Node = node;
+                        player2Node = other.GetComponent<Node>();
+                        maxDistance = distance;
+                    }
                     SpringJoint joint = nodeObj.AddComponent<SpringJoint>();
                     joint.connectedBody = other.GetComponent<Rigidbody>();
                     //joint.damper = 10f;
@@ -47,18 +56,26 @@ namespace Graphs
 
                     if (distance < distanceThreshold)
                     {
-                        GameObject edge = Instantiate(edgePrefab);
+                        GameObject edge = Instantiate(edgePrefab, transform);
                         edge.GetComponent<Edge>().SetNodes(nodeObj, other);
                         graph.AddNeighbor(node, other.GetComponent<Node>());
                     }
                 }
                 nodes.Add(nodeObj);
             }
+
+            player1Node.SetOwner(0);
+            player2Node.SetOwner(1);
         }
 
         void ResetGraph()
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            //UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            foreach (Transform child in transform)
+            {
+                Destroy(child.gameObject);
+            }
+            Generate();
         }
 
         Vector3 SampleRandomPoint()
@@ -66,7 +83,6 @@ namespace Graphs
             return new Vector3(Random.Range(-bounds.x, bounds.x), Random.Range(-bounds.y, bounds.y), Random.Range(-bounds.z, bounds.z));
         }
 
-        // Update is called once per frame
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.R))

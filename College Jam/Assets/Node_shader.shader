@@ -7,6 +7,7 @@ Shader "Custom/Node_shader"
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
 
+        _Highlight("Highlight Color", Color) = (1,1,1,1)
         _FresnelColor("Fresnel Color", Color) = (1,1,1,1)
         [PowerSlider(8)] _FresnelExponent("Fresnel Exponent", Range(0.25, 8)) = 1
         _FresnelExponentFreq("Fresnel Frequency", Range(0, 16)) = 1
@@ -37,6 +38,7 @@ Shader "Custom/Node_shader"
         half _Metallic;
         fixed4 _Color;
 
+        fixed4 _Highlight;
         float3 _FresnelColor;
         float _FresnelExponent;
         float _FresnelExponentFreq;
@@ -51,7 +53,7 @@ Shader "Custom/Node_shader"
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             // Albedo comes from a texture tinted by color
-            fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
+            fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color * _Highlight;
             o.Albedo = c.rgb;
 
             // Metallic and smoothness come from slider variables

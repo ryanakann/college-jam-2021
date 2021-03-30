@@ -20,7 +20,7 @@ namespace Graphs
 
             private MouseState mouseState;
 
-            private Material mat;
+            public Material mat;
 
             public Color normalColor;
             public Color highlightedColor;
@@ -32,7 +32,6 @@ namespace Graphs
             [SerializeField] private float fresnelAmount;
             private float fresnelAmountLF;
 
-            public UnityEvent OnClick;
             public UnityEvent<Node> OnSelect;
 
             void Awake()
@@ -61,26 +60,28 @@ namespace Graphs
                 }
             }
 
-            private void SetState(MouseState state)
+            public void SetState(MouseState state)
             {
                 mouseState = state;
                 switch (state)
                 {
                     case MouseState.Normal:
-                        mat.SetColor("_Color", normalColor);
+                        mat.SetColor("_Highlight", normalColor);
+                        mat.SetColor("_FresnelColor", Color.black);
                         break;
                     case MouseState.Highlighted:
-                        mat.SetColor("_Color", highlightedColor);
+                        mat.SetColor("_Highlight", highlightedColor);
                         break;
                     case MouseState.Pressed:
-                        mat.SetColor("_Color", pressedColor);
+                        mat.SetColor("_Highlight", pressedColor);
                         break;
                     case MouseState.Selected:
-                        mat.SetColor("_Color", selectedColor);
+                        mat.SetColor("_Highlight", selectedColor);
+                        mat.SetColor("_FresnelColor", Color.white);
                         OnSelect?.Invoke(GetComponent<Node>());
                         break;
                     case MouseState.Disabled:
-                        mat.SetColor("_Color", disabledColor);
+                        mat.SetColor("_Highlight", disabledColor);
                         break;
                     default:
                         break;
