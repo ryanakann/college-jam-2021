@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Edge : MonoBehaviour
 {
+    public float edgeWidth = 0.2f;
+
     GameObject node1;
     GameObject node2;
 
@@ -18,6 +20,6 @@ public class Edge : MonoBehaviour
     {
         transform.position = (node1.transform.position + node2.transform.position) / 2f;
         transform.up = (node1.transform.position - node2.transform.position).normalized;
-        transform.localScale = new Vector3(0.25f, (node1.transform.position - node2.transform.position).magnitude / 2f, 0.25f);
+        transform.localScale = new Vector3(edgeWidth, (node1.transform.position - node2.transform.position).magnitude / 2f, edgeWidth);
     }
 }

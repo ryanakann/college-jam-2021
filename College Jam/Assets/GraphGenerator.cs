@@ -15,6 +15,11 @@ public class GraphGenerator : MonoBehaviour
 
     void Start()
     {
+        Generate();
+    }
+
+    void Generate()
+    {
         nodes = new List<GameObject>();
         bounds = GetComponent<BoxCollider>().bounds.extents;
         distanceThresholdSqrd = distanceThreshold * distanceThreshold;
@@ -32,7 +37,7 @@ public class GraphGenerator : MonoBehaviour
                 //joint.damper = 10f;
                 joint.spring = 1 / distance;
 
-                if (distance  < distanceThreshold)
+                if (distance < distanceThreshold)
                 {
                     GameObject edge = Instantiate(edgePrefab);
                     edge.GetComponent<Edge>().SetNodes(node, other);
@@ -40,7 +45,11 @@ public class GraphGenerator : MonoBehaviour
             }
             nodes.Add(node);
         }
+    }
 
+    void ResetGraph()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
     Vector3 SampleRandomPoint()
@@ -51,6 +60,9 @@ public class GraphGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetGraph();
+        }
     }
 }
