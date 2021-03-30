@@ -4,10 +4,8 @@ using UnityEngine;
 using Graphs.Edges;
 using Graphs.Nodes;
 
-namespace Graphs
-{
-    public class GraphGenerator : MonoBehaviour
-    {
+namespace Graphs {
+    public class GraphGenerator : MonoBehaviour {
         public Graph graph;
         public GameObject nodePrefab;
         public GameObject edgePrefab;
@@ -17,76 +15,81 @@ namespace Graphs
         private List<GameObject> nodes;
         private Vector3 bounds;
 
-        private Node player1Node;
-        private Node player2Node;
+        private Node player1StartNode;
+        private Node player2StartNode;
         private float maxDistance;
 
-        void Start()
-        {
+        void Start() {
             bounds = GetComponent<BoxCollider>().bounds.extents;
             GetComponent<BoxCollider>().enabled = false;
             Generate();
         }
 
-        void Generate()
-        {
+        void Generate() {
             nodes = new List<GameObject>();
             maxDistance = 0f;
 
-            for (int i = 0; i < nodeCount; i++)
-            {
+            for (int i = 0; i < nodeCount; i++) {
                 GameObject nodeObj = Instantiate(nodePrefab, transform);
                 nodeObj.transform.position = SampleRandomPoint();
                 Node node = nodeObj.GetComponent<Node>();
                 graph.AddNode(node);
-
-                foreach (var other in nodes)
-                {
-                    float distance = Vector3.Distance(other.transform.position, nodeObj.transform.position);
-                    if (distance > maxDistance)
-                    {
-                        player1Node = node;
-                        player2Node = other.GetComponent<Node>();
-                        maxDistance = distance;
+                if (i > 0) {//do not add edges if first node
+                    //definitely add one edge to ensure connectedness
+                    //choose the closest previous node to this one
+                    int closestNodeIndex = 0;
+                    float closestDistance = Vector3.Distance(nodes[closestNodeIndex].transform.position, nodeObj.transform.position);
+                    for (int j = 0; j < nodes.Count; j++) {
+                        GameObject other = nodes[j];
+                        float distance = Vector3.Distance(other.transform.position, nodeObj.transform.position);
+                        if (distance < closestDistance) {
+                            closestDistance = distance;
+                            closestNodeIndex = j;
+                        }
                     }
-                    SpringJoint joint = nodeObj.AddComponent<SpringJoint>();
-                    joint.connectedBody = other.GetComponent<Rigidbody>();
-                    //joint.damper = 10f;
-                    joint.spring = 1 / distance;
 
-                    if (distance < distanceThreshold)
-                    {
-                        GameObject edge = Instantiate(edgePrefab, transform);
-                        edge.GetComponent<Edge>().SetNodes(nodeObj, other);
-                        graph.AddNeighbor(node, other.GetComponent<Node>());
+                    for (int j = 0; j < nodes.Count; j++) {
+                        GameObject other = nodes[j];
+                        float distance = Vector3.Distance(other.transform.position, nodeObj.transform.position);
+                        if (distance > maxDistance) {
+                            player1StartNode = node;
+                            player2StartNode = other.GetComponent<Node>();
+                            maxDistance = distance;
+                        }
+                        SpringJoint joint = nodeObj.AddComponent<SpringJoint>();
+                        joint.connectedBody = other.GetComponent<Rigidbody>();
+                        //joint.damper = 10f;
+                        joint.spring = 1 / distance;
+
+                        if (distance < distanceThreshold || j == closestNodeIndex) {
+                            GameObject edge = Instantiate(edgePrefab, transform);
+                            edge.GetComponent<Edge>().SetNodes(nodeObj, other);
+                            graph.AddEdge(node, other.GetComponent<Node>());
+                        }
                     }
                 }
+
                 nodes.Add(nodeObj);
             }
 
-            player1Node.SetOwner(0);
-            player2Node.SetOwner(1);
+            player1StartNode.SetOwner(0);
+            player2StartNode.SetOwner(1);
         }
 
-        void ResetGraph()
-        {
+        void ResetGraph() {
             //UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-            foreach (Transform child in transform)
-            {
+            foreach (Transform child in transform) {
                 Destroy(child.gameObject);
             }
             Generate();
         }
 
-        Vector3 SampleRandomPoint()
-        {
+        Vector3 SampleRandomPoint() {
             return new Vector3(Random.Range(-bounds.x, bounds.x), Random.Range(-bounds.y, bounds.y), Random.Range(-bounds.z, bounds.z));
         }
 
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.R))
-            {
+        void Update() {
+            if (Input.GetKeyDown(KeyCode.R)) {
                 ResetGraph();
             }
         }
