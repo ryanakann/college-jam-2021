@@ -23,11 +23,6 @@ public class Player
     {
         // tell the controller which player is going
     }
-
-    public void EndTurn()
-    {
-        TurnManager.instance.NextPlayer();
-    }
 }
 
 
