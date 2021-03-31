@@ -74,5 +74,13 @@ namespace Graphs {
             nodes.Clear();
             edges.Clear();
         }
+
+        public void Iterate()
+        {
+            foreach (var node in nodes)
+            {
+                node.NextTurn();
+            }
+        }
     }
 }

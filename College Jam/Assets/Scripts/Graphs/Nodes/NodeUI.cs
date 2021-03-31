@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Graphs
 {
@@ -10,7 +11,7 @@ namespace Graphs
         public class NodeUI : MonoBehaviour
         {
             public NodeSelection nodeSelection;
-            public GameObject basicUI;
+            public TMP_Text basicUI;
             public GameObject detailedUI;
 
             private void Start()

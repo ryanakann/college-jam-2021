@@ -36,12 +36,10 @@ public class ButtonSounds : MonoBehaviour
 
     public void PlayHoverSound(PointerEventData data)
     {
-        print("OWO");
         source.PlayOneShot(hoverSound);
     }
     public void PlayClickSound(PointerEventData data)
     {
-        print("UWU");
         source.PlayOneShot(clickSound);
     }
 }

@@ -73,7 +73,9 @@ namespace Graphs {
             }
 
             player1StartNode.SetOwner(1);
+            player1StartNode.SetValue(1);
             player2StartNode.SetOwner(2);
+            player2StartNode.SetValue(1);
         }
 
         protected virtual void ResetGraph() {
@@ -92,6 +94,17 @@ namespace Graphs {
             if (Input.GetKeyDown(KeyCode.R)) {
                 ResetGraph();
                 Generate();
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                graph.Iterate();
+            }
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                foreach (var node in graph.nodes)
+                {
+                    node.Propagate();
+                }
             }
         }
     }

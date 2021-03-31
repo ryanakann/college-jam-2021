@@ -92,10 +92,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
-  m_fontSizeBase: 36
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
@@ -160,18 +160,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1279241256600511020}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
   m_Children:
   - {fileID: 271064258005554870}
   m_Father: {fileID: 5095281594375613009}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 16, y: 16}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &164406135046498085
 Canvas:
@@ -377,6 +377,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86acf4df84fde4b4586982011b723197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: 0
+  value: 0
+  fortifying: 0
+  movedThisTurn: 0
   neighbors: []
   nodeSelection: {fileID: -2430865339950803763}
   nodePhysics: {fileID: -7998086542745889056}
@@ -432,7 +436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeSelection: {fileID: -2430865339950803763}
-  basicUI: {fileID: 1279241256600511020}
+  basicUI: {fileID: 1576850045104906414}
   detailedUI: {fileID: 4323436021230382249}
 --- !u!1 &2412399738743553039
 GameObject:
