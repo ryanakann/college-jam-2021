@@ -59,7 +59,6 @@ public class TurnManager : MonoBehaviour {
     public void StartGame()
     {
         currentPlayer = players.First;
-        players.AddLast(new Player());
     }
 
     public List<Player> CheckGraphDomination()
