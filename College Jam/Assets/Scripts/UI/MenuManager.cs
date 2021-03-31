@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
+    public static MenuManager instance;
+
     public AnimationCurve tweenCurve;
     public float tweenDuration;
     public Image fade;
@@ -21,6 +23,7 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
+        instance = this;
         lastIndex = 0;
         transitioning = false;
         menuOpen = enableEscape ? false : true;
@@ -197,6 +200,7 @@ public class MenuManager : MonoBehaviour
 
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_WEBGL
 #else
         Application.Quit();
 #endif

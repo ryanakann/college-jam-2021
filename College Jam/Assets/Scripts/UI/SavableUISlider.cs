@@ -14,6 +14,9 @@ public class SavableUISlider : SavableUI
 
     public override void Load()
     {
-        slider.value = PlayerPrefs.GetFloat(propertyName);
+        if (PlayerPrefs.HasKey(propertyName))
+        {
+            slider.value = PlayerPrefs.GetFloat(propertyName);
+        }
     }
 }

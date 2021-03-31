@@ -48,6 +48,8 @@ namespace Graphs
 
             void Update()
             {
+                if (MenuManager.instance.menuOpen) return;
+
                 fresnelAmount = Mathf.Clamp01(fresnelAmount + Time.deltaTime / fadeDuration * (mouseState == MouseState.Selected ? 1 : -1));
                 if (!Mathf.Approximately(fresnelAmountLF, fresnelAmount))
                 {
@@ -62,6 +64,8 @@ namespace Graphs
 
             public void SetState(MouseState state)
             {
+                if (MenuManager.instance.menuOpen) return;
+
                 mouseState = state;
                 switch (state)
                 {

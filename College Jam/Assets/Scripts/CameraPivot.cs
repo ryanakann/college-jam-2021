@@ -49,6 +49,8 @@ public class CameraPivot : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (MenuManager.instance.menuOpen) return;
+
         // Position
         if (target) {
             targetPosition = target.position;

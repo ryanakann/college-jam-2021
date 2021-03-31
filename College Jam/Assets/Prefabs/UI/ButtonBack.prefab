@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 456342316720042700}
   - component: {fileID: 456342316720042699}
   - component: {fileID: 456342316720042698}
+  - component: {fileID: 1495470818987179603}
   m_Layer: 5
   m_Name: ButtonBack
   m_TagString: Untagged
@@ -121,6 +122,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1495470818987179603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456342316720042696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94a206cf10784e442b66fb6059bbe13e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverSound: {fileID: 8300000, guid: f9284b4ce63ddf94ba98c655c965d789, type: 3}
+  clickSound: {fileID: 8300000, guid: 774b5581cb35972479af377af9b815e6, type: 3}
 --- !u!1 &456342317336605796
 GameObject:
   m_ObjectHideFlags: 0
