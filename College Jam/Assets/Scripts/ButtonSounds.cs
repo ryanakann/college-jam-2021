@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Audio;
 
 public class ButtonSounds : MonoBehaviour
 {
     public AudioClip hoverSound;
     public AudioClip clickSound;
+
+    public AudioMixerGroup group;
 
     private AudioSource source;
     private EventTrigger trigger;
@@ -16,6 +19,8 @@ public class ButtonSounds : MonoBehaviour
     void Start()
     {
         source = gameObject.AddComponent<AudioSource>();
+        source.outputAudioMixerGroup = group;
+
         trigger = gameObject.AddComponent<EventTrigger>();
 
         EventTrigger.Entry hoverEntry = new EventTrigger.Entry();
