@@ -35,38 +35,31 @@ public class CameraPivot : MonoBehaviour {
     [SerializeField] private float scaleInput;
     private float targetScale = 1f;
     public bool invertScale;
-    
+
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         instance = this;
         dragging = false;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         // Position
-        if (target)
-        {
+        if (target) {
             targetPosition = target.position;
         }
 
         // Rotation
-        if (Input.GetMouseButtonDown(0))
-        {
+        if (Input.GetMouseButtonDown(0)) {
             dragging = true;
             mousePosition = Input.mousePosition;
             mousePositionLastFrame = mousePosition;
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
+        } else if (Input.GetMouseButtonUp(0)) {
             dragging = false;
         }
 
-        if (dragging)
-        {
+        if (dragging) {
             mousePosition = Input.mousePosition;
             mousePosition.z = 0f;
 
@@ -77,17 +70,15 @@ public class CameraPivot : MonoBehaviour {
             rotationAxis = Vector3.Cross(mouseDirection, Camera.main.transform.forward).normalized;
 
             mousePositionLastFrame = mousePosition;
-        }
-        else
-        {
+        } else {
             dragAmount = Mathf.SmoothDamp(dragAmount, 0f, ref rotationVelRef, rotationDamping);
         }
 
         // Scale
         int invertMultiplier = (invertScale ? -1 : 1);
         scaleInput = invertMultiplier * Input.GetAxisRaw("Mouse ScrollWheel") * scaleSensitivity;
-        targetScale = Mathf.SmoothDamp(targetScale, 
-            targetScale - scaleInput, 
+        targetScale = Mathf.SmoothDamp(targetScale,
+            targetScale - scaleInput,
             ref scaleVelRef, scaleDamping);
         targetScale = Mathf.Clamp(targetScale, minScale, maxScale);
 
@@ -95,18 +86,16 @@ public class CameraPivot : MonoBehaviour {
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref positionVelRef, positionDamping);
 
         targetRotation = dragAmount * rotationSensitivity * Time.deltaTime;
-        transform.Rotate(rotationAxis, targetRotation);
+        transform.rotation = Quaternion.AngleAxis(targetRotation, rotationAxis) * transform.rotation;
 
         transform.localScale = Vector3.one * targetScale;
     }
 
-    public void SetTarget(Transform target)
-    {
+    public void SetTarget(Transform target) {
         this.target = target;
     }
 
-    private void OnDrawGizmos()
-    {
+    private void OnDrawGizmos() {
         Gizmos.color = Color.yellow;
         Gizmos.DrawRay(Camera.main.transform.position, mouseDirection * 10f);
     }
