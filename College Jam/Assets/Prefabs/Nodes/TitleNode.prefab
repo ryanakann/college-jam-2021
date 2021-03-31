@@ -248,11 +248,10 @@ GameObject:
   - component: {fileID: 4690542924967791816}
   - component: {fileID: -3941482243430063526}
   - component: {fileID: 359930088819778244}
-  - component: {fileID: -2303107603071614403}
+  - component: {fileID: 2020540673200374419}
   - component: {fileID: -2430865339950803763}
   - component: {fileID: -7998086542745889056}
   - component: {fileID: 5335017279724630125}
-  - component: {fileID: -5156014043784175414}
   m_Layer: 0
   m_Name: TitleNode
   m_TagString: Untagged
@@ -366,7 +365,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 128
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-2303107603071614403
+--- !u!114 &2020540673200374419
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -375,7 +374,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2100136317679725383}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86acf4df84fde4b4586982011b723197, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a73a8b3ee421114abb838cb1d10750c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
@@ -383,6 +382,31 @@ MonoBehaviour:
   nodeSelection: {fileID: -2430865339950803763}
   nodePhysics: {fileID: -7998086542745889056}
   nodeUI: {fileID: 5335017279724630125}
+  introTime: 1
+  tweenCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &-2430865339950803763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,7 +414,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2100136317679725383}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a156e9973e26eb04e93f7fd7da5b6385, type: 3}
   m_Name: 
@@ -402,7 +426,7 @@ MonoBehaviour:
   selectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
   disabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
   colorMultiplier: 1
-  fadeDuration: 0.1
+  fadeDuration: 0.187
   fresnelAmount: 0
   OnSelect:
     m_PersistentCalls:
@@ -428,7 +452,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2100136317679725383}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47d158e66bca0fb4ea62494dac604df5, type: 3}
   m_Name: 
@@ -436,18 +460,6 @@ MonoBehaviour:
   nodeSelection: {fileID: -2430865339950803763}
   basicUI: {fileID: 1279241256600511020}
   detailedUI: {fileID: 4323436021230382249}
---- !u!114 &-5156014043784175414
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2100136317679725383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09a37647d9eae4a6183444357d28491b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2412399738743553039
 GameObject:
   m_ObjectHideFlags: 0

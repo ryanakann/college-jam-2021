@@ -41,6 +41,10 @@ public class CameraPivot : MonoBehaviour {
     void Start() {
         instance = this;
         dragging = false;
+
+        SetRotationSpeed();
+        SetScrollSpeed();
+        SetScrollDirection();
     }
 
     // Update is called once per frame
@@ -98,5 +102,29 @@ public class CameraPivot : MonoBehaviour {
     private void OnDrawGizmos() {
         Gizmos.color = Color.yellow;
         Gizmos.DrawRay(Camera.main.transform.position, mouseDirection * 10f);
+    }
+
+    public void SetRotationSpeed()
+    {
+        if (PlayerPrefs.HasKey("RotateSpeed"))
+        {
+            rotationSensitivity = PlayerPrefs.GetFloat("RotateSpeed");
+        }
+    }
+
+    public void SetScrollSpeed()
+    {
+        if (PlayerPrefs.HasKey("ScrollSpeed"))
+        {
+            scaleSensitivity = PlayerPrefs.GetFloat("ScrollSpeed");
+        }
+    }
+
+    public void SetScrollDirection()
+    {
+        if (PlayerPrefs.HasKey("InvertScroll"))
+        {
+            invertScale = PlayerPrefs.GetInt("InvertScroll") == 0 ? false : true;
+        }
     }
 }

@@ -10,8 +10,8 @@ namespace Graphs
         {
             public float edgeWidth = 0.2f;
 
-            GameObject node1;
-            GameObject node2;
+            protected GameObject node1;
+            protected GameObject node2;
 
             public void SetNodes(GameObject node1, GameObject node2)
             {

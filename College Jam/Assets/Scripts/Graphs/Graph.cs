@@ -47,7 +47,7 @@ namespace Graphs {
             {
                 activeNode.nodeUI.SetDetailVisibility(true);
             }
-            CameraPivot.instance.SetTarget(node.transform);
+            CameraPivot.instance?.SetTarget(node.transform);
         }
 
         public static List<Node> GetImmediateNeighbors(Node start) {
