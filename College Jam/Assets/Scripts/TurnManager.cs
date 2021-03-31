@@ -66,17 +66,14 @@ public class TurnManager : MonoBehaviour {
     {
         List<Player> results = new List<Player>();
         int maxNodes = 0;
-        if (finalTurn)
+        foreach (var player in instance.players)
         {
-            foreach (var player in instance.players)
+            if (player.faction.nodes >= maxNodes)
             {
-                if (player.faction.nodes >= maxNodes)
-                {
-                    if (player.faction.nodes > maxNodes)
-                        results = new List<Player>();
-                    results.Add(player);
-                    maxNodes = player.faction.nodes;
-                }
+                if (player.faction.nodes > maxNodes)
+                    results = new List<Player>();
+                results.Add(player);
+                maxNodes = player.faction.nodes;
             }
         }
         return results;
