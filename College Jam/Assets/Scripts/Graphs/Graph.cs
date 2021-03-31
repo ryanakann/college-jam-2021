@@ -23,28 +23,29 @@ namespace Graphs {
             }
         }
 
-        public void AddEdge(Node a, Node b) {
+        private void AddDirectedEdge(Node a, Node b) {
+            a.AddNeighbor(b);
             if (edges.ContainsKey(a)) {
                 if (!edges[a].Contains(b)) {
                     edges[a].Add(b);
-                    a.AddNeighbor(b);
                 }
+            } else {
+                edges.Add(a, new List<Node>() { b });
             }
 
-            if (edges.ContainsKey(b)) {
-                if (!edges[b].Contains(a)) {
-                    edges[b].Add(a);
-                    b.AddNeighbor(a);
-                }
-            }
+
+        }
+
+        public void AddEdge(Node a, Node b) {
+            AddDirectedEdge(a, b);
+            AddDirectedEdge(b, a);
         }
 
         public void SetNodeActive(Node node) {
             activeNode?.nodeSelection.SetState(NodeSelection.MouseState.Normal);
             activeNode = node;
 
-            if (activeNode.owner == 1)
-            {
+            if (activeNode.owner == 1) {
                 activeNode.nodeUI.SetDetailVisibility(true);
             }
             CameraPivot.instance?.SetTarget(node.transform);
@@ -53,14 +54,33 @@ namespace Graphs {
         public static List<Node> GetImmediateNeighbors(Node start) {
             return start.neighbors;
         }
+        public List<Node> BFSOrder(Node start) {
+            return BFSOrderGeneral(start, GetImmediateNeighbors);
+        }
 
-        public List<Node> BFSOrder(Node start, Func<Node, List<Node>> getNeighbors) {
+        public List<Node> BFSOrderGeneral(Node start, Func<Node, List<Node>> getNeighbors) {
             List<Node> results = new List<Node>();
-            //TODO: BFS using getNeighbors
+            Queue<Node> q = new Queue<Node>();
+            q.Enqueue(start);
+            while (q.Count > 0) {
+                Node current = q.Dequeue();
+                foreach (Node n in getNeighbors(current)) {
+                    if (!results.Contains(n)) {
+                        q.Enqueue(n);
+                        if (n != start) {
+                            results.Add(n);
+                        }
+                    }
+                }
+            }
             return results;
         }
 
-        public static List<Node> ShortestPath(Node start, Node finish, Func<Node, List<Node>> getNeighbors) {
+        public static List<Node> ShortestPath(Node start, Node finish) {
+            return ShortestPathGeneral(start, finish, GetImmediateNeighbors);
+        }
+
+        public static List<Node> ShortestPathGeneral(Node start, Node finish, Func<Node, List<Node>> getNeighbors) {
             List<Node> path = new List<Node>();
             //TODO: get result of BFSOrder(start, getNeighbors)
             //if finish not in BFSOrder, return empty
@@ -68,8 +88,7 @@ namespace Graphs {
             return path;
         }
 
-        public void ResetGraph()
-        {
+        public void ResetGraph() {
             activeNode = null;
             nodes.Clear();
             edges.Clear();

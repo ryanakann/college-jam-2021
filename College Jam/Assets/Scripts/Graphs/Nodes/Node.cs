@@ -102,7 +102,7 @@ namespace Graphs
                 if (value <= neighborCount) return false;
                 foreach (var neighbor in ownedNeighbors)
                 {
-                    neighbor.value++;
+                    neighbor.IncrementValue();
                     SetValue(value - 1);
                 }
                 return true;
