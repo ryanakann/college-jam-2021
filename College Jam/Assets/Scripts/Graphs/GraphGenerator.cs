@@ -32,6 +32,7 @@ namespace Graphs {
             for (int i = 0; i < nodeCount; i++) {
                 GameObject nodeObj = Instantiate(nodePrefab, transform);
                 nodeObj.transform.position = SampleRandomPoint();
+                nodeObj.name = $"Node {i}";
                 Node node = nodeObj.GetComponent<Node>();
                 graph.AddNode(node);
                 if (i > 0) {//do not add edges if first node
@@ -64,6 +65,7 @@ namespace Graphs {
                         if (distance < distanceThreshold || j == closestNodeIndex) {
                             GameObject edge = Instantiate(edgePrefab, transform);
                             edge.GetComponent<Edge>().SetNodes(nodeObj, other);
+                            edge.name = $"Edge {i} {j}";
                             graph.AddEdge(node, other.GetComponent<Node>());
                         }
                     }
@@ -74,6 +76,10 @@ namespace Graphs {
 
             player1StartNode.SetOwner(1);
             player2StartNode.SetOwner(2);
+
+            foreach (Node n in graph.BFSOrder(player1StartNode)) {
+                print(n.gameObject.name);
+            }
         }
 
         protected virtual void ResetGraph() {
