@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
     public AnimationCurve tweenCurve;
     public float tweenDuration;
+    public Image fade;
+    public float fadeDuration;
     public List<GameObject> panels;
 
     public int defaultPanelIndex;
@@ -21,6 +24,7 @@ public class MenuManager : MonoBehaviour
         lastIndex = 0;
         transitioning = false;
         menuOpen = enableEscape ? false : true;
+        StartCoroutine(Init());
 
         for (int i = 0; i < panels.Count; i++)
         {
@@ -134,6 +138,36 @@ public class MenuManager : MonoBehaviour
     public void LoadScene(int index)
     {
         if (index < 0 || index >= SceneManager.sceneCountInBuildSettings) return;
+        StartCoroutine(LoadSceneCR(index));
+    }
+
+    IEnumerator Init()
+    {
+        fade.gameObject.SetActive(true);
+        float t = 0;
+        Color start = new Color(0f, 0f, 0f, 1f);
+        Color end = new Color(0f, 0f, 0f, 0f);
+        while (t < 1f)
+        {
+            fade.color = Color.Lerp(start, end, t);
+            t += Time.deltaTime / fadeDuration;
+            yield return new WaitForEndOfFrame();
+        }
+        fade.gameObject.SetActive(false);
+    }
+
+    IEnumerator LoadSceneCR(int index)
+    {
+        float t = 0;
+        Color start = new Color(0f, 0f, 0f, 0f);
+        Color end = new Color(0f, 0f, 0f, 1f);
+        fade.gameObject.SetActive(true);
+        while (t < 1f)
+        {
+            fade.color = Color.Lerp(start, end, t);
+            t += Time.deltaTime / fadeDuration;
+            yield return new WaitForEndOfFrame();
+        }
         SceneManager.LoadScene(index);
     }
 
@@ -141,5 +175,30 @@ public class MenuManager : MonoBehaviour
     {
         int index = (SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings;
         LoadScene(index);
+    }
+
+    public void Quit()
+    {
+        StartCoroutine(QuitCR());
+    }
+
+    IEnumerator QuitCR()
+    {
+        fade.gameObject.SetActive(true);
+        float t = 0;
+        Color start = new Color(0f, 0f, 0f, 0f);
+        Color end = new Color(0f, 0f, 0f, 1f);
+        while (t < 1f)
+        {
+            fade.color = Color.Lerp(start, end, t);
+            t += Time.deltaTime / fadeDuration;
+            yield return new WaitForEndOfFrame();
+        }
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }
