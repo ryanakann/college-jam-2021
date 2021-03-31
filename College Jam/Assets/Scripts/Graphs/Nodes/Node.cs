@@ -152,7 +152,7 @@ namespace Graphs
 
             private void FortifyPayout()
             {
-                value += 5;
+                SetValue(value + 5);
             }
         }
     }
