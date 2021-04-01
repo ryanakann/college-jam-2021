@@ -48,7 +48,7 @@ public class CameraPivot : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    void LateUpdate() {
         if (MenuManager.instance.menuOpen) return;
 
         // Position
@@ -106,26 +106,20 @@ public class CameraPivot : MonoBehaviour {
         Gizmos.DrawRay(Camera.main.transform.position, mouseDirection * 10f);
     }
 
-    public void SetRotationSpeed()
-    {
-        if (PlayerPrefs.HasKey("RotateSpeed"))
-        {
+    public void SetRotationSpeed() {
+        if (PlayerPrefs.HasKey("RotateSpeed")) {
             rotationSensitivity = PlayerPrefs.GetFloat("RotateSpeed");
         }
     }
 
-    public void SetScrollSpeed()
-    {
-        if (PlayerPrefs.HasKey("ScrollSpeed"))
-        {
+    public void SetScrollSpeed() {
+        if (PlayerPrefs.HasKey("ScrollSpeed")) {
             scaleSensitivity = PlayerPrefs.GetFloat("ScrollSpeed");
         }
     }
 
-    public void SetScrollDirection()
-    {
-        if (PlayerPrefs.HasKey("InvertScroll"))
-        {
+    public void SetScrollDirection() {
+        if (PlayerPrefs.HasKey("InvertScroll")) {
             invertScale = PlayerPrefs.GetInt("InvertScroll") == 0 ? false : true;
         }
     }
