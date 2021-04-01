@@ -8,7 +8,8 @@ public class Spawner : MonoBehaviour {
 
     void Start() {
         for (int i = 0; i < numberToSpawn; i++) {
-            Instantiate(prefab, transform);
+            GameObject obj = Instantiate(prefab, transform);
+            obj.name = $"{prefab.name} {i}";
         }
     }
 }
