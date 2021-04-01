@@ -10,7 +10,7 @@ public class OrbitTarget : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
-
+    void FixedUpdate() {
+        GetComponent<Rigidbody>().velocity += Random.insideUnitSphere * Time.fixedDeltaTime * 10f;
     }
 }
