@@ -9,6 +9,7 @@ public class StayInSphere : MonoBehaviour {
     float strength = 0.01f;
     // Start is called before the first frame update
     void Start() {
+        graph = GameObject.Find("Graph").GetComponent<Graphs.Graph>();
         center = Vector3.zero;
         transform.position = Random.insideUnitSphere * radius * 0.7f + center;
     }
