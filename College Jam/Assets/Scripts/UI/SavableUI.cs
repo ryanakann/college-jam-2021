@@ -6,7 +6,7 @@ public class SavableUI : MonoBehaviour
 {
     public string propertyName;
 
-    private void Start()
+    private void Awake()
     {
         Load();
     }

@@ -13,7 +13,7 @@ public class VolumeController : MonoBehaviour
     public void SetVolume()
     {
         float t = slider.value;
-        float value = Mathf.Lerp(-80f, 20f, Mathf.Log(t+1, 2f));
+        float value = Mathf.Lerp(-50f, 0f, Mathf.Log(t+1, 2f));
         mixer.SetFloat(groupName, value);
     }
 }

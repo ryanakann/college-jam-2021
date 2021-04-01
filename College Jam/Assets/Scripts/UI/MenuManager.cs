@@ -29,6 +29,11 @@ public class MenuManager : MonoBehaviour
         menuOpen = enableEscape ? false : true;
         StartCoroutine(Init());
 
+        foreach (SavableUI item in FindObjectsOfType<SavableUI>())
+        {
+            item.Load();
+        }
+
         for (int i = 0; i < panels.Count; i++)
         {
             panels[i].SetActive(i == defaultPanelIndex && menuOpen ? true : false);
