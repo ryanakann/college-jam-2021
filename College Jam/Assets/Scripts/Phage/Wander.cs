@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Wander : MonoBehaviour {
     public float speed = 10f;
-    float maxSpeed = 1f;
+    float maxSpeed = 0.5f;
 
     // Update is called once per frame
     void FixedUpdate() {
