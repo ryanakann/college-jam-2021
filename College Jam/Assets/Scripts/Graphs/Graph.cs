@@ -10,6 +10,7 @@ namespace Graphs {
         public Node activeNode;
         public List<Node> nodes;
         public Dictionary<Node, List<Node>> edges;
+        public Vector3 center;
 
         void Awake() {
             nodes = new List<Node>();
@@ -124,6 +125,17 @@ namespace Graphs {
             foreach (var node in nodes) {
                 node.NextTurn();
             }
+        }
+
+        private void Update()
+        {
+            Vector3 center = Vector3.zero;
+            foreach (Node node in nodes)
+            {
+                center += node.transform.position;
+            }
+            center /= nodes.Count;
+            this.center = center;
         }
     }
 }
