@@ -76,15 +76,41 @@ namespace Graphs {
             return results;
         }
 
-        public static List<Node> ShortestPath(Node start, Node finish) {
+        public List<Node> ShortestPath(Node start, Node finish) {
             return ShortestPathGeneral(start, finish, GetImmediateNeighbors);
         }
 
-        public static List<Node> ShortestPathGeneral(Node start, Node finish, Func<Node, List<Node>> getNeighbors) {
+        public List<Node> ShortestPathGeneral(Node start, Node finish, Func<Node, List<Node>> getNeighbors) {
+            bool reachable = false;
+            Dictionary<Node, Node> edgesTaken = new Dictionary<Node, Node>();
+            Queue<Node> q = new Queue<Node>();
+            q.Enqueue(start);
+            while (q.Count > 0) {
+                Node current = q.Dequeue();
+                foreach (Node n in getNeighbors(current)) {
+                    if (!edgesTaken.ContainsKey(n)) {
+                        q.Enqueue(n);
+                        if (n != start) {
+                            edgesTaken.Add(n, current);
+                        }
+                        if (n == finish) {
+                            reachable = true;
+                            break;
+                        }
+                    }
+                }
+            }
             List<Node> path = new List<Node>();
-            //TODO: get result of BFSOrder(start, getNeighbors)
-            //if finish not in BFSOrder, return empty
-            //else, construct path from BFSOrder
+            if (!reachable) {
+                return path;
+            }
+            Node currentNode = finish;
+            path.Add(finish);
+            while (currentNode != start) {
+                currentNode = edgesTaken[currentNode];
+                path.Add(currentNode);
+            }
+            path.Reverse();
             return path;
         }
 
@@ -94,10 +120,8 @@ namespace Graphs {
             edges.Clear();
         }
 
-        public void Iterate()
-        {
-            foreach (var node in nodes)
-            {
+        public void Iterate() {
+            foreach (var node in nodes) {
                 node.NextTurn();
             }
         }

@@ -79,9 +79,6 @@ namespace Graphs {
             player2StartNode.SetOwner(2);
             player2StartNode.SetValue(1);
 
-            foreach (Node n in graph.BFSOrder(player1StartNode)) {
-                print(n.gameObject.name);
-            }
         }
 
         protected virtual void ResetGraph() {
@@ -97,21 +94,20 @@ namespace Graphs {
         }
 
         protected virtual void Update() {
+            //TODO: remove debug
             if (Input.GetKeyDown(KeyCode.R)) {
                 ResetGraph();
                 Generate();
             }
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
+            if (Input.GetKeyDown(KeyCode.Space)) {
                 graph.Iterate();
             }
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                foreach (var node in graph.nodes)
-                {
+            if (Input.GetKeyDown(KeyCode.P)) {
+                foreach (var node in graph.nodes) {
                     node.Propagate();
                 }
             }
+            //TODO: remove debug
         }
     }
 }
