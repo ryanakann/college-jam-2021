@@ -119,15 +119,16 @@ namespace Graphs {
         //unconditionally play animation for sending phages from start to finish
         public void SendPhages(Node start, Node finish, int numPhages) {
             for (int i = 0; i < numPhages; i++) {
-                StartCoroutine(SendPhage(start, finish));
+                StartCoroutine(SendPhage(start, finish, i));
             }
         }
 
-        public IEnumerator SendPhage(Node start, Node finish) {
+        public IEnumerator SendPhage(Node start, Node finish, int id) {
             yield return new WaitForSeconds(UnityEngine.Random.Range(0.1f, 0.5f));
             GameObject phageTargetPos = Instantiate(new GameObject(), start.transform.position, Quaternion.identity, transform);
-            phageTargetPos.name = "Phage Target";
+            phageTargetPos.name = $"Phage Target {id}";
             GameObject phageObj = Instantiate(phagePrefab, start.transform.position, Quaternion.identity, transform);
+            phageObj.name = $"Phage {id}";
             phageObj.GetComponent<OrbitTarget>().target = phageTargetPos.transform;
         }
 
