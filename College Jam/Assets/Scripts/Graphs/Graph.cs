@@ -125,9 +125,10 @@ namespace Graphs {
 
         public IEnumerator SendPhage(Node start, Node finish) {
             yield return new WaitForSeconds(UnityEngine.Random.Range(0.1f, 0.5f));
+            GameObject phageTargetPos = Instantiate(new GameObject(), start.transform.position, Quaternion.identity, transform);
+            phageTargetPos.name = "Phage Target";
             GameObject phageObj = Instantiate(phagePrefab, start.transform.position, Quaternion.identity, transform);
-            phageObj.GetComponent<TravelAlongEdge>().from = start.transform;
-            phageObj.GetComponent<TravelAlongEdge>().to = finish.transform;
+            phageObj.GetComponent<OrbitTarget>().target = phageTargetPos.transform;
         }
 
         public void PrintHello() {

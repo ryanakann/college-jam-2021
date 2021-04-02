@@ -25,6 +25,10 @@ PrefabInstance:
       propertyPath: speed
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 968992084631958804, guid: 22a0a260ee6594666afd958a4af4c17b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2802906727824608912, guid: 22a0a260ee6594666afd958a4af4c17b, type: 3}
       propertyPath: m_Name
       value: DecorativePhage
