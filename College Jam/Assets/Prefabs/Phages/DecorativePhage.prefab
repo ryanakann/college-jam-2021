@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graph: {fileID: 0}
-  radius: 13
+  radius: 20
 --- !u!1001 &5122697269366727708
 PrefabInstance:
   m_ObjectHideFlags: 0
