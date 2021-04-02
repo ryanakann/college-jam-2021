@@ -1213,7 +1213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9b03e752552e482db96d7c34c73efe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberToSpawn: 30
+  numberToSpawn: 50
   prefab: {fileID: 7057869420281883276, guid: 1a5bc67aa5a2549f9a5dcc87664f25cb, type: 3}
 --- !u!1 &1347092988
 GameObject:

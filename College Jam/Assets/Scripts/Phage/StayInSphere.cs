@@ -14,7 +14,6 @@ public class StayInSphere : MonoBehaviour {
 
     // Update is called once per frame
     void FixedUpdate() {
-        print(graph.Center());
         Vector3 diff = (graph.Center() - transform.position);
         if (diff.magnitude > radius) {
             GetComponent<Rigidbody>().velocity = diff * strength;
