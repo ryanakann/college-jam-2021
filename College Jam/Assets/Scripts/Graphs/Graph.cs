@@ -11,6 +11,8 @@ namespace Graphs {
         public List<Node> nodes;
         public Dictionary<Node, List<Node>> edges;
 
+        public GameObject phagePrefab;
+
         void Awake() {
             nodes = new List<Node>();
             edges = new Dictionary<Node, List<Node>>();
@@ -112,6 +114,24 @@ namespace Graphs {
             }
             path.Reverse();
             return path;
+        }
+
+        //unconditionally play animation for sending phages from start to finish
+        public void SendPhages(Node start, Node finish, int numPhages) {
+            for (int i = 0; i < numPhages; i++) {
+                StartCoroutine(SendPhage(start, finish));
+            }
+        }
+
+        public IEnumerator SendPhage(Node start, Node finish) {
+            yield return new WaitForSeconds(UnityEngine.Random.Range(0.1f, 0.5f));
+            GameObject phageObj = Instantiate(phagePrefab, start.transform.position, Quaternion.identity, transform);
+            phageObj.GetComponent<TravelAlongEdge>().from = start.transform;
+            phageObj.GetComponent<TravelAlongEdge>().to = finish.transform;
+        }
+
+        public void PrintHello() {
+            print("hello");
         }
 
         public void ResetGraph() {
