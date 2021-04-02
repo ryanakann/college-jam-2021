@@ -1,49 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using Graphs.Nodes;
-
-public class Move {
-    public string name;
-    List<Action<Node, Node>> actions;
-    int turnCount = 0;
-
-    public Move() {
-        actions = new List<Action<Node, Node>>();
-        turnCount = 0;
-    }
-    public Move(Move other) {
-        actions = new List<Action<Node, Node>>(other.actions);
-        turnCount = 0;
-    }
-
-    public Action<Node, Node> Action() {
-        if (turnCount >= actions.Count) { // actions are finished
-            return null;
-        }
-        Action<Node, Node> result = actions[turnCount];
-        turnCount++;
-        return result;
-    }
-    public void AddAction(Action<Node, Node> action) {
-        actions.Add(action);
-    }
-    public void AddAction(Action<Node> action) {
-        actions.Add((a, b) => action(a));//ignore second parameter
-    }
-    public void AddAction(Action action) {
-        actions.Add((a, b) => action());//ignore both parameters
-    }
-}
-
-public class MoveSet {
-    List<Move> moves;
-}
 public class Faction {
-    MoveSet moveSet;
+    List<ScriptableObject> moves; //things this faction can do in a turn
+    //TODO: List<Move> moveSet;
 
-    public int nodes; // temp var for win condition checking
+    public List<Node> nodes; //all nodes controlled by this faction
+
+    public int numNodes; // temp var for win condition checking
 }
 
 
@@ -51,7 +16,28 @@ public class Player {
     public Faction faction;
 
     public virtual void Activate() {
-        // tell the controller which player is going
+        //TODO: this goes in the Controller class
+        foreach (Node n in faction.nodes) {
+            //if node has stuff to do at the beginning of the turn, do it
+            //fortify check goes here
+        }
+
+        //actableNodes = new List<Node>(faction.nodes); //this is separate because taking over a node should not give you more moves
+        //while(Player wants to do stuff){
+        //   click on a node
+        //   node figures out what moves can do
+        //   you click one of them
+        //   execute action RIGHT NOW
+        //   if(action results in losing a node){
+        //     remove that node from actableNodes
+        //   }
+        //   remove node from actableNodes
+        //}
+
+        foreach (Node n in faction.nodes) {
+            //if node has stuff to do at the end of the turn, do it
+            //troop movement goes here
+        }
     }
 }
 
@@ -86,11 +72,11 @@ public class TurnManager : MonoBehaviour {
         List<Player> results = new List<Player>();
         int maxNodes = 0;
         foreach (var player in instance.players) {
-            if (player.faction.nodes >= maxNodes) {
-                if (player.faction.nodes > maxNodes)
+            if (player.faction.numNodes >= maxNodes) {
+                if (player.faction.numNodes > maxNodes)
                     results = new List<Player>();
                 results.Add(player);
-                maxNodes = player.faction.nodes;
+                maxNodes = player.faction.numNodes;
             }
         }
         return results;
