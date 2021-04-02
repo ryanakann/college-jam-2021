@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Graphs.Nodes;
 
-public class Move : ScriptableObject
+public class Move
 {
     // can this move be executed from this node?
     public virtual bool Validate(Node node)

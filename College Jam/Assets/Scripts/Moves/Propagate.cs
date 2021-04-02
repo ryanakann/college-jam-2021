@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Graphs.Nodes;
 
-[CreateAssetMenu(fileName = "Propagate", menuName = "ScriptableObjects/Move/Propagate", order = 1)]
 public class Propagate : Move
 {
 
