@@ -19,6 +19,8 @@ namespace Graphs {
         protected Node player2StartNode;
         protected float maxDistance;
 
+        public bool debugMode;
+
         protected virtual void Start() {
             bounds = GetComponent<BoxCollider>().bounds.extents;
             GetComponent<BoxCollider>().enabled = false;
@@ -97,6 +99,7 @@ namespace Graphs {
 
         protected virtual void Update() {
             //TODO: remove debug
+            if (!debugMode) return;
             if (Input.GetKeyDown(KeyCode.R)) {
                 ResetGraph();
                 Generate();

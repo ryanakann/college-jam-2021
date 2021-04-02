@@ -33,6 +33,7 @@ namespace Graphs
             private float fresnelAmountLF;
 
             public UnityEvent<Node> OnSelect;
+            public UnityEvent<Node> OnDeselect;
 
             void Awake()
             {
@@ -65,13 +66,14 @@ namespace Graphs
             public void SetState(MouseState state)
             {
                 if (MenuManager.instance.menuOpen) return;
-
+                if (mouseState == state) return;
                 mouseState = state;
                 switch (state)
                 {
                     case MouseState.Normal:
                         mat.SetColor("_Highlight", normalColor);
                         mat.SetColor("_FresnelColor", Color.black);
+                        OnDeselect?.Invoke(GetComponent<Node>());
                         break;
                     case MouseState.Highlighted:
                         mat.SetColor("_Highlight", highlightedColor);

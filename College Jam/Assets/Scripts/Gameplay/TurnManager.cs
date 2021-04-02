@@ -2,19 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Move {
-    string name;
-}
-public class MoveSet {
-    List<Move> moves;
-}
-public class Faction {
-    MoveSet moveSet;
-
-    public int nodes; // temp var for win condition checking
-}
-
-
 public class Player
 {
     public Faction faction;
@@ -27,6 +14,7 @@ public class Player
 
 
 public class TurnManager : MonoBehaviour {
+    public static TurnManager instance;
 
     int maxTurns = 20, currentTurn = 1;
 
@@ -34,8 +22,7 @@ public class TurnManager : MonoBehaviour {
     public LinkedList<Player> players;
     public LinkedListNode<Player> currentPlayer;
 
-
-    public static TurnManager instance;
+    public bool primedMove;
 
     public void Awake()
     {
@@ -55,6 +42,7 @@ public class TurnManager : MonoBehaviour {
     public void StartGame()
     {
         currentPlayer = players.First;
+        primedMove = false;
     }
 
     public List<Player> CheckGraphDomination()

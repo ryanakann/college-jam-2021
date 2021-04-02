@@ -408,7 +408,34 @@ MonoBehaviour:
   fresnelAmount: 0
   OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5335017279724630125}
+        m_TargetAssemblyTypeName: Graphs.Nodes.NodeUI, Assembly-CSharp
+        m_MethodName: SetDetailVisibility
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  OnDeselect:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5335017279724630125}
+        m_TargetAssemblyTypeName: Graphs.Nodes.NodeUI, Assembly-CSharp
+        m_MethodName: SetDetailVisibility
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &-7998086542745889056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,6 +465,7 @@ MonoBehaviour:
   nodeSelection: {fileID: -2430865339950803763}
   basicUI: {fileID: 1576850045104906414}
   detailedUI: {fileID: 4323436021230382249}
+  phagePrefab: {fileID: 0}
 --- !u!1 &2412399738743553039
 GameObject:
   m_ObjectHideFlags: 0
