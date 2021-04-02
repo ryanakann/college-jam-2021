@@ -43,7 +43,7 @@ namespace Graphs
                 mat.SetColor("_Color", normalColor);
                 mat.SetColor("_FresnelColor", Color.black);
 
-                OnSelect = new UnityEvent<Node>();
+                // OnSelect = new UnityEvent<Node>();
             }
 
             void Update()

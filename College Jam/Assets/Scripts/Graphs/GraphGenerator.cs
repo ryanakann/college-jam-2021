@@ -74,10 +74,12 @@ namespace Graphs {
                 nodes.Add(nodeObj);
             }
 
+            /*
             player1StartNode.SetOwner(1);
             player1StartNode.SetValue(1);
             player2StartNode.SetOwner(2);
             player2StartNode.SetValue(1);
+            */
 
         }
 
