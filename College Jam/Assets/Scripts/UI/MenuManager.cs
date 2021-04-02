@@ -21,6 +21,8 @@ public class MenuManager : MonoBehaviour
     public bool enableEscape;
     public bool menuOpen;
 
+    public List<SavableUI> savables;
+
     private void Start()
     {
         instance = this;
@@ -29,7 +31,7 @@ public class MenuManager : MonoBehaviour
         menuOpen = enableEscape ? false : true;
         StartCoroutine(Init());
 
-        foreach (SavableUI item in FindObjectsOfType<SavableUI>())
+        foreach (SavableUI item in savables)
         {
             item.Load();
         }

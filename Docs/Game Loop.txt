@@ -1,0 +1,17 @@
+Game Loop
+- New Game
+- Game Settings
+	- Select number of players
+	- For each player, select Human/AI and Faction
+	- Select map size (small, medium, large)
+	- Confirm changes
+- Gameplay
+	- Generate map and starting nodes
+	- Select current player
+	- Player/AI can call up to 1 function for each node they own
+	- Player/AI ends their turn
+	- Repeat for all alive players
+	- Until max turn or win condition,
+		- increment each owned cell count by 1
+		- activate any effects (i.e. fortify)
+	- End game
