@@ -1,10 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using Graphs.Nodes;
 
 public class Move {
-    string name;
+    public string name;
+    List<Action<Node, Node>> actions;
+    int turnCount = 0;
+
+    public Move() {
+        actions = new List<Action<Node, Node>>();
+        turnCount = 0;
+    }
+    public Move(Move other) {
+        actions = new List<Action<Node, Node>>(other.actions);
+        turnCount = 0;
+    }
+
+    public Action<Node, Node> Action() {
+        if (turnCount >= actions.Count) { // actions are finished
+            return null;
+        }
+        Action<Node, Node> result = actions[turnCount];
+        turnCount++;
+        return result;
+    }
+    public void AddAction(Action<Node, Node> action) {
+        actions.Add(action);
+    }
+    public void AddAction(Action<Node> action) {
+        actions.Add((a, b) => action(a));//ignore second parameter
+    }
+    public void AddAction(Action action) {
+        actions.Add((a, b) => action());//ignore both parameters
+    }
 }
+
 public class MoveSet {
     List<Move> moves;
 }
@@ -15,12 +47,10 @@ public class Faction {
 }
 
 
-public class Player
-{
+public class Player {
     public Faction faction;
 
-    public virtual void Activate()
-    {
+    public virtual void Activate() {
         // tell the controller which player is going
     }
 }
@@ -37,14 +67,10 @@ public class TurnManager : MonoBehaviour {
 
     public static TurnManager instance;
 
-    public void Awake()
-    {
-        if (!instance)
-        {
+    public void Awake() {
+        if (!instance) {
             instance = this;
-        }
-        else if (instance != this)
-        {
+        } else if (instance != this) {
             Destroy(gameObject);
             return;
         }
@@ -52,19 +78,15 @@ public class TurnManager : MonoBehaviour {
     }
 
 
-    public void StartGame()
-    {
+    public void StartGame() {
         currentPlayer = players.First;
     }
 
-    public List<Player> CheckGraphDomination()
-    {
+    public List<Player> CheckGraphDomination() {
         List<Player> results = new List<Player>();
         int maxNodes = 0;
-        foreach (var player in instance.players)
-        {
-            if (player.faction.nodes >= maxNodes)
-            {
+        foreach (var player in instance.players) {
+            if (player.faction.nodes >= maxNodes) {
                 if (player.faction.nodes > maxNodes)
                     results = new List<Player>();
                 results.Add(player);
@@ -75,10 +97,8 @@ public class TurnManager : MonoBehaviour {
     }
 
     // every move triggers a check for win conditions
-    public void CheckWinConditions()
-    {
-        if (players.Count == 1)
-        {
+    public void CheckWinConditions() {
+        if (players.Count == 1) {
             // players.First.Value wins!
             return;
         }
@@ -87,9 +107,8 @@ public class TurnManager : MonoBehaviour {
             return;
 
         List<Player> winningPlayers = CheckGraphDomination();
-        
-        switch (winningPlayers.Count)
-        {
+
+        switch (winningPlayers.Count) {
             case 0:
                 // No one wins!
                 break;
@@ -104,19 +123,16 @@ public class TurnManager : MonoBehaviour {
         // might add faction-specific victories!
     }
 
-    public void NextPlayer()
-    {
+    public void NextPlayer() {
         if (players.Count <= 1)
             print("GAME OVER"); // signal that the game is over... this should be an error!
 
 
-        if (currentPlayer.Next == null)
-        {
+        if (currentPlayer.Next == null) {
             currentPlayer = players.First;
             currentTurn++;
             // update turn counters and stuff
-        }
-        else
+        } else
             currentPlayer = currentPlayer.Next;
 
         currentPlayer.Value.Activate();
