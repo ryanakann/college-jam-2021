@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class Move {
     string name;
 }
+*/
+
 public class MoveSet {
     List<Move> moves;
 }
@@ -48,7 +50,6 @@ public class TurnManager : MonoBehaviour {
             Destroy(gameObject);
             return;
         }
-        DontDestroyOnLoad(gameObject);
     }
 
 
