@@ -18,8 +18,7 @@ public class TravelBetween : MonoBehaviour {
     void FixedUpdate() {
         Vector3 towardTarget = to.position - from.position;
         frac += Time.fixedDeltaTime / transitionTime;
-        if (frac < 1) {
-            transform.position = from.position + frac * towardTarget;
-        }
+        frac = Mathf.Clamp(frac, 0f, 1f);
+        transform.position = from.position + frac * towardTarget;
     }
 }
