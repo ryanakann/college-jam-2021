@@ -109,6 +109,11 @@ namespace Graphs {
                     node.Propagate();
                 }
             }
+            if (Input.GetKeyDown(KeyCode.S)) {
+                Node a = graph.nodes[Random.Range(0, graph.nodes.Count)];
+                Node b = graph.nodes[Random.Range(0, graph.nodes.Count)];
+                graph.SendPhages(a, b, 30);
+            }
             //TODO: remove debug
         }
     }

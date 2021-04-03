@@ -799,7 +799,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeNode: {fileID: 0}
   nodes: []
-  phagePrefab: {fileID: 0}
+  phagePrefab: {fileID: 2802906727824608912, guid: 22a0a260ee6594666afd958a4af4c17b, type: 3}
+  PhageTarget: {fileID: 6204477157294814100, guid: 7df138679658a4cb6a1938c69fb58d0c, type: 3}
 --- !u!1 &694748385
 GameObject:
   m_ObjectHideFlags: 0
