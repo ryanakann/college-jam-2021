@@ -43,7 +43,9 @@ using Graphs.Nodes;
 
 public class TurnManager : MonoBehaviour {
 
-    int maxTurns = 20, currentTurn = 1;
+    [Range(10, 100)]
+    public int maxTurns = 20;
+    private int currentTurn = 1;
 
     public LinkedList<Player> players;
     public LinkedListNode<Player> currentPlayer;
@@ -59,8 +61,14 @@ public class TurnManager : MonoBehaviour {
         }
     }
 
+    public void SyncPlayers()
+    {
+        players = new LinkedList<Player>(GameSettings.instance.players);
+    }
+
 
     public void StartGame() {
+        SyncPlayers();
         currentPlayer = players.First;
     }
 
@@ -72,7 +80,7 @@ public class TurnManager : MonoBehaviour {
             if (player.nodes >= maxNodes)
             {
                 if (player.nodes > maxNodes)
-                    results = new List<Player>();
+                    results.Clear();
                 results.Add(player);
                 maxNodes = player.nodes;
             }
