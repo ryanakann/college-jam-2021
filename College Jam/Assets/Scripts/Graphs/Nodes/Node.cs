@@ -27,31 +27,6 @@ namespace Graphs
                 movedThisTurn = false;
             }
 
-            public void NextTurn()
-            {
-                if (fortifying == 1)
-                {
-                    fortifying--;
-                    FortifyPayout();
-                    movedThisTurn = false;
-                }
-                else if (fortifying > 1)
-                {
-                    fortifying--;
-                    movedThisTurn = true;
-                }
-                else
-                {
-                    if (owner > 0)
-                    {
-                        IncrementValue();
-                    }
-                    movedThisTurn = false;
-                }
-
-
-            }
-
             public virtual void SetOwner(int playerNum)
             {
                 owner = playerNum;
@@ -77,6 +52,33 @@ namespace Graphs
                 {
                     neighbors.Add(neighbor);
                 }
+            }
+
+
+            /*
+            public void NextTurn()
+            {
+                if (fortifying == 1)
+                {
+                    fortifying--;
+                    FortifyPayout();
+                    movedThisTurn = false;
+                }
+                else if (fortifying > 1)
+                {
+                    fortifying--;
+                    movedThisTurn = true;
+                }
+                else
+                {
+                    if (owner > 0)
+                    {
+                        IncrementValue();
+                    }
+                    movedThisTurn = false;
+                }
+
+
             }
 
             public bool Propagate()
@@ -149,6 +151,7 @@ namespace Graphs
             {
                 SetValue(value + 5);
             }
+            */
         }
     }
 }

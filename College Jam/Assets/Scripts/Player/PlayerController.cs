@@ -12,7 +12,8 @@ public class PlayerController : MonoBehaviour
 {
     public MoveContext context;
 
-    public NodeEvent OnSelectNode;
+    public NodeEvent OnSelectNode; // clicking on a node which you own while you aren't in a context that expects you to click on a node
+    public NodeEvent OnClickNode; // clicking on any old node, even if you don't own it
     public GameEvent OnCancel; // press escape, backspace
 
     public TMP_Text tooltip;

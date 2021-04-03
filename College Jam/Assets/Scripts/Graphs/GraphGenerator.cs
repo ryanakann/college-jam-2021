@@ -183,11 +183,13 @@ namespace Graphs {
             if (Input.GetKeyDown(KeyCode.Space)) {
                 graph.Iterate();
             }
+            /*
             if (Input.GetKeyDown(KeyCode.P)) {
                 foreach (var node in graph.nodes) {
                     node.Propagate();
                 }
             }
+            */
             if (Input.GetKeyDown(KeyCode.S)) {
                 Node a = graph.nodes[Random.Range(0, graph.nodes.Count)];
                 Node b = graph.nodes[Random.Range(0, graph.nodes.Count)];

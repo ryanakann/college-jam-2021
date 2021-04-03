@@ -145,9 +145,9 @@ namespace Graphs {
         }
 
         public void Iterate() {
-            foreach (var node in nodes) {
-                node.NextTurn();
-            }
+            //foreach (var node in nodes) {
+            //    node.NextTurn();
+            // }
         }
 
         public Vector3 Center() {

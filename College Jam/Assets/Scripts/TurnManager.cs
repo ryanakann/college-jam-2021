@@ -70,6 +70,7 @@ public class TurnManager : MonoBehaviour {
     public void StartGame() {
         SyncPlayers();
         currentPlayer = players.First;
+        NextPlayer(start:true);
     }
 
     public List<Player> CheckGraphDomination() {
@@ -77,12 +78,12 @@ public class TurnManager : MonoBehaviour {
         int maxNodes = 0;
         foreach (var player in instance.players)
         {
-            if (player.nodes >= maxNodes)
+            if (player.nodeCount >= maxNodes)
             {
-                if (player.nodes > maxNodes)
+                if (player.nodeCount > maxNodes)
                     results.Clear();
                 results.Add(player);
-                maxNodes = player.nodes;
+                maxNodes = player.nodeCount;
             }
         }
         return results;
@@ -115,7 +116,10 @@ public class TurnManager : MonoBehaviour {
         // might add faction-specific victories!
     }
 
-    public void NextPlayer() {
+    public void NextPlayer(bool start=false) {
+        if (!start)
+            currentPlayer.Value.EndTurn();
+
         if (players.Count <= 1)
             print("GAME OVER"); // signal that the game is over... this should be an error!
 
