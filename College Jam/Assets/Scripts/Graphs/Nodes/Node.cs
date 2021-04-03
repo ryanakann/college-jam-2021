@@ -55,7 +55,9 @@ namespace Graphs
             public virtual void SetOwner(int playerNum)
             {
                 owner = playerNum;
-                nodeSelection.mat.SetColor("_Color", GameSettings.instance.players[playerNum].color);
+                Color color = GameSettings.instance.players[playerNum].color;
+                print($"Setting player {owner} to color {color}");
+                nodeSelection.mat.SetColor("_Color", color);
             }
 
             public virtual void SetValue(int value)

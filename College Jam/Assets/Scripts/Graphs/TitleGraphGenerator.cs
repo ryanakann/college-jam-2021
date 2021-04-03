@@ -21,6 +21,14 @@ namespace Graphs {
         protected TitleNode player1StartNode;
         protected TitleNode player2StartNode;
 
+        protected virtual void Start()
+        {
+            bounds = GetComponent<BoxCollider>().bounds.extents;
+            GetComponent<BoxCollider>().enabled = false;
+            nodeCount = 32;
+            Generate();
+        }
+
         protected virtual void ResetGraph()
         {
             foreach (Transform child in transform)

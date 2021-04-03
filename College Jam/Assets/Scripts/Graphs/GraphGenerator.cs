@@ -15,8 +15,11 @@ namespace Graphs {
         protected List<GameObject> nodes;
         protected Vector3 bounds;
 
+        [SerializeField]
         protected int playerCount;
+        [SerializeField]
         protected List<Vector3> startPoints;
+        [SerializeField]
         protected List<Node> startNodes;
 
         protected virtual void Start() {
@@ -55,6 +58,9 @@ namespace Graphs {
                 Vector3 p1 = new Vector3(1f, -1 / Mathf.Sqrt(3), 0f);
                 Vector3 p2 = new Vector3(-1f, -1 / Mathf.Sqrt(3), 0f);
                 Vector3 p3 = new Vector3(0f, 2 / Mathf.Sqrt(3), 0f);
+                points.Add(p1);
+                points.Add(p2);
+                points.Add(p3);
             }
             // Tetrahedron
             else if (playerCount == 4)
@@ -145,10 +151,10 @@ namespace Graphs {
                         }
                     }
                 }
-
+                
                 nodes.Add(nodeObj);
             }
-
+            print($"Start Nodes: {startNodes.Count} - Start Points: {startPoints.Count} - Player Count: {playerCount}");
             for (int i = 0; i < playerCount; i++)
             {
                 startNodes[i].SetOwner(i);

@@ -46,8 +46,6 @@ public class PlayerUIList : MonoBehaviour
                 Destroy(toRemove);
             }
         }
-
-        SendPlayerInfo();
     }
 
     public void SendPlayerInfo()

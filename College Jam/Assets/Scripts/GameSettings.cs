@@ -29,9 +29,7 @@ public class GameSettings : MonoBehaviour
 
     [Header("Player Count")]
     public Vector2Int playerCountRange;
-    [HideInInspector]
     public int playerCount;
-    [HideInInspector]
     public List<Player> players;
     public TMP_Dropdown playerCountDropdown;
 
@@ -68,6 +66,8 @@ public class GameSettings : MonoBehaviour
 
         mapSizeDropdown.onValueChanged.AddListener(UpdateMapSize);
         playerCountDropdown.onValueChanged.AddListener(UpdatePlayerCount);
+        mapSizeDropdown.onValueChanged.Invoke(mapSizeDropdown.value);
+        playerCountDropdown.onValueChanged.Invoke(playerCountDropdown.value);
     }
 
     public void UpdateMapSize(int index)
@@ -78,5 +78,20 @@ public class GameSettings : MonoBehaviour
     public void UpdatePlayerCount(int index)
     {
         playerCount = playerCountRange.x + index;
+    }
+
+    private void OnGUI()
+    {
+        string text = $"Map size: {mapSize.label} \t Player count: {playerCount}";
+        GUI.Label(
+           new Rect(
+               5,                   // x, left offset
+               Screen.height - 150, // y, bottom offset
+               300f,                // width
+               150f                 // height
+           ),
+           text,             // the display text
+           GUI.skin.textArea        // use a multi-line text area
+        );
     }
 }
