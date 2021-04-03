@@ -383,23 +383,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 456342316720042698, guid: 32f091f1798588a4d89bb1bd87d6d55c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 456342316720042698, guid: 32f091f1798588a4d89bb1bd87d6d55c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 877154479}
+      objectReference: {fileID: 666127796}
     - target: {fileID: 456342316720042698, guid: 32f091f1798588a4d89bb1bd87d6d55c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 456342316720042698, guid: 32f091f1798588a4d89bb1bd87d6d55c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActivePanel
+      value: PreviousSlide
       objectReference: {fileID: 0}
     - target: {fileID: 456342316720042698, guid: 32f091f1798588a4d89bb1bd87d6d55c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MenuManager, Assembly-CSharp
+      value: SlideDeck, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 456342316720042698, guid: 32f091f1798588a4d89bb1bd87d6d55c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -2224,23 +2224,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 456342316720042698, guid: 32f091f1798588a4d89bb1bd87d6d55c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 456342316720042698, guid: 32f091f1798588a4d89bb1bd87d6d55c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 877154479}
+      objectReference: {fileID: 666127796}
     - target: {fileID: 456342316720042698, guid: 32f091f1798588a4d89bb1bd87d6d55c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 456342316720042698, guid: 32f091f1798588a4d89bb1bd87d6d55c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActivePanel
+      value: NextSlide
       objectReference: {fileID: 0}
     - target: {fileID: 456342316720042698, guid: 32f091f1798588a4d89bb1bd87d6d55c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MenuManager, Assembly-CSharp
+      value: SlideDeck, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 456342316720042698, guid: 32f091f1798588a4d89bb1bd87d6d55c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -2763,7 +2763,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 853118933}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 877154479}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: SetActivePanel
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &853118933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2967,6 +2979,7 @@ MonoBehaviour:
   - {fileID: 1490915207}
   - {fileID: 1732070536}
   - {fileID: 898584017}
+  - {fileID: 845972256}
   defaultPanelIndex: 0
   enableEscape: 0
   menuOpen: 0

@@ -10,6 +10,12 @@ public class SlideDeck : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        slides = new List<GameObject>();
+        foreach (Transform child in transform)
+        {
+            slides.Add(child.gameObject);
+        }
+
         activeIndex = 0;
         for (int i = 0; i < slides.Count; i++)
         {
@@ -21,6 +27,13 @@ public class SlideDeck : MonoBehaviour
     {
         slides[activeIndex].SetActive(false);
         activeIndex = (activeIndex + 1) % slides.Count;
+        slides[activeIndex].SetActive(true);
+    }
+
+    public void PreviousSlide()
+    {
+        slides[activeIndex].SetActive(false);
+        activeIndex = (activeIndex - 1) % slides.Count;
         slides[activeIndex].SetActive(true);
     }
 }
