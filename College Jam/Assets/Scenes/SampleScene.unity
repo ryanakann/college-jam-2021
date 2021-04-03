@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.49641287, b: 0.5748173, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -639,6 +639,7 @@ MonoBehaviour:
   defaultPanelIndex: 0
   enableEscape: 1
   menuOpen: 0
+  savables: []
 --- !u!114 &498302478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -798,6 +799,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeNode: {fileID: 0}
   nodes: []
+  phagePrefab: {fileID: 2802906727824608912, guid: 22a0a260ee6594666afd958a4af4c17b, type: 3}
+  PhageTarget: {fileID: 6204477157294814100, guid: 7df138679658a4cb6a1938c69fb58d0c, type: 3}
 --- !u!1 &694748385
 GameObject:
   m_ObjectHideFlags: 0

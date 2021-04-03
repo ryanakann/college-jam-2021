@@ -11,6 +11,9 @@ namespace Graphs {
         public List<Node> nodes;
         public Dictionary<Node, List<Node>> edges;
 
+        public GameObject phagePrefab;
+        public GameObject PhageTarget;
+
         void Awake() {
             nodes = new List<Node>();
             edges = new Dictionary<Node, List<Node>>();
@@ -112,6 +115,27 @@ namespace Graphs {
             }
             path.Reverse();
             return path;
+        }
+
+        //unconditionally play animation for sending phages from start to finish
+        public void SendPhages(Node start, Node finish, int numPhages) {
+            for (int i = 0; i < numPhages; i++) {
+                StartCoroutine(SendPhage(start, finish, i));
+            }
+        }
+
+        public IEnumerator SendPhage(Node start, Node finish, int id) {
+            yield return new WaitForSeconds(UnityEngine.Random.Range(0f, 1.5f));
+            GameObject phageTarget = Instantiate(PhageTarget, start.transform.position, Quaternion.identity, transform);
+            phageTarget.name = $"Phage Target {id}";
+            phageTarget.GetComponent<TravelBetween>().from = start.transform;
+            phageTarget.GetComponent<TravelBetween>().to = finish.transform;
+            GameObject phageObj = Instantiate(phagePrefab, start.transform.position, Quaternion.identity, transform);
+            phageObj.name = $"Phage {id}";
+            //TODO: set to faction color
+            //phageObj.GetComponent<ParticleSystem>().colorOverLifetime.color.colorMin = start.owner.
+            phageObj.transform.position = start.transform.position + UnityEngine.Random.onUnitSphere * 0.2f;
+            phageObj.GetComponent<OrbitTarget>().target = phageTarget.transform;
         }
 
         public void ResetGraph() {

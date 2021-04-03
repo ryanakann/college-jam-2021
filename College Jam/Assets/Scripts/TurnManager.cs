@@ -1,29 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-/*
-public class Move {
-    string name;
-}
-*/
+using Graphs.Nodes;
 
-public class MoveSet {
-    List<Move> moves;
-}
 public class Faction {
-    MoveSet moveSet;
+    List<ScriptableObject> moves; //things this faction can do in a turn
+    //TODO: List<Move> moveSet;
 
-    public int nodes; // temp var for win condition checking
+    public List<Node> nodes; //all nodes controlled by this faction
+
+    public int numNodes; // temp var for win condition checking
 }
 
 
-public class Player
-{
+public class Player {
     public Faction faction;
 
-    public virtual void Activate()
-    {
-        // tell the controller which player is going
+    public virtual void Activate() {
+        //TODO: this goes in the Controller class
+        foreach (Node n in faction.nodes) {
+            //if node has stuff to do at the beginning of the turn, do it
+            //fortify check goes here
+        }
+
+        //actableNodes = new List<Node>(faction.nodes); //this is separate because taking over a node should not give you more moves
+        //while(Player wants to do stuff){
+        //   click on a node
+        //   node figures out what moves can do
+        //   you click one of them
+        //   execute action RIGHT NOW
+        //   if(action results in losing a node){
+        //     remove that node from actableNodes
+        //   }
+        //   remove node from actableNodes
+        //}
+
+        foreach (Node n in faction.nodes) {
+            //if node has stuff to do at the end of the turn, do it
+            //troop movement goes here
+        }
     }
 }
 
@@ -39,47 +54,37 @@ public class TurnManager : MonoBehaviour {
 
     public static TurnManager instance;
 
-    public void Awake()
-    {
-        if (!instance)
-        {
+    public void Awake() {
+        if (!instance) {
             instance = this;
-        }
-        else if (instance != this)
-        {
+        } else if (instance != this) {
             Destroy(gameObject);
             return;
         }
     }
 
 
-    public void StartGame()
-    {
+    public void StartGame() {
         currentPlayer = players.First;
     }
 
-    public List<Player> CheckGraphDomination()
-    {
+    public List<Player> CheckGraphDomination() {
         List<Player> results = new List<Player>();
         int maxNodes = 0;
-        foreach (var player in instance.players)
-        {
-            if (player.faction.nodes >= maxNodes)
-            {
-                if (player.faction.nodes > maxNodes)
+        foreach (var player in instance.players) {
+            if (player.faction.numNodes >= maxNodes) {
+                if (player.faction.numNodes > maxNodes)
                     results = new List<Player>();
                 results.Add(player);
-                maxNodes = player.faction.nodes;
+                maxNodes = player.faction.numNodes;
             }
         }
         return results;
     }
 
     // every move triggers a check for win conditions
-    public void CheckWinConditions()
-    {
-        if (players.Count == 1)
-        {
+    public void CheckWinConditions() {
+        if (players.Count == 1) {
             // players.First.Value wins!
             return;
         }
@@ -88,9 +93,8 @@ public class TurnManager : MonoBehaviour {
             return;
 
         List<Player> winningPlayers = CheckGraphDomination();
-        
-        switch (winningPlayers.Count)
-        {
+
+        switch (winningPlayers.Count) {
             case 0:
                 // No one wins!
                 break;
@@ -105,19 +109,16 @@ public class TurnManager : MonoBehaviour {
         // might add faction-specific victories!
     }
 
-    public void NextPlayer()
-    {
+    public void NextPlayer() {
         if (players.Count <= 1)
             print("GAME OVER"); // signal that the game is over... this should be an error!
 
 
-        if (currentPlayer.Next == null)
-        {
+        if (currentPlayer.Next == null) {
             currentPlayer = players.First;
             currentTurn++;
             // update turn counters and stuff
-        }
-        else
+        } else
             currentPlayer = currentPlayer.Next;
 
         currentPlayer.Value.Activate();
