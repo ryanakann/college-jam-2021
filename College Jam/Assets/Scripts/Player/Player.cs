@@ -49,7 +49,7 @@ public class Player
 
     public void ValidateMoves(Node node)
     {
-        Dictionary<Move, bool> validMoves = new Dictionary<Move, bool>();
+        Dictionary<Move, (bool, string)> validMoves = new Dictionary<Move, (bool, string)>();
         foreach (Move move in faction.moveSet)
             validMoves[move] = move.Validate(node);
 

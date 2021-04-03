@@ -14,6 +14,7 @@ namespace Graphs
             public bool movedThisTurn;
 
             public List<Node> neighbors;
+            public List<NodeState> nodeStates;
 
             public NodeSelection nodeSelection;
             public NodePhysics nodePhysics;
@@ -22,6 +23,7 @@ namespace Graphs
             private void Awake()
             {
                 neighbors = new List<Node>();
+                nodeStates = new List<NodeState>();
                 value = 0;
                 fortifying = 0;
                 movedThisTurn = false;
@@ -52,6 +54,23 @@ namespace Graphs
                 {
                     neighbors.Add(neighbor);
                 }
+            }
+
+            public void AddState(NodeState nodeState)
+            {
+
+            }
+
+            public void RemoveState(NodeState nodeState, bool killState = true)
+            {
+                if (killState)
+                    nodeState.inactive = true;
+                nodeStates.Remove(nodeState);
+            }
+
+            public void AddPhages(int numPhages)
+            {
+
             }
 
 

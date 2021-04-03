@@ -8,16 +8,46 @@ namespace Graphs
     {
         public class NodeState
         {
-            public bool inactive;
+            public bool inactive, blocking;
+            public string name;
+            public Node node;
 
-            public void PreActivate()
+            public NodeState(Node node, string name = "Idle")
+            {
+                this.node = node;
+            }
+
+            public virtual void PreActivate()
             {
 
             }
 
-            public void PostActivate()
+            public virtual void PostActivate()
             {
 
+            }
+        }
+
+        public class FortifyState : NodeState
+        {
+            Faction faction;
+            int turns, amount;
+
+            public FortifyState(Node node, Faction faction, int turns, int amount, string name="Fortifying") : base(node, name)
+            {
+                this.faction = faction;
+                this.turns = turns;
+                this.amount = amount;
+            }
+
+            public override void PreActivate()
+            {
+                base.PreActivate();
+                if (--turns <= 0)
+                {
+                    node.AddPhages(amount);
+                    node.RemoveState(this);
+                }
             }
         }
     }

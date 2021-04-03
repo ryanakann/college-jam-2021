@@ -12,8 +12,8 @@ public class Faction
             name: "Lemming",
             moveSet: new List<Move>
             {
-                new MoveSplit(),
-                new MovePropagate(),
+                new Split(),
+                new Propagate(),
             }
         ),
 
@@ -21,8 +21,8 @@ public class Faction
             name: "Castle",
             moveSet: new List<Move>
             {
-                new MoveSplit(),
-                new MovePropagate(),
+                new Split(),
+                new Propagate(),
             }
         ),
 
@@ -30,8 +30,8 @@ public class Faction
             name: "River",
             moveSet: new List<Move>
             {
-                new MoveSplit(),
-                new MovePropagate(),
+                new Split(),
+                new Propagate(),
             }
         ),
 
@@ -39,8 +39,8 @@ public class Faction
             name: "Garrison",
             moveSet: new List<Move>
             {
-                new MoveSplit(),
-                new MovePropagate(),
+                new Split(),
+                new Propagate(),
             }
         ),
 
@@ -48,8 +48,8 @@ public class Faction
             name: "Parasite",
             moveSet: new List<Move>
             {
-                new MoveSplit(),
-                new MovePropagate(),
+                new Split(),
+                new Propagate(),
             }
         ),
 
@@ -57,8 +57,8 @@ public class Faction
             name: "Hermit",
             moveSet: new List<Move>
             {
-                new MoveSplit(),
-                new MovePropagate(),
+                new Split(),
+                new Propagate(),
             }
         ),
     };
