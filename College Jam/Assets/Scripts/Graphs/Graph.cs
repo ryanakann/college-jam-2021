@@ -132,8 +132,8 @@ namespace Graphs {
             phageTarget.GetComponent<TravelBetween>().to = finish.transform;
             GameObject phageObj = Instantiate(phagePrefab, start.transform.position, Quaternion.identity, transform);
             phageObj.name = $"Phage {id}";
-            //TODO: set to faction color
-            //phageObj.GetComponent<ParticleSystem>().colorOverLifetime.color.colorMin = start.owner.
+            ParticleSystem.MainModule mainModule = phageObj.GetComponent<ParticleSystem>().main;
+            mainModule.startColor = GameSettings.instance.players[start.owner].color;
             phageObj.transform.position = start.transform.position + UnityEngine.Random.onUnitSphere * 0.2f;
             phageObj.GetComponent<OrbitTarget>().target = phageTarget.transform;
         }
