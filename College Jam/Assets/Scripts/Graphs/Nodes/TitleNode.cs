@@ -29,6 +29,19 @@ namespace Graphs
                 transform.localScale = Vector3.one * width;
                 t += Time.deltaTime / introTime;
             }
+
+            public override void SetOwner(int playerNum)
+            {
+                owner = playerNum;
+                if (playerNum == 1)
+                {
+                    nodeSelection.mat.SetColor("_Color", new Color(177f / 255f, 255f / 255f, 125f / 255f));
+                }
+                else if (playerNum == 2)
+                {
+                    nodeSelection.mat.SetColor("_Color", new Color(219f / 255f, 88f / 255f, 224f / 255f));
+                }
+            }
         }
     }
 }

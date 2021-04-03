@@ -42,7 +42,7 @@ namespace Graphs {
         }
 
         public void SetNodeActive(Node node) {
-            activeNode?.nodeSelection.SetState(NodeSelection.MouseState.Normal);
+            activeNode?.nodeSelection.SetState(NodeSelection.NodeState.Normal);
             activeNode = node;
 
             if (activeNode.owner == 1) {

@@ -5,13 +5,37 @@ using Graphs.Edges;
 using Graphs.Nodes;
 
 namespace Graphs {
-    public class TitleGraphGenerator : GraphGenerator {
+    public class TitleGraphGenerator : MonoBehaviour {
+        public Graph graph;
+        public GameObject nodePrefab;
+        public GameObject edgePrefab;
+        protected int nodeCount;
+        public float distanceThreshold = 1f;
 
+        protected List<GameObject> nodes;
+        protected Vector3 bounds;
         public float spawnInterval = 2f;
         public float displayInterval = 8f;
         public float resetInterval = 2f;
+        protected float maxDistance;
+        protected TitleNode player1StartNode;
+        protected TitleNode player2StartNode;
 
-        protected override void Generate() {
+        protected virtual void ResetGraph()
+        {
+            foreach (Transform child in transform)
+            {
+                Destroy(child.gameObject);
+            }
+            graph.ResetGraph();
+        }
+
+        protected virtual Vector3 SampleRandomPoint()
+        {
+            return new Vector3(Random.Range(-bounds.x, bounds.x), Random.Range(-bounds.y, bounds.y), Random.Range(-bounds.z, bounds.z));
+        }
+
+        protected void Generate() {
             StartCoroutine(GenerateCR());
         }
 
@@ -27,7 +51,7 @@ namespace Graphs {
                     yield return new WaitForSeconds(spawnInterval);
                     GameObject nodeObj = Instantiate(nodePrefab, transform);
                     nodeObj.transform.position = SampleRandomPoint();
-                    Node node = nodeObj.GetComponent<Node>();
+                    TitleNode node = nodeObj.GetComponent<TitleNode>();
                     graph.AddNode(node);
                     if (i > 0)
                     {//do not add edges if first node
@@ -53,7 +77,7 @@ namespace Graphs {
                             if (distance > maxDistance)
                             {
                                 player1StartNode = node;
-                                player2StartNode = other.GetComponent<Node>();
+                                player2StartNode = other.GetComponent<TitleNode>();
                                 maxDistance = distance;
                             }
                             SpringJoint joint = nodeObj.AddComponent<SpringJoint>();
@@ -73,8 +97,8 @@ namespace Graphs {
                     nodes.Add(nodeObj);
                 }
 
-                player1StartNode.SetOwner(1);
-                player2StartNode.SetOwner(2);
+                ((TitleNode)player1StartNode)?.SetOwner(1);
+                ((TitleNode)player2StartNode)?.SetOwner(2);
 
                 yield return new WaitForSeconds(displayInterval);
 

@@ -1,41 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-/*
-public class Move {
-    string name;
-}
-*/
-
-public class MoveSet {
-    List<Move> moves;
-}
-public class Faction {
-    MoveSet moveSet;
-
-    public int nodes; // temp var for win condition checking
-}
-
-
-public class Player
-{
-    public Faction faction;
-
-    public virtual void Activate()
-    {
-        // tell the controller which player is going
-    }
-}
-
 
 public class TurnManager : MonoBehaviour {
 
     int maxTurns = 20, currentTurn = 1;
 
-
     public LinkedList<Player> players;
     public LinkedListNode<Player> currentPlayer;
-
 
     public static TurnManager instance;
 
@@ -64,12 +36,12 @@ public class TurnManager : MonoBehaviour {
         int maxNodes = 0;
         foreach (var player in instance.players)
         {
-            if (player.faction.nodes >= maxNodes)
+            if (player.nodes >= maxNodes)
             {
-                if (player.faction.nodes > maxNodes)
+                if (player.nodes > maxNodes)
                     results = new List<Player>();
                 results.Add(player);
-                maxNodes = player.faction.nodes;
+                maxNodes = player.nodes;
             }
         }
         return results;

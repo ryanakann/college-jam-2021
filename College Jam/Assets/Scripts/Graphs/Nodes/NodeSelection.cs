@@ -9,16 +9,17 @@ namespace Graphs
     {
         public class NodeSelection : MonoBehaviour
         {
-            public enum MouseState
+            public enum NodeState
             {
                 Normal,
-                Highlighted,
+                Hovering,
                 Pressed,
                 Selected,
                 Disabled,
+                Highlighted,
             }
 
-            private MouseState mouseState;
+            private NodeState mouseState;
 
             public Material mat;
 
@@ -36,7 +37,7 @@ namespace Graphs
 
             void Awake()
             {
-                mouseState = MouseState.Normal;
+                mouseState = NodeState.Normal;
                 fresnelAmount = 0f;
                 fresnelAmountLF = fresnelAmount;
                 mat = GetComponent<MeshRenderer>().material;
@@ -50,7 +51,7 @@ namespace Graphs
             {
                 if (MenuManager.instance.menuOpen) return;
 
-                fresnelAmount = Mathf.Clamp01(fresnelAmount + Time.deltaTime / fadeDuration * (mouseState == MouseState.Selected ? 1 : -1));
+                fresnelAmount = Mathf.Clamp01(fresnelAmount + Time.deltaTime / fadeDuration * (mouseState == NodeState.Selected ? 1 : -1));
                 if (!Mathf.Approximately(fresnelAmountLF, fresnelAmount))
                 {
                     mat.SetColor("_FresnelColor", Color.Lerp(Color.black, Color.white, fresnelAmount));
@@ -58,33 +59,37 @@ namespace Graphs
 
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    SetState(MouseState.Normal);
+                    SetState(NodeState.Normal);
                 }
             }
 
-            public void SetState(MouseState state)
+            public void SetState(NodeState state)
             {
                 if (MenuManager.instance.menuOpen) return;
 
                 mouseState = state;
                 switch (state)
                 {
-                    case MouseState.Normal:
+                    case NodeState.Normal:
                         mat.SetColor("_Highlight", normalColor);
                         mat.SetColor("_FresnelColor", Color.black);
                         break;
-                    case MouseState.Highlighted:
+                    case NodeState.Hovering:
                         mat.SetColor("_Highlight", highlightedColor);
                         break;
-                    case MouseState.Pressed:
+                    case NodeState.Pressed:
                         mat.SetColor("_Highlight", pressedColor);
                         break;
-                    case MouseState.Selected:
+                    case NodeState.Selected:
                         mat.SetColor("_Highlight", selectedColor);
                         mat.SetColor("_FresnelColor", Color.white);
                         OnSelect?.Invoke(GetComponent<Node>());
                         break;
-                    case MouseState.Disabled:
+                    case NodeState.Highlighted:
+                        mat.SetColor("_Highlight", selectedColor);
+                        mat.SetColor("_FresnelColor", Color.white);
+                        break;
+                    case NodeState.Disabled:
                         mat.SetColor("_Highlight", disabledColor);
                         break;
                     default:
@@ -94,33 +99,33 @@ namespace Graphs
 
             private void OnMouseDown()
             {
-                if (mouseState == MouseState.Highlighted)
+                if (mouseState == NodeState.Hovering)
                 {
-                    SetState(MouseState.Pressed);
+                    SetState(NodeState.Pressed);
                 }
             }
 
             private void OnMouseEnter()
             {
-                if (mouseState == MouseState.Normal)
+                if (mouseState == NodeState.Normal)
                 {
-                    SetState(MouseState.Highlighted);
+                    SetState(NodeState.Hovering);
                 }
             }
 
             private void OnMouseExit()
             {
-                if (mouseState == MouseState.Highlighted || mouseState == MouseState.Pressed)
+                if (mouseState == NodeState.Hovering || mouseState == NodeState.Pressed)
                 {
-                    SetState(MouseState.Normal);
+                    SetState(NodeState.Normal);
                 }
             }
 
             private void OnMouseUp()
             {
-                if (mouseState == MouseState.Pressed)
+                if (mouseState == NodeState.Pressed)
                 {
-                    SetState(MouseState.Selected);
+                    SetState(NodeState.Selected);
                 }
             }
         }

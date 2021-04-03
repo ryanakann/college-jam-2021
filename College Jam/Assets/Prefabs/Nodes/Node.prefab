@@ -438,6 +438,7 @@ MonoBehaviour:
   nodeSelection: {fileID: -2430865339950803763}
   basicUI: {fileID: 1576850045104906414}
   detailedUI: {fileID: 4323436021230382249}
+  phagePrefab: {fileID: 2802906727824608912, guid: 22a0a260ee6594666afd958a4af4c17b, type: 3}
 --- !u!1 &2412399738743553039
 GameObject:
   m_ObjectHideFlags: 0

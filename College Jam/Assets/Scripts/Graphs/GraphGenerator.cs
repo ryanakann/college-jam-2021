@@ -9,25 +9,88 @@ namespace Graphs {
         public Graph graph;
         public GameObject nodePrefab;
         public GameObject edgePrefab;
-        public int nodeCount;
+        protected int nodeCount;
         public float distanceThreshold = 1f;
 
         protected List<GameObject> nodes;
         protected Vector3 bounds;
 
-        protected Node player1StartNode;
-        protected Node player2StartNode;
-        protected float maxDistance;
+        protected int playerCount;
+        protected List<Vector3> startPoints;
+        protected List<Node> startNodes;
 
         protected virtual void Start() {
             bounds = GetComponent<BoxCollider>().bounds.extents;
             GetComponent<BoxCollider>().enabled = false;
+            nodeCount = GameSettings.instance.mapSize.nodeCount;
+            playerCount = GameSettings.instance.playerCount;
+            startPoints = new List<Vector3>();
+            startNodes = new List<Node>();
             Generate();
+        }
+
+        // Get (1-3)-simplex equidistant points
+        protected virtual List<Vector3> GetStartPoints()
+        {
+            List<Vector3> points = new List<Vector3>();
+            if (playerCount < 2 || playerCount > 4) return points;
+            
+            // Randomly rotate the points for variety
+            Vector3 axis = Random.onUnitSphere;
+            float rotation = Random.value * 360f;
+
+            float distanceFromOrigin = 100f;
+
+            // Line
+            if (playerCount == 2)
+            {
+                Vector3 p1 = Vector3.left;
+                Vector3 p2 = Vector3.right;
+                points.Add(p1);
+                points.Add(p2);
+            }
+            //Triangle
+            else if (playerCount == 3)
+            {
+                Vector3 p1 = new Vector3(1f, -1 / Mathf.Sqrt(3), 0f);
+                Vector3 p2 = new Vector3(-1f, -1 / Mathf.Sqrt(3), 0f);
+                Vector3 p3 = new Vector3(0f, 2 / Mathf.Sqrt(3), 0f);
+            }
+            // Tetrahedron
+            else if (playerCount == 4)
+            {
+                Vector3 p1 = new Vector3(1f, -1 / Mathf.Sqrt(3), -1 / Mathf.Sqrt(6));
+                Vector3 p2 = new Vector3(-1f, -1 / Mathf.Sqrt(3), -1 / Mathf.Sqrt(6));
+                Vector3 p3 = new Vector3(0f, 2 / Mathf.Sqrt(3), -1 / Mathf.Sqrt(6));
+                Vector3 p4 = new Vector3(0f, 0f, 3 / Mathf.Sqrt(3));
+                points.Add(p1);
+                points.Add(p2);
+                points.Add(p3);
+                points.Add(p4);
+            }
+
+            Transform reference = new GameObject("Reference").transform;
+            for (int i = 0; i < points.Count; i++)
+            {
+                reference.position = points[i];
+                reference.RotateAround(Vector3.zero, axis, rotation);
+                points[i] = reference.position;
+                points[i] = points[i].normalized * distanceFromOrigin;
+            }
+            Destroy(reference.gameObject);
+            return points;
         }
 
         protected virtual void Generate() {
             nodes = new List<GameObject>();
-            maxDistance = 0f;
+            startPoints = GetStartPoints();
+
+            // Init start nodes to playerCount nulls
+            startNodes = new List<Node>();
+            for (int i = 0; i < playerCount; i++)
+            {
+                startNodes.Add(null);
+            }
 
             for (int i = 0; i < nodeCount; i++) {
                 GameObject nodeObj = Instantiate(nodePrefab, transform);
@@ -49,14 +112,10 @@ namespace Graphs {
                         }
                     }
 
+                    // Add edges and physics between nodes
                     for (int j = 0; j < nodes.Count; j++) {
                         GameObject other = nodes[j];
                         float distance = Vector3.Distance(other.transform.position, nodeObj.transform.position);
-                        if (distance > maxDistance) {
-                            player1StartNode = node;
-                            player2StartNode = other.GetComponent<Node>();
-                            maxDistance = distance;
-                        }
                         SpringJoint joint = nodeObj.AddComponent<SpringJoint>();
                         joint.connectedBody = other.GetComponent<Rigidbody>();
                         //joint.damper = 10f;
@@ -69,18 +128,32 @@ namespace Graphs {
                             graph.AddEdge(node, other.GetComponent<Node>());
                         }
                     }
+
+                    // Update start points
+                    for (int j = 0; j < playerCount; j++)
+                    {
+                        // Initial points are always closest
+                        if (startNodes[j] == null)
+                        {
+                            startNodes[j] = node;
+                        }
+                        // If new point is closer than existing point, update
+                        else if ((startPoints[j] - startNodes[j].transform.position).sqrMagnitude >
+                            (startPoints[j] - node.transform.position).sqrMagnitude)
+                        {
+                            startNodes[j] = node;
+                        }
+                    }
                 }
 
                 nodes.Add(nodeObj);
             }
 
-            /*
-            player1StartNode.SetOwner(1);
-            player1StartNode.SetValue(1);
-            player2StartNode.SetOwner(2);
-            player2StartNode.SetValue(1);
-            */
-
+            for (int i = 0; i < playerCount; i++)
+            {
+                startNodes[i].SetOwner(i);
+                startNodes[i].SetValue(1);
+            }
         }
 
         protected virtual void ResetGraph() {
@@ -93,23 +166,6 @@ namespace Graphs {
 
         protected virtual Vector3 SampleRandomPoint() {
             return new Vector3(Random.Range(-bounds.x, bounds.x), Random.Range(-bounds.y, bounds.y), Random.Range(-bounds.z, bounds.z));
-        }
-
-        protected virtual void Update() {
-            //TODO: remove debug
-            if (Input.GetKeyDown(KeyCode.R)) {
-                ResetGraph();
-                Generate();
-            }
-            if (Input.GetKeyDown(KeyCode.Space)) {
-                graph.Iterate();
-            }
-            if (Input.GetKeyDown(KeyCode.P)) {
-                foreach (var node in graph.nodes) {
-                    node.Propagate();
-                }
-            }
-            //TODO: remove debug
         }
     }
 }
