@@ -9,6 +9,11 @@ public class MoveContext
     {
 
     }
+
+    public virtual string GetTooltip()
+    {
+        return "Click on a node to see move options.";
+    }
 }
 
 // this context involves forcing the controller to click on a node adjacent to the provided node
@@ -43,5 +48,10 @@ public class AdjacentSelectContext : MoveContext
         {
             Clear();
         }
+    }
+
+    public override string GetTooltip()
+    {
+        return "Click on an adjacent node to confirm your target. Press escape to cancel.";
     }
 }

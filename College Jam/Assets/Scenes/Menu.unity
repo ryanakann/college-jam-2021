@@ -3935,7 +3935,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Patho Genocide
+  m_text: "The Mind of Dr. Barab\xE1si"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fae977d323bf92741afaebbb3c842cbb, type: 2}
   m_sharedMaterial: {fileID: 1606353194291565037, guid: fae977d323bf92741afaebbb3c842cbb, type: 2}
@@ -4314,9 +4314,9 @@ PrefabInstance:
 
 
         The map comes in three separate sizes. The only
-        difference between these is the number of nodes and edges. Small has 10 nodes
-        and a small number of edges, medium has 20 nodes and has a decent number
-        of edges, and large has 40 nodes and way too many edges (good luck)!'
+        difference between these is the number of nodes and edges. Small has 16 nodes
+        and a small number of edges, medium has 24 nodes and has a decent number
+        of edges, and large has 32 nodes and way too many edges (good luck)!'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d90c15de09a417b4fbcd98bdc173a47f, type: 3}

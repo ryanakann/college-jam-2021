@@ -80,18 +80,18 @@ public class GameSettings : MonoBehaviour
         playerCount = playerCountRange.x + index;
     }
 
-    private void OnGUI()
-    {
-        string text = $"Map size: {mapSize.label} \t Player count: {playerCount}";
-        GUI.Label(
-           new Rect(
-               5,                   // x, left offset
-               Screen.height - 150, // y, bottom offset
-               300f,                // width
-               150f                 // height
-           ),
-           text,             // the display text
-           GUI.skin.textArea        // use a multi-line text area
-        );
-    }
+    //private void OnGUI()
+    //{
+    //    string text = $"Map size: {mapSize.label} \t Player count: {playerCount}";
+    //    GUI.Label(
+    //       new Rect(
+    //           5,                   // x, left offset
+    //           Screen.height - 150, // y, bottom offset
+    //           300f,                // width
+    //           150f                 // height
+    //       ),
+    //       text,             // the display text
+    //       GUI.skin.textArea        // use a multi-line text area
+    //    );
+    //}
 }

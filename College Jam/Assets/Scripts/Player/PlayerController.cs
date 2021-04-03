@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Graphs.Nodes;
+using TMPro;
 
 public delegate void NodeEvent(Node node);
 public delegate void TargetNodeEvent(Node srcNode, Node tgtNode);
@@ -13,6 +14,8 @@ public class PlayerController : MonoBehaviour
 
     public NodeEvent OnSelectNode;
     public GameEvent OnCancel; // press escape, backspace
+
+    public TMP_Text tooltip;
 
     public static PlayerController instance;
     public void Awake()
@@ -37,5 +40,6 @@ public class PlayerController : MonoBehaviour
     {
         this.context.Clear();
         this.context = context;
+        tooltip.SetText(context.GetTooltip());
     }
 }
