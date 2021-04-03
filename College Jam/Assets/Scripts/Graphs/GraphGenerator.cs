@@ -42,7 +42,7 @@ namespace Graphs {
             Vector3 axis = Random.onUnitSphere;
             float rotation = Random.value * 360f;
 
-            float distanceFromOrigin = 100f;
+            float distanceFromOrigin = 1000f;
 
             // Line
             if (playerCount == 2)
