@@ -30,7 +30,7 @@ namespace Moves
                     msg += $"{subMsg}\n";
                 }
             }
-            return (result, msg);
+            return (result) ? (result, description) : (result, msg);
         }
 
         // execute this move from this node.
