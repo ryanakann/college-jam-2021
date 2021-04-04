@@ -38,6 +38,8 @@ namespace Moves {
             node.nodeUI.SetDetailVisibility(false);
             //update node highlights
             currentPlayer.highlightActableNodes();
+
+            PlayerController.instance.UpdateToolTip(null);
         }
 
         // execute this move from this node.
@@ -56,7 +58,6 @@ namespace Moves {
 
         public override void Execute(Node node) {
             base.Execute(node);
-            Debug.Log("PROPAGATE");
             foreach (var neighbor in node.neighbors) {
                 Graph.instance.SendPhages(node, neighbor, 1);
             }

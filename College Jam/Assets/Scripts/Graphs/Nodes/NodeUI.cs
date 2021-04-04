@@ -39,7 +39,8 @@ namespace Graphs {
                                 PlayerController.instance.UpdateToolTip(GetComponent<Node>());
                             } else {
                                 move.Item1.Execute(GetComponent<Node>());
-                                PlayerController.instance.HandleMoveNode(GetComponent<Node>());
+                                // TurnManager.instance.currentPlayer.Value.highlightActableNodes();
+                                // PlayerController.instance.HandleMoveNode(GetComponent<Node>());
                             }
                         }
                         );

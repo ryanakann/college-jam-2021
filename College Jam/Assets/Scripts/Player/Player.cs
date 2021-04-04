@@ -83,10 +83,14 @@ public class Player {
             n.nodeSelection.SetState(NodeSelection.NodeState.Normal);
         }
         foreach (Node n in actableNodes) {
+            bool highlight = true;
             foreach (NodeState state in n.nodeStates)
+            {
                 if (state.blocking)
-                    continue;
-            n.nodeSelection.SetState(NodeSelection.NodeState.Highlighted);
+                    highlight = false;
+            }
+            if (highlight)
+                n.nodeSelection.SetState(NodeSelection.NodeState.Highlighted);
         }
     }
 }

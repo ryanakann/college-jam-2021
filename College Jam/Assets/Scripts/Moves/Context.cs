@@ -45,13 +45,16 @@ public class AdjacentSelectContext : MoveContext {
         PlayerController.instance.OnClickNode -= ValidateSelection;
         PlayerController.instance.OnCancel -= Clear;
         // clear highlights
-        foreach (Node n in srcNode.neighbors)
-            n.nodeSelection.SetState(NodeSelection.NodeState.Normal);
+        TurnManager.instance.currentPlayer.Value.highlightActableNodes();
     }
 
     void ValidateSelection(Node node) {
         if (srcNode.neighbors.Contains(node)) {
             OnSelect?.Invoke(srcNode, node);
+        }
+        else
+        {
+            PlayerController.instance.Clear();
         }
     }
 
