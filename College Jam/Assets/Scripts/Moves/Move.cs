@@ -78,9 +78,8 @@ namespace Moves {
         public Faction faction;
         public int totalTurns, amount;
 
-        public Fortify(Faction faction, int totalTurns = 2, int amount = 4) : base() {
+        public Fortify(int totalTurns = 2, int amount = 4) : base() {
             name = "Fortify";
-            this.faction = faction;
             this.totalTurns = totalTurns;
             this.amount = amount;
             description = $"Node stays inactive for {totalTurns} turns, then gains {amount} phages.";
@@ -88,7 +87,7 @@ namespace Moves {
 
         public override void Execute(Node node) {
             base.Execute(node);
-            // 
+            faction = TurnManager.instance.currentPlayer.Value.faction;
             node.AddState(new FortifyState(node, faction, totalTurns, amount));
         }
     }
@@ -96,7 +95,7 @@ namespace Moves {
     public class Invest : Fortify {
         public int investment;
 
-        public Invest(Faction faction, int totalTurns = 3, int amount = 6, int investment = 3) : base(faction, totalTurns, amount) {
+        public Invest(int totalTurns = 3, int amount = 6, int investment = 3) : base(totalTurns, amount) {
             name = "Invest";
             this.investment = investment;
             description = $"Spend {investment} phages. Node remains inactive for {totalTurns} turns, then gain {amount} phages.";
@@ -105,7 +104,6 @@ namespace Moves {
 
         public override void Execute(Node node) {
             base.Execute(node);
-            // 
             node.SetValue(node.value - investment);
             node.AddState(new FortifyState(node, faction, totalTurns, amount, name: "Investing"));
         }

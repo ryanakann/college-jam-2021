@@ -14,6 +14,7 @@ public class Faction
             {
                 new Split(),
                 new Propagate(),
+                new Fortify(),
             }
         ),
 
@@ -23,6 +24,7 @@ public class Faction
             {
                 new Split(),
                 new Propagate(),
+                new Invest(),
             }
         ),
 
