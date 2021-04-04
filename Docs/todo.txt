@@ -1,9 +1,7 @@
 -lock turn until action is done animating
     -hide ui
--remove nodes from ActableNodes after they act
 -bring tutorial up to date
--highlights for actable nodes
--UI should not appear unless node is actable
+-first turn actable node highlight bug
 -TurnOver context/tooltip
 
 -game win screen
