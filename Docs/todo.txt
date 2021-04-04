@@ -1,9 +1,3 @@
--lock turn until action is done animating
-    -hide ui
 -bring tutorial up to date
--first turn actable node highlight bug
--TurnOver context/tooltip
-
--game win screen
 
 -if possible, select color by color and not text
