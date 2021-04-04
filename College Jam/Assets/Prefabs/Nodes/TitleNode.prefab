@@ -417,7 +417,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2100136317679725383}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a156e9973e26eb04e93f7fd7da5b6385, type: 3}
   m_Name: 
@@ -431,9 +431,6 @@ MonoBehaviour:
   colorMultiplier: 1
   fadeDuration: 0.187
   fresnelAmount: 0
-  OnSelect:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &-7998086542745889056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,6 +460,8 @@ MonoBehaviour:
   nodeSelection: {fileID: -2430865339950803763}
   basicUI: {fileID: 0}
   detailedUI: {fileID: 4323436021230382249}
+  phagePrefab: {fileID: 0}
+  actionButtonPrefab: {fileID: 0}
 --- !u!1 &2412399738743553039
 GameObject:
   m_ObjectHideFlags: 0
