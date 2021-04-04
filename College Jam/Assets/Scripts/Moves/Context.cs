@@ -55,7 +55,6 @@ public class AdjacentSelectContext : MoveContext
 
     void ValidateSelection(Node node)
     {
-        Debug.Log("VALIDATE CLICK");
         if (srcNode.neighbors.Contains(node))
         {
             OnSelect?.Invoke(srcNode, node);

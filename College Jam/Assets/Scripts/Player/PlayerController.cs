@@ -62,17 +62,24 @@ public class PlayerController : MonoBehaviour
         OnClickNode?.Invoke(node);
         if (context == null)
         {
-            
+            node.nodeSelection.SetState(NodeSelection.NodeState.Selected);
+            CameraPivot.instance?.SetTarget(node.transform);
+            node.nodeSelection.OnSelect?.Invoke(node);
+            OnSelectNode?.Invoke(node);
+
             if (TurnManager.instance.currentPlayer.Value.actableNodes.Contains(node))
             {
-                OnSelectNode?.Invoke(node);
                 tooltip.text = toolTipSelectText;
             }
             else
             {
                 tooltip.text = defaultToolTip;
             }
-            node.nodeSelection.OnSelect?.Invoke(node);
+
+            /*
+            if (TurnManager.instance.currentPlayer.Value.nodes.Contains(node))
+                node.nodeSelection.OnSelect?.Invoke(node);
+            */
         }
     }
 

@@ -85,8 +85,7 @@ namespace Graphs
                         mat.SetColor("_Highlight", selectedColor);
                         mat.SetColor("_FresnelColor", Color.white);
                         // OnSelect?.Invoke(GetComponent<Node>());
-                        CameraPivot.instance?.SetTarget(transform);
-                        PlayerController.instance?.HandleClickNode(GetComponent<Node>());
+                        // PlayerController.instance.HandleClickNode(GetComponent<Node>());
                         break;
                     case NodeState.Highlighted:
                         mat.SetColor("_Highlight", selectedColor);
@@ -100,6 +99,7 @@ namespace Graphs
                 }
             }
 
+            /*
             private void OnMouseDown()
             {
                 if (mouseState == NodeState.Hovering)
@@ -107,6 +107,7 @@ namespace Graphs
                     SetState(NodeState.Pressed);
                 }
             }
+            */
 
             private void OnMouseEnter()
             {
@@ -126,7 +127,8 @@ namespace Graphs
 
             private void OnMouseUpAsButton()
             {
-                SetState(NodeState.Selected);
+                PlayerController.instance.HandleClickNode(GetComponent<Node>());
+                // SetState(NodeState.Selected);
             }
         }
     }
