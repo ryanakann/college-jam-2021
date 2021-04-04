@@ -38,6 +38,7 @@ namespace Graphs
                 this.faction = faction;
                 this.turns = turns;
                 this.amount = amount;
+                blocking = true;
             }
 
             public override void PreActivate()

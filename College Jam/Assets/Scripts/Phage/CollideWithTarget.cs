@@ -18,6 +18,7 @@ public class CollideWithTarget : MonoBehaviour {
             //destroy animation target
             Destroy(GetComponent<OrbitTarget>().target.gameObject);
             //destroy self
+            TurnManager.instance.phageCounter--;
             Destroy(gameObject);
         }
     }

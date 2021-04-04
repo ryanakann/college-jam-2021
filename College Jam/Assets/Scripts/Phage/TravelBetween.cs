@@ -11,6 +11,7 @@ public class TravelBetween : MonoBehaviour {
 
     float frac = 0;
     private void Start() {
+        TurnManager.instance.phageCounter++;
         transform.position = from.position;
         frac = 0;
     }
