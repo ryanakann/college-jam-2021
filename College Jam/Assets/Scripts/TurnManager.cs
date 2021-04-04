@@ -25,7 +25,7 @@ public class TurnManager : MonoBehaviour {
 
     public bool locked { get { return phageCounter > 0; } }
 
-    public void Awake() {
+    public void Start() {
         if (!instance) {
             instance = this;
         } else if (instance != this) {
@@ -115,6 +115,7 @@ public class TurnManager : MonoBehaviour {
             NotificationMenu.instance.AddToQueue($"Turn {currentTurn}");
         }
         NotificationMenu.instance.AddToQueue($"{currentPlayer.Value.colorName}'s turn");
+        turnText.SetText($"{currentPlayer.Value.colorName}'s turn ({currentPlayer.Value.faction.name})");
         currentPlayer.Value.Activate();
     }
 

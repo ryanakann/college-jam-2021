@@ -37,8 +37,12 @@ public class CameraPivot : MonoBehaviour {
     public bool invertScale;
 
 
+    void Awake()
+    {
+        Initialize();
+    }
     // Start is called before the first frame update
-    void Start() {
+    void Initialize() {
         instance = this;
         dragging = false;
 

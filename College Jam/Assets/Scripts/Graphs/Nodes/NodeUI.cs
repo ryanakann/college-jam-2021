@@ -36,7 +36,7 @@ namespace Graphs {
                         actionButton.button.onClick.AddListener(() => {
                             if (PlayerController.instance.context != null) {
                                 PlayerController.instance.Clear();
-                                PlayerController.instance.tooltip.text = PlayerController.instance.toolTipSelectText;
+                                PlayerController.instance.UpdateToolTip(GetComponent<Node>());
                             } else {
                                 move.Item1.Execute(GetComponent<Node>());
                                 PlayerController.instance.HandleMoveNode(GetComponent<Node>());

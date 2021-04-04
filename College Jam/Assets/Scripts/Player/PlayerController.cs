@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour {
         if (context != null)
             context.Clear();
         context = null;
-        tooltip.SetText(defaultToolTip);
+        UpdateToolTip(null);
     }
 
     public void SetContext(MoveContext context) {
@@ -56,19 +56,31 @@ public class PlayerController : MonoBehaviour {
             CameraPivot.instance?.SetTarget(node.transform);
             node.nodeSelection.OnSelect?.Invoke(node);
             OnSelectNode?.Invoke(node);
-
-            if (TurnManager.instance.currentPlayer.Value.actableNodes.Contains(node)) {
-                tooltip.text = toolTipSelectText;
-            } else {
-                tooltip.text = defaultToolTip;
-            }
+            UpdateToolTip(node);
 
         } else if (context.clearing) {
             Clear();
         }
     }
 
+    public void UpdateToolTip(Node node)
+    {
+        if (TurnManager.instance.currentPlayer.Value.actableNodes.Count == 0)
+        {
+            instance.tooltip.text = "No active nodes remain.";
+        }
+        else if (node != null && TurnManager.instance.currentPlayer.Value.actableNodes.Contains(node))
+        {
+            tooltip.text = toolTipSelectText;
+        }
+        else
+        {
+            tooltip.text = defaultToolTip;
+        }
+    }
+
     public void HandleMoveNode(Node node) {
         TurnManager.instance.currentPlayer.Value.actableNodes.Remove(node);
+        UpdateToolTip(null);
     }
 }

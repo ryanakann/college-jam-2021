@@ -40,8 +40,13 @@ public class Player {
             nodeStates[i].PreActivate();
         }
 
+        PlayerController.instance.UpdateToolTip(null);
+
         highlightActableNodes();
         PlayerController.instance.OnSelectNode += ValidateMoves; // we're specifically subscribing to this event
+
+        if (actableNodes.Count > 0)
+            CameraPivot.instance.SetTarget(actableNodes[Random.Range(0, actableNodes.Count)].transform);
     }
 
     public void ValidateMoves(Node node) {
@@ -67,7 +72,9 @@ public class Player {
     }
 
     public void highlightActableNodes() {
+
         foreach (Node n in Graphs.Graph.instance.nodes) {
+            n.nodeUI.SetDetailVisibility(false);
             n.nodeSelection.SetState(NodeSelection.NodeState.Normal);
         }
         foreach (Node n in actableNodes) {
