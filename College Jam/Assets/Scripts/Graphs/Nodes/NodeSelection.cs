@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 namespace Graphs {
     namespace Nodes {
@@ -100,6 +101,8 @@ namespace Graphs {
             */
 
             private void OnMouseEnter() {
+                if (EventSystem.current.currentSelectedGameObject != null &&
+                    EventSystem.current.currentSelectedGameObject.layer == 1 << 5) return;
                 if (mouseState == NodeState.Normal) {
                     SetState(NodeState.Hovering);
                 }
@@ -112,6 +115,8 @@ namespace Graphs {
             }
 
             private void OnMouseUpAsButton() {
+                //if (EventSystem.current.currentSelectedGameObject != null &&
+                //    EventSystem.current.currentSelectedGameObject.layer == 1 << 5) return;
                 PlayerController.instance.HandleClickNode(GetComponent<Node>());
                 // SetState(NodeState.Selected);
             }

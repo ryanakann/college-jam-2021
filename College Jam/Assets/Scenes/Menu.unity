@@ -3656,11 +3656,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sizes:
   - label: Small
-    nodeCount: 16
+    nodeCount: 3
   - label: Medium
-    nodeCount: 24
+    nodeCount: 16
   - label: Large
-    nodeCount: 32
+    nodeCount: 24
   mapSize:
     label: 
     nodeCount: 0

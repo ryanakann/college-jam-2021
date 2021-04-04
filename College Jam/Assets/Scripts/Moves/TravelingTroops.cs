@@ -11,5 +11,5 @@ public class TravelingTroops : MonoBehaviour {
     }
 
     public List<Node> path;
-    int pathStep = 0;
+    //int pathStep = 0;
 }

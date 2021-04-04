@@ -71,15 +71,20 @@ public class TurnManager : MonoBehaviour {
     // every move triggers a check for win conditions
     public void CheckWinConditions() {
         if (players.Count == 1) {
-            // players.First.Value wins!
+            EndGame(players.First.Value);
             return;
         }
 
         if (currentTurn < maxTurns)
-            return;
+            EndGame(null);
+        return;
 
         List<Player> winningPlayers = CheckGraphDomination();
-
+        print("Winners:");
+        foreach (var item in winningPlayers)
+        {
+            print(item.colorName);
+        }
         if (winningPlayers.Count == 1) {
             EndGame(winningPlayers[0]);
         }
@@ -92,17 +97,17 @@ public class TurnManager : MonoBehaviour {
             return;
 
         if (players.Count <= 1)
-            print("GAME OVER"); // signal that the game is over... this should be an error!
+            EndGame(players.First.Value);
 
         if (!start) {
-            if (playerTurnElapsedTime < 3f) return;
+            if (playerTurnElapsedTime < NotificationMenu.instance.tweenDuration) return;
             currentPlayer.Value.EndTurn();
 
             if (currentPlayer.Next == null) {
                 currentPlayer = players.First;
                 currentTurn++;
                 // update turn counters and stuff
-                playerTurnElapsedTime = -3f;
+                playerTurnElapsedTime = -NotificationMenu.instance.tweenDuration;
                 NotificationMenu.instance.AddToQueue($"Turn {currentTurn}");
             } else {
                 currentPlayer = currentPlayer.Next;
@@ -111,7 +116,7 @@ public class TurnManager : MonoBehaviour {
         } 
         else
         {
-            playerTurnElapsedTime = -3f;
+            playerTurnElapsedTime = NotificationMenu.instance.tweenDuration;
             NotificationMenu.instance.AddToQueue($"Turn {currentTurn}");
         }
         NotificationMenu.instance.AddToQueue($"{currentPlayer.Value.colorName}'s turn");
@@ -121,7 +126,14 @@ public class TurnManager : MonoBehaviour {
 
     public void EndGame(Player winner) {
         WinMenu.instance.gameObject.SetActive(true);
-        WinMenu.instance.Win(winner.colorName);
+        if (winner == null)
+        {
+            WinMenu.instance.Win("Nobody"); // Draw
+        }
+        else
+        {
+            WinMenu.instance.Win(winner.colorName);
+        }
     }
 
     private void OnGUI() {
