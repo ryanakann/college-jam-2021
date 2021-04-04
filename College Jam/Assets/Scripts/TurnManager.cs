@@ -21,6 +21,7 @@ public class TurnManager : MonoBehaviour {
     public TMP_Text turnText;
 
     public int phageCounter = 0;
+    public float playerTurnElapsedTime;
 
     public bool locked { get { return phageCounter > 0; } }
 
@@ -39,10 +40,16 @@ public class TurnManager : MonoBehaviour {
         players = new LinkedList<Player>(GameSettings.instance.players);
     }
 
+    private void Update()
+    {
+        playerTurnElapsedTime += Time.deltaTime;
+    }
+
 
     public void StartGame() {
         SyncPlayers();
         graphGenerator.Generate();
+        playerTurnElapsedTime = 0f;
         currentPlayer = players.First;
         NextPlayer(start: true);
     }
@@ -88,18 +95,26 @@ public class TurnManager : MonoBehaviour {
             print("GAME OVER"); // signal that the game is over... this should be an error!
 
         if (!start) {
+            if (playerTurnElapsedTime < 3f) return;
             currentPlayer.Value.EndTurn();
 
             if (currentPlayer.Next == null) {
                 currentPlayer = players.First;
                 currentTurn++;
                 // update turn counters and stuff
+                playerTurnElapsedTime = -3f;
+                NotificationMenu.instance.AddToQueue($"Turn {currentTurn}");
             } else {
                 currentPlayer = currentPlayer.Next;
+                playerTurnElapsedTime = 0f;
             }
+        } 
+        else
+        {
+            playerTurnElapsedTime = -3f;
+            NotificationMenu.instance.AddToQueue($"Turn {currentTurn}");
         }
-
-        turnText.SetText($"{currentPlayer.Value.colorName}'s turn");
+        NotificationMenu.instance.AddToQueue($"{currentPlayer.Value.colorName}'s turn");
         currentPlayer.Value.Activate();
     }
 
