@@ -5,6 +5,9 @@ using Graphs.Nodes;
 
 public class MoveContext
 {
+
+    public bool clearing;
+
     public virtual void Clear()
     {
 
@@ -33,6 +36,7 @@ public class AdjacentSelectContext : MoveContext
         srcNode = node;
         PlayerController.instance.OnClickNode += ValidateSelection;
         PlayerController.instance.OnCancel += Clear;
+        clearing = true;
     }
 
     public override void Initialize()
@@ -59,8 +63,8 @@ public class AdjacentSelectContext : MoveContext
         {
             OnSelect?.Invoke(srcNode, node);
         }
-        if (PlayerController.instance.context == this)
-            PlayerController.instance.Clear();
+        //if (PlayerController.instance.context == this)
+          //  PlayerController.instance.Clear();
     }
 
     public override string GetTooltip()

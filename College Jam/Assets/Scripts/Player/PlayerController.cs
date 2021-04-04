@@ -76,10 +76,10 @@ public class PlayerController : MonoBehaviour
                 tooltip.text = defaultToolTip;
             }
 
-            /*
-            if (TurnManager.instance.currentPlayer.Value.nodes.Contains(node))
-                node.nodeSelection.OnSelect?.Invoke(node);
-            */
+        }
+        else if (context.clearing)
+        {
+            Clear();
         }
     }
 

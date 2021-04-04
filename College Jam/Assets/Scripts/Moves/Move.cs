@@ -68,7 +68,6 @@ namespace Moves {
         }
 
         public void FinalExecute(Node srcNode, Node tgtNode) {
-            Debug.Log("SPLIT");
             int amountToSend = srcNode.value / 2;
             Graph.instance.SendPhages(srcNode, tgtNode, amountToSend);
         }
