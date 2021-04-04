@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Graphs.Nodes;
+using Graphs;
 //public class Faction {
 //    List<ScriptableObject> moves; //things this faction can do in a turn
 //    //TODO: List<Move> moveSet;
@@ -50,6 +51,8 @@ public class TurnManager : MonoBehaviour {
     public LinkedList<Player> players;
     public LinkedListNode<Player> currentPlayer;
 
+    public GraphGenerator graphGenerator;
+
     public static TurnManager instance;
 
     public void Awake() {
@@ -63,28 +66,23 @@ public class TurnManager : MonoBehaviour {
         StartGame();
     }
 
-    public void SyncPlayers()
-    {
-        print(GameSettings.instance.players.Count);
+    public void SyncPlayers() {
         players = new LinkedList<Player>(GameSettings.instance.players);
-        print(players.Count);
-        print(players.First.Value);
     }
 
 
     public void StartGame() {
         SyncPlayers();
+        graphGenerator.Generate();
         currentPlayer = players.First;
-        NextPlayer(start:true);
+        NextPlayer(start: true);
     }
 
     public List<Player> CheckGraphDomination() {
         List<Player> results = new List<Player>();
         int maxNodes = 0;
-        foreach (var player in instance.players)
-        {
-            if (player.nodeCount >= maxNodes)
-            {
+        foreach (var player in instance.players) {
+            if (player.nodeCount >= maxNodes) {
                 if (player.nodeCount > maxNodes)
                     results.Clear();
                 results.Add(player);
@@ -106,14 +104,13 @@ public class TurnManager : MonoBehaviour {
 
         List<Player> winningPlayers = CheckGraphDomination();
 
-        if (winningPlayers.Count == 1)
-        {
+        if (winningPlayers.Count == 1) {
             EndGame(winningPlayers[0]);
         }
         // might add faction-specific victories!
     }
 
-    public void NextPlayer(bool start=false) {
+    public void NextPlayer(bool start = false) {
         if (!start)
             currentPlayer.Value.EndTurn();
 
@@ -121,32 +118,26 @@ public class TurnManager : MonoBehaviour {
             print("GAME OVER"); // signal that the game is over... this should be an error!
 
 
-        if (currentPlayer.Next == null) 
-        {
+        if (currentPlayer.Next == null) {
             currentPlayer = players.First;
             currentTurn++;
             // update turn counters and stuff
-        } 
-        else
-        {
+        } else {
             currentPlayer = currentPlayer.Next;
         }
 
         currentPlayer.Value.Activate();
     }
 
-    public void EndGame(Player winner)
-    {
+    public void EndGame(Player winner) {
         print($"{winner.color} wins!");
     }
 
-    public void UnlockActions()
-    {
+    public void UnlockActions() {
 
     }
 
-    public void LockActions()
-    {
+    public void LockActions() {
 
     }
 }

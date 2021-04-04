@@ -22,22 +22,11 @@ namespace Graphs {
         [SerializeField]
         protected List<Node> startNodes;
 
-        protected virtual void Start() {
-            bounds = GetComponent<BoxCollider>().bounds.extents;
-            GetComponent<BoxCollider>().enabled = false;
-            nodeCount = GameSettings.instance.mapSize.nodeCount;
-            playerCount = GameSettings.instance.playerCount;
-            startPoints = new List<Vector3>();
-            startNodes = new List<Node>();
-            Generate();
-        }
-
         // Get (1-3)-simplex equidistant points
-        protected virtual List<Vector3> GetStartPoints()
-        {
+        protected virtual List<Vector3> GetStartPoints() {
             List<Vector3> points = new List<Vector3>();
             if (playerCount < 2 || playerCount > 4) return points;
-            
+
             // Randomly rotate the points for variety
             Vector3 axis = Random.onUnitSphere;
             float rotation = Random.value * 360f;
@@ -45,16 +34,14 @@ namespace Graphs {
             float distanceFromOrigin = 1000f;
 
             // Line
-            if (playerCount == 2)
-            {
+            if (playerCount == 2) {
                 Vector3 p1 = Vector3.left;
                 Vector3 p2 = Vector3.right;
                 points.Add(p1);
                 points.Add(p2);
             }
             //Triangle
-            else if (playerCount == 3)
-            {
+            else if (playerCount == 3) {
                 Vector3 p1 = new Vector3(1f, -1 / Mathf.Sqrt(3), 0f);
                 Vector3 p2 = new Vector3(-1f, -1 / Mathf.Sqrt(3), 0f);
                 Vector3 p3 = new Vector3(0f, 2 / Mathf.Sqrt(3), 0f);
@@ -63,8 +50,7 @@ namespace Graphs {
                 points.Add(p3);
             }
             // Tetrahedron
-            else if (playerCount == 4)
-            {
+            else if (playerCount == 4) {
                 Vector3 p1 = new Vector3(1f, -1 / Mathf.Sqrt(3), -1 / Mathf.Sqrt(6));
                 Vector3 p2 = new Vector3(-1f, -1 / Mathf.Sqrt(3), -1 / Mathf.Sqrt(6));
                 Vector3 p3 = new Vector3(0f, 2 / Mathf.Sqrt(3), -1 / Mathf.Sqrt(6));
@@ -76,8 +62,7 @@ namespace Graphs {
             }
 
             Transform reference = new GameObject("Reference").transform;
-            for (int i = 0; i < points.Count; i++)
-            {
+            for (int i = 0; i < points.Count; i++) {
                 reference.position = points[i];
                 reference.RotateAround(Vector3.zero, axis, rotation);
                 points[i] = reference.position;
@@ -87,14 +72,19 @@ namespace Graphs {
             return points;
         }
 
-        protected virtual void Generate() {
+        public virtual void Generate() {
+            bounds = GetComponent<BoxCollider>().bounds.extents;
+            GetComponent<BoxCollider>().enabled = false;
+            nodeCount = GameSettings.instance.mapSize.nodeCount;
+            playerCount = GameSettings.instance.playerCount;
+            startPoints = new List<Vector3>();
+            startNodes = new List<Node>();
             nodes = new List<GameObject>();
             startPoints = GetStartPoints();
 
             // Init start nodes to playerCount nulls
             startNodes = new List<Node>();
-            for (int i = 0; i < playerCount; i++)
-            {
+            for (int i = 0; i < playerCount; i++) {
                 startNodes.Add(null);
             }
 
@@ -136,29 +126,25 @@ namespace Graphs {
                     }
 
                     // Update start points
-                    for (int j = 0; j < playerCount; j++)
-                    {
+                    for (int j = 0; j < playerCount; j++) {
                         // Initial points are always closest
-                        if (startNodes[j] == null)
-                        {
+                        if (startNodes[j] == null) {
                             startNodes[j] = node;
                         }
                         // If new point is closer than existing point, update
                         else if ((startPoints[j] - startNodes[j].transform.position).sqrMagnitude >
-                            (startPoints[j] - node.transform.position).sqrMagnitude)
-                        {
+                            (startPoints[j] - node.transform.position).sqrMagnitude) {
                             startNodes[j] = node;
                         }
                     }
                 }
-                
+
                 nodes.Add(nodeObj);
             }
             print($"Start Nodes: {startNodes.Count} - Start Points: {startPoints.Count} - Player Count: {playerCount}");
-            for (int i = 0; i < playerCount; i++)
-            {
+            for (int i = 0; i < playerCount; i++) {
                 startNodes[i].SetOwner(i);
-                startNodes[i].SetValue(1);
+                startNodes[i].SetValue(100);
                 GameSettings.instance.players[i].nodes.Add(startNodes[i]);
             }
         }

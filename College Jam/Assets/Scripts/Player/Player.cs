@@ -5,8 +5,7 @@ using Graphs.Nodes;
 using Moves;
 
 [System.Serializable]
-public class Player
-{
+public class Player {
     public Faction faction;
     public Color color;
     public bool isHuman;
@@ -14,11 +13,10 @@ public class Player
 
     public List<NodeState> nodeStates;
     public List<Node> nodes;
-    public List<Node> actableNodes; 
+    public List<Node> actableNodes;
 
 
-    public Player(Faction faction, Color color, bool isHuman)
-    {
+    public Player(Faction faction, Color color, bool isHuman) {
         this.faction = faction;
         this.color = color;
         this.isHuman = isHuman;
@@ -29,22 +27,19 @@ public class Player
         actableNodes = new List<Node>();
     }
 
-    public virtual void Activate()
-    {
+    public virtual void Activate() {
         actableNodes = new List<Node>(nodes); // shallow copy
 
-        for (int i = nodeStates.Count - 1; i >= 0; i--)
-        {
-            if (nodeStates[i].inactive)
-            {
+        for (int i = nodeStates.Count - 1; i >= 0; i--) {
+            if (nodeStates[i].inactive) {
                 nodeStates.RemoveAt(i);
                 continue;
             }
             nodeStates[i].PreActivate();
-            actableNodes[i].nodeSelection.OnSelect += ValidateMoves;
         }
-
-
+        foreach (Node n in nodes) {
+            n.nodeSelection.OnSelect += ValidateMoves;
+        }
 
         //if (isHuman)
         //    PlayerController.instance.OnSelectNode += ValidateMoves;
@@ -54,19 +49,15 @@ public class Player
         //}
     }
 
-    public virtual void Deactivate()
-    {
-        foreach (var node in actableNodes)
-        {
+    public virtual void Deactivate() {
+        foreach (var node in actableNodes) {
             node.nodeSelection.OnSelect -= ValidateMoves;
         }
     }
 
-    public void ValidateMoves(Node node)
-    {
-        List<(Move, bool, string)> validMoves = new List<(Move, bool, string)> ();
-        foreach (Move move in faction.moveSet)
-        {
+    public void ValidateMoves(Node node) {
+        List<(Move, bool, string)> validMoves = new List<(Move, bool, string)>();
+        foreach (Move move in faction.moveSet) {
             (bool allowed, string description) = move.Validate(node);
             validMoves.Add((move, allowed, description));
         }
@@ -74,12 +65,9 @@ public class Player
         node.nodeUI.PopulateUI(validMoves);
     }
 
-    public void EndTurn()
-    {
-        for (int i = nodeStates.Count - 1; i >= 0; i--)
-        {
-            if (nodeStates[i].inactive)
-            {
+    public void EndTurn() {
+        for (int i = nodeStates.Count - 1; i >= 0; i--) {
+            if (nodeStates[i].inactive) {
                 nodeStates.RemoveAt(i);
                 continue;
             }
