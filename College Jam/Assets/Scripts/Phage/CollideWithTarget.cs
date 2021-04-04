@@ -14,7 +14,6 @@ public class CollideWithTarget : MonoBehaviour {
         }
         Node n = other.gameObject.GetComponent<Node>();
         if (n && n == target) {
-            print("BING BONG");
             target.ReceivePhage(owner);
             //destroy animation target
             Destroy(GetComponent<OrbitTarget>().target.gameObject);
