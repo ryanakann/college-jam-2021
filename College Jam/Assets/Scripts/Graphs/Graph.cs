@@ -51,7 +51,8 @@ namespace Graphs {
             activeNode?.nodeSelection.SetState(NodeSelection.NodeState.Normal);
             activeNode?.nodeUI.SetDetailVisibility(false);
             activeNode = node;
-            if (activeNode.owner > -1 && GameSettings.instance.players[activeNode.owner] == TurnManager.instance.currentPlayer.Value) {
+            if (activeNode.owner > -1 && TurnManager.instance.currentPlayer.Value.actableNodes.Contains(node)) {
+                activeNode.nodeSelection.SetState(NodeSelection.NodeState.Selected);
                 activeNode.nodeUI.SetDetailVisibility(true);
             }
         }

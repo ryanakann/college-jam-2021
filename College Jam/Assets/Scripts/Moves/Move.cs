@@ -12,7 +12,7 @@ namespace Moves {
         public string description;
 
         public Move() {
-            validationChecks = new List<MoveValidationCheck>() { new Blocking_MCV() };
+            validationChecks = new List<MoveValidationCheck>() { new Blocking_MVC() };
         }
 
         // can this move be executed from this node?
@@ -31,7 +31,13 @@ namespace Moves {
 
         // execute this move from this node.
         public virtual void Execute(Node node) {
-
+            Player currentPlayer = TurnManager.instance.currentPlayer.Value;
+            //remove node from player's actableNodes
+            currentPlayer.actableNodes.Remove(node);
+            //hide move selection UI
+            node.nodeUI.SetDetailVisibility(false);
+            //update node highlights
+            currentPlayer.highlightActableNodes();
         }
     }
 
@@ -39,7 +45,7 @@ namespace Moves {
 
         public Propagate() : base() {
             name = "Propagate";
-            validationChecks.Add(new GreaterThanDegree_MCV());
+            validationChecks.Add(new GreaterThanDegree_MVC());
             description = "Transfer 1 phage from the source node to each edge.";
         }
 
@@ -56,18 +62,17 @@ namespace Moves {
 
         public Split() : base() {
             name = "Split";
-            validationChecks.Add(new AtLeast_MCV(2));
+            validationChecks.Add(new AtLeast_MVC(2));
             description = "Send half of the source node's phages to a target neighboring node.";
         }
 
         public override void Execute(Node node) {
-            base.Execute(node);
-
             PlayerController.instance.SetContext(new AdjacentSelectContext(node));
             ((AdjacentSelectContext)PlayerController.instance.context).OnSelect += FinalExecute;
         }
 
         public void FinalExecute(Node srcNode, Node tgtNode) {
+            base.Execute(srcNode);
             int amountToSend = srcNode.value / 2;
             Graph.instance.SendPhages(srcNode, tgtNode, amountToSend);
         }
@@ -98,7 +103,7 @@ namespace Moves {
             name = "Invest";
             this.investment = investment;
             description = $"Spend {investment} phages. Node remains inactive for {totalTurns} turns, then gain {amount} phages.";
-            validationChecks.Add(new AtLeast_MCV(3));
+            validationChecks.Add(new AtLeast_MVC(3));
         }
 
         public override void Execute(Node node) {
@@ -115,7 +120,7 @@ namespace Moves {
         }
     }
 
-    public class Blocking_MCV : MoveValidationCheck {
+    public class Blocking_MVC : MoveValidationCheck {
         public override (bool, string) Validate(Node node) {
             foreach (var nodeState in node.nodeStates) {
                 if (!nodeState.inactive && nodeState.blocking) {
@@ -126,15 +131,15 @@ namespace Moves {
         }
     }
 
-    public class GreaterThanDegree_MCV : MoveValidationCheck {
+    public class GreaterThanDegree_MVC : MoveValidationCheck {
         public override (bool, string) Validate(Node node) {
             return (node.value > node.neighbors.Count) ? (true, "") : (false, "This node must have more phages than edges.");
         }
     }
 
-    public class AtLeast_MCV : MoveValidationCheck {
+    public class AtLeast_MVC : MoveValidationCheck {
         int amount;
-        public AtLeast_MCV(int amount) {
+        public AtLeast_MVC(int amount) {
             this.amount = amount;
         }
 

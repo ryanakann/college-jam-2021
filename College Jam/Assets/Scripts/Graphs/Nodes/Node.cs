@@ -38,6 +38,10 @@ namespace Graphs {
                 if (owner >= 0) {
                     Player oldOwner = GameSettings.instance.players[owner];
                     oldOwner.nodes.Remove(this);
+                    if (oldOwner.nodes.Count <= 0) {
+                        TurnManager.instance.players.Remove(oldOwner);
+                        //update players remaining UI to alert that player is dead
+                    }
                 }
                 RemoveStates();
                 Player newOwner = GameSettings.instance.players[playerNum];

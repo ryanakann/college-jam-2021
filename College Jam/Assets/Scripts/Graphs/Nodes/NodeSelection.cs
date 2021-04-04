@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Graphs
-{
-    namespace Nodes
-    {
+namespace Graphs {
+    namespace Nodes {
         public delegate void NodeEvent(Node node);
 
-        public class NodeSelection : MonoBehaviour
-        {
-            public enum NodeState
-            {
+        public class NodeSelection : MonoBehaviour {
+            public enum NodeState {
                 Normal,
                 Hovering,
                 Pressed,
@@ -37,8 +33,7 @@ namespace Graphs
 
             public NodeEvent OnSelect;
 
-            void Awake()
-            {
+            void Awake() {
                 mouseState = NodeState.Normal;
                 fresnelAmount = 0f;
                 fresnelAmountLF = fresnelAmount;
@@ -49,28 +44,23 @@ namespace Graphs
                 // OnSelect = new UnityEvent<Node>();
             }
 
-            void Update()
-            {
+            void Update() {
                 if (MenuManager.instance.menuOpen) return;
 
                 fresnelAmount = Mathf.Clamp01(fresnelAmount + Time.deltaTime / fadeDuration * (mouseState == NodeState.Selected ? 1 : -1));
-                if (!Mathf.Approximately(fresnelAmountLF, fresnelAmount))
-                {
+                if (!Mathf.Approximately(fresnelAmountLF, fresnelAmount)) {
                     mat.SetColor("_FresnelColor", Color.Lerp(Color.black, Color.white, fresnelAmount));
                 }
 
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
+                if (Input.GetKeyDown(KeyCode.Escape)) {
                     SetState(NodeState.Normal);
                 }
             }
 
-            public void SetState(NodeState state)
-            {
+            public void SetState(NodeState state) {
                 if (MenuManager.instance.menuOpen) return;
                 mouseState = state;
-                switch (state)
-                {
+                switch (state) {
                     case NodeState.Normal:
                         mat.SetColor("_Highlight", normalColor);
                         mat.SetColor("_FresnelColor", Color.black);
@@ -84,8 +74,8 @@ namespace Graphs
                     case NodeState.Selected:
                         mat.SetColor("_Highlight", selectedColor);
                         mat.SetColor("_FresnelColor", Color.white);
-                        CameraPivot.instance?.SetTarget(transform);
-                        PlayerController.instance?.HandleClickNode(GetComponent<Node>());
+                        //CameraPivot.instance?.SetTarget(transform);
+                        //PlayerController.instance?.HandleClickNode(GetComponent<Node>());
                         break;
                     case NodeState.Highlighted:
                         mat.SetColor("_Highlight", selectedColor);
@@ -109,24 +99,19 @@ namespace Graphs
             }
             */
 
-            private void OnMouseEnter()
-            {
-                if (mouseState == NodeState.Normal)
-                {
+            private void OnMouseEnter() {
+                if (mouseState == NodeState.Normal) {
                     SetState(NodeState.Hovering);
                 }
             }
 
-            private void OnMouseExit()
-            {
-                if (mouseState == NodeState.Hovering || mouseState == NodeState.Pressed)
-                {
+            private void OnMouseExit() {
+                if (mouseState == NodeState.Hovering || mouseState == NodeState.Pressed) {
                     SetState(NodeState.Normal);
                 }
             }
 
-            private void OnMouseUpAsButton()
-            {
+            private void OnMouseUpAsButton() {
                 PlayerController.instance.HandleClickNode(GetComponent<Node>());
                 // SetState(NodeState.Selected);
             }

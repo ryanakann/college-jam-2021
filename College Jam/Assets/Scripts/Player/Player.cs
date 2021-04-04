@@ -40,6 +40,7 @@ public class Player {
             nodeStates[i].PreActivate();
         }
 
+        highlightActableNodes();
         PlayerController.instance.OnSelectNode += ValidateMoves; // we're specifically subscribing to this event
 
         //if (isHuman)
@@ -70,5 +71,14 @@ public class Player {
         }
 
         PlayerController.instance.OnSelectNode -= ValidateMoves;
+    }
+
+    public void highlightActableNodes() {
+        foreach (Node n in Graphs.Graph.instance.nodes) {
+            n.nodeSelection.SetState(NodeSelection.NodeState.Normal);
+        }
+        foreach (Node n in actableNodes) {
+            n.nodeSelection.SetState(NodeSelection.NodeState.Highlighted);
+        }
     }
 }

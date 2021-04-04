@@ -8,8 +8,7 @@ using TMPro;
 public delegate void TargetNodeEvent(Node srcNode, Node tgtNode);
 public delegate void GameEvent();
 
-public class PlayerController : MonoBehaviour
-{
+public class PlayerController : MonoBehaviour {
     public MoveContext context;
 
     public NodeEvent OnSelectNode; // clicking on a node which you own while you aren't in a context that expects you to click on a node
@@ -25,14 +24,10 @@ public class PlayerController : MonoBehaviour
     public string toolTipSelectText = "Select a move from the list.";
 
     public static PlayerController instance;
-    public void Awake()
-    {
-        if (!instance)
-        {
+    public void Awake() {
+        if (!instance) {
             instance = this;
-        }
-        else if (instance != this)
-        {
+        } else if (instance != this) {
             Destroy(gameObject);
             return;
         }
@@ -40,16 +35,14 @@ public class PlayerController : MonoBehaviour
         tooltip.text = defaultToolTip;
     }
 
-    public void Clear()
-    {
+    public void Clear() {
         if (context != null)
             context.Clear();
         context = null;
         tooltip.SetText(defaultToolTip);
     }
 
-    public void SetContext(MoveContext context)
-    {
+    public void SetContext(MoveContext context) {
         if (this.context != null)
             this.context.Clear();
         this.context = context;
@@ -57,34 +50,25 @@ public class PlayerController : MonoBehaviour
         tooltip.SetText(context.GetTooltip());
     }
 
-    public void HandleClickNode(Node node)
-    {
+    public void HandleClickNode(Node node) {
         OnClickNode?.Invoke(node);
-        if (context == null)
-        {
-            node.nodeSelection.SetState(NodeSelection.NodeState.Selected);
+        if (context == null) {
             CameraPivot.instance?.SetTarget(node.transform);
             node.nodeSelection.OnSelect?.Invoke(node);
             OnSelectNode?.Invoke(node);
 
-            if (TurnManager.instance.currentPlayer.Value.actableNodes.Contains(node))
-            {
+            if (TurnManager.instance.currentPlayer.Value.actableNodes.Contains(node)) {
                 tooltip.text = toolTipSelectText;
-            }
-            else
-            {
+            } else {
                 tooltip.text = defaultToolTip;
             }
 
-        }
-        else if (context.clearing)
-        {
+        } else if (context.clearing) {
             Clear();
         }
     }
 
-    public void HandleMoveNode(Node node)
-    {
+    public void HandleMoveNode(Node node) {
         TurnManager.instance.currentPlayer.Value.actableNodes.Remove(node);
     }
 }
