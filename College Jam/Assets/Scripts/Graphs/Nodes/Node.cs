@@ -35,11 +35,11 @@ namespace Graphs {
             }
 
             public virtual void SetOwner(int playerNum) {
-                if (owner >= 0)
-                {
+                if (owner >= 0) {
                     Player oldOwner = GameSettings.instance.players[owner];
                     oldOwner.nodes.Remove(this);
                 }
+                RemoveStates();
                 Player newOwner = GameSettings.instance.players[playerNum];
                 owner = playerNum;
                 Color color = newOwner.color;
@@ -79,6 +79,12 @@ namespace Graphs {
                 if (killState)
                     nodeState.inactive = true;
                 nodeStates.Remove(nodeState);
+            }
+
+            public void RemoveStates(bool killStates = true) {
+                foreach (NodeState nodeState in nodeStates) {
+                    RemoveState(nodeState, killStates);
+                }
             }
 
 
