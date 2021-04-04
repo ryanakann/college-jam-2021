@@ -56,8 +56,16 @@ namespace Graphs
                             actionButton.ActivateButton();
                             actionButton.button.onClick.AddListener(() =>
                                 {
-                                    move.Item1.Execute(GetComponent<Node>());
-                                    PlayerController.instance.HandleMoveNode(GetComponent<Node>());
+                                    if (PlayerController.instance.context != null)
+                                    {
+                                        PlayerController.instance.Clear();
+                                        PlayerController.instance.tooltip.text = PlayerController.instance.toolTipSelectText;
+                                    }
+                                    else
+                                    {
+                                        move.Item1.Execute(GetComponent<Node>());
+                                        PlayerController.instance.HandleMoveNode(GetComponent<Node>());
+                                    }
                                 }
                             );
                         }
