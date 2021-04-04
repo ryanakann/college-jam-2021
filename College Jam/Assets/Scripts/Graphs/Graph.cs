@@ -129,16 +129,18 @@ namespace Graphs {
 
         public IEnumerator SendPhage(Node start, Node finish, int id) {
             yield return new WaitForSeconds(UnityEngine.Random.Range(0f, 1.5f));
-            GameObject phageTarget = Instantiate(PhageTarget, start.transform.position, Quaternion.identity, transform);
-            phageTarget.name = $"Phage Target {id}";
-            phageTarget.GetComponent<TravelBetween>().from = start.transform;
-            phageTarget.GetComponent<TravelBetween>().to = finish.transform;
+            GameObject phageAnimTarget = Instantiate(PhageTarget, start.transform.position, Quaternion.identity, transform);
+            phageAnimTarget.name = $"Phage Target {id}";
+            phageAnimTarget.GetComponent<TravelBetween>().from = start.transform;
+            phageAnimTarget.GetComponent<TravelBetween>().to = finish.transform;
             GameObject phageObj = Instantiate(PhagePrefab, start.transform.position, Quaternion.identity, transform);
             phageObj.name = $"Phage {id}";
             ParticleSystem.MainModule mainModule = phageObj.GetComponent<ParticleSystem>().main;
             mainModule.startColor = GameSettings.instance.players[start.owner].color;
             phageObj.transform.position = start.transform.position + UnityEngine.Random.onUnitSphere * 0.2f;
-            phageObj.GetComponent<OrbitTarget>().target = phageTarget.transform;
+            phageObj.GetComponent<OrbitTarget>().target = phageAnimTarget.transform;
+            phageObj.GetComponent<CollideWithTarget>().owner = start.owner;
+            phageObj.GetComponent<CollideWithTarget>().target = finish;
         }
 
         public void ResetGraph() {

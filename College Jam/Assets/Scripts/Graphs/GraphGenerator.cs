@@ -160,29 +160,5 @@ namespace Graphs {
         protected virtual Vector3 SampleRandomPoint() {
             return new Vector3(Random.Range(-bounds.x, bounds.x), Random.Range(-bounds.y, bounds.y), Random.Range(-bounds.z, bounds.z));
         }
-
-        protected virtual void Update() {
-            //TODO: remove debug
-            if (Input.GetKeyDown(KeyCode.R)) {
-                ResetGraph();
-                Generate();
-            }
-            if (Input.GetKeyDown(KeyCode.Space)) {
-                graph.Iterate();
-            }
-            /*
-            if (Input.GetKeyDown(KeyCode.P)) {
-                foreach (var node in graph.nodes) {
-                    node.Propagate();
-                }
-            }
-            */
-            if (Input.GetKeyDown(KeyCode.S)) {
-                Node a = graph.nodes[Random.Range(0, graph.nodes.Count)];
-                Node b = graph.nodes[Random.Range(0, graph.nodes.Count)];
-                graph.SendPhages(a, b, 30);
-            }
-            //TODO: remove debug
-        }
     }
 }
