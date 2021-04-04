@@ -37,9 +37,8 @@ public class Player {
             }
             nodeStates[i].PreActivate();
         }
-        foreach (Node n in nodes) {
-            n.nodeSelection.OnSelect += ValidateMoves;
-        }
+
+        PlayerController.instance.OnSelectNode += ValidateMoves; // we're specifically subscribing to this event
 
         //if (isHuman)
         //    PlayerController.instance.OnSelectNode += ValidateMoves;
@@ -47,12 +46,6 @@ public class Player {
         //{
         //    // do AI stuff...
         //}
-    }
-
-    public virtual void Deactivate() {
-        foreach (var node in actableNodes) {
-            node.nodeSelection.OnSelect -= ValidateMoves;
-        }
     }
 
     public void ValidateMoves(Node node) {
@@ -73,5 +66,7 @@ public class Player {
             }
             nodeStates[i].PostActivate();
         }
+
+        PlayerController.instance.OnSelectNode -= ValidateMoves;
     }
 }

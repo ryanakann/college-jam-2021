@@ -45,7 +45,7 @@ namespace Graphs
                 base.PreActivate();
                 if (--turns <= 0)
                 {
-                    node.AddPhages(amount);
+                    node.SetValue(node.value + amount);
                     node.RemoveState(this);
                 }
             }

@@ -10,6 +10,11 @@ public class MoveContext
 
     }
 
+    public virtual void Initialize()
+    {
+
+    }
+
     public virtual string GetTooltip()
     {
         return "Click on a node to see move options.";
@@ -21,12 +26,20 @@ public class AdjacentSelectContext : MoveContext
 {
     Node srcNode;
     public TargetNodeEvent OnSelect;
+    List<Node> highlightedNodes;
 
     public AdjacentSelectContext(Node node)
     {
         srcNode = node;
         PlayerController.instance.OnClickNode += ValidateSelection;
         PlayerController.instance.OnCancel += Clear;
+    }
+
+    public override void Initialize()
+    {
+        base.Initialize();
+        foreach (Node n in srcNode.neighbors)
+            n.nodeSelection.SetState(NodeSelection.NodeState.Highlighted);
         // highlight valid nodes
     }
 
@@ -36,18 +49,19 @@ public class AdjacentSelectContext : MoveContext
         PlayerController.instance.OnClickNode -= ValidateSelection;
         PlayerController.instance.OnCancel -= Clear;
         // clear highlights
+        foreach (Node n in srcNode.neighbors)
+            n.nodeSelection.SetState(NodeSelection.NodeState.Normal);
     }
 
     void ValidateSelection(Node node)
     {
+        Debug.Log("VALIDATE CLICK");
         if (srcNode.neighbors.Contains(node))
         {
             OnSelect?.Invoke(srcNode, node);
         }
-        else
-        {
-            Clear();
-        }
+        if (PlayerController.instance.context == this)
+            PlayerController.instance.Clear();
     }
 
     public override string GetTooltip()

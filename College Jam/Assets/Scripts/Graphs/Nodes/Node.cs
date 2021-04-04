@@ -68,11 +68,6 @@ namespace Graphs
                 nodeStates.Remove(nodeState);
             }
 
-            public void AddPhages(int numPhages)
-            {
-
-            }
-
 
             /*
             public void NextTurn()

@@ -45,7 +45,8 @@ namespace Moves {
         public override void Execute(Node node) {
             base.Execute(node);
             foreach (var neighbor in node.neighbors) {
-                node.value--;
+                node.SetValue(node.value - 1);
+                
                 // neighbor.SendPhage(1, node.faction) // Phage Count, owned faction
             }
         }
@@ -67,7 +68,8 @@ namespace Moves {
         }
 
         public void FinalExecute(Node srcNode, Node tgtNode) {
-            srcNode.value /= 2;
+            Debug.Log("SPLIT");
+            srcNode.SetValue(srcNode.value / 2);
             // tgtNode.SendPhage((int)(srcNode.phageCount / 2), srcNode.faction)
         }
     }
@@ -76,7 +78,7 @@ namespace Moves {
         public Faction faction;
         public int totalTurns, amount;
 
-        public Fortify(Faction faction, int totalTurns = 2, int amount = 4) {
+        public Fortify(Faction faction, int totalTurns = 2, int amount = 4) : base() {
             name = "Fortify";
             this.faction = faction;
             this.totalTurns = totalTurns;
@@ -98,12 +100,13 @@ namespace Moves {
             name = "Invest";
             this.investment = investment;
             description = $"Spend {investment} phages. Node remains inactive for {totalTurns} turns, then gain {amount} phages.";
+            validationChecks.Add(new AtLeast_MCV(3));
         }
 
         public override void Execute(Node node) {
             base.Execute(node);
             // 
-            node.AddPhages(-investment);
+            node.SetValue(node.value - investment);
             node.AddState(new FortifyState(node, faction, totalTurns, amount, name: "Investing"));
         }
     }
