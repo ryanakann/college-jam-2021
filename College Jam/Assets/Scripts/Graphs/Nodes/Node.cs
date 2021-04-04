@@ -2,12 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Graphs
-{
-    namespace Nodes
-    {
-        public class Node : MonoBehaviour
-        {
+namespace Graphs {
+    namespace Nodes {
+        public class Node : MonoBehaviour {
             public int owner;
             public int value;
             public int fortifying;
@@ -20,8 +17,7 @@ namespace Graphs
             public NodePhysics nodePhysics;
             public NodeUI nodeUI;
 
-            private void Awake()
-            {
+            private void Awake() {
                 neighbors = new List<Node>();
                 nodeStates = new List<NodeState>();
                 value = 0;
@@ -29,40 +25,53 @@ namespace Graphs
                 movedThisTurn = false;
             }
 
-            public virtual void SetOwner(int playerNum)
-            {
-                owner = playerNum;
-                Color color = GameSettings.instance.players[playerNum].color;
-                print($"Setting player {owner} to color {color}");
-                nodeSelection.mat.SetColor("_Color", color);
+            public virtual void ReceivePhage(int phageOwner) {
+                if (owner == phageOwner) {
+                    IncrementValue();
+                } else {
+                    DecrementValue(phageOwner);
+                }
             }
 
-            public virtual void SetValue(int value)
-            {
+            public virtual void SetOwner(int playerNum) {
+                Player oldOwner = GameSettings.instance.players[owner];
+                oldOwner.nodes.Remove(this);
+                Player newOwner = GameSettings.instance.players[playerNum];
+                owner = playerNum;
+                Color color = newOwner.color;
+                print($"Setting player {owner} to color {color}");
+                nodeSelection.mat.SetColor("_Color", color);
+                newOwner.nodes.Add(this);
+            }
+
+            public virtual void SetValue(int value) {
                 this.value = value;
                 nodeUI.basicUI.SetText(value.ToString());
             }
 
-            public void IncrementValue()
-            {
+            public void IncrementValue() {
                 SetValue(value + 1);
             }
 
-            public void AddNeighbor (Node neighbor)
-            {
-                if (!neighbors.Contains(neighbor))
-                {
+            public void DecrementValue(int decrementingPlayerNum) {
+                SetValue(value - 1);
+                if (value <= 0) {
+                    SetOwner(decrementingPlayerNum);
+                    SetValue(1);
+                }
+            }
+
+            public void AddNeighbor(Node neighbor) {
+                if (!neighbors.Contains(neighbor)) {
                     neighbors.Add(neighbor);
                 }
             }
 
-            public void AddState(NodeState nodeState)
-            {
+            public void AddState(NodeState nodeState) {
 
             }
 
-            public void RemoveState(NodeState nodeState, bool killState = true)
-            {
+            public void RemoveState(NodeState nodeState, bool killState = true) {
                 if (killState)
                     nodeState.inactive = true;
                 nodeStates.Remove(nodeState);

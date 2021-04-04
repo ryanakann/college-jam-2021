@@ -15,11 +15,7 @@ public class CollideWithTarget : MonoBehaviour {
         Node n = other.gameObject.GetComponent<Node>();
         if (n && n == target) {
             print("BING BONG");
-            if (owner == n.owner) {
-                //join phages
-            } else {
-                //subtract phages
-            }
+            target.ReceivePhage(owner);
             //destroy animation target
             Destroy(GetComponent<OrbitTarget>().target.gameObject);
             //destroy self
