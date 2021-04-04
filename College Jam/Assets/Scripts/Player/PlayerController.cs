@@ -65,7 +65,18 @@ public class PlayerController : MonoBehaviour {
 
     public void UpdateToolTip(Node node)
     {
-        if (TurnManager.instance.currentPlayer.Value.actableNodes.Count == 0)
+        int count = 0; // sorry for this
+        foreach (Node n in TurnManager.instance.currentPlayer.Value.actableNodes) {
+            bool blocking = false;
+            foreach (NodeState state in n.nodeStates) {
+                if (state.blocking) {
+                    blocking = true;
+                    continue;
+                }
+            }
+            count += (blocking) ? 0 : 1;
+        }
+        if (count == 0)
         {
             instance.tooltip.text = "No active nodes remain.";
         }

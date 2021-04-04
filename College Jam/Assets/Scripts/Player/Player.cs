@@ -13,7 +13,7 @@ public class Player {
     public int nodeCount;
 
     public List<NodeState> nodeStates;
-    public List<Node> nodes;
+    public HashSet<Node> nodes;
     public List<Node> actableNodes;
 
 
@@ -25,7 +25,7 @@ public class Player {
         nodeCount = 0;
 
         nodeStates = new List<NodeState>();
-        nodes = new List<Node>();
+        nodes = new HashSet<Node>();
         actableNodes = new List<Node>();
     }
 
@@ -68,6 +68,11 @@ public class Player {
             nodeStates[i].PostActivate();
         }
 
+        foreach (var node in nodes)
+        {
+            node.IncrementValue();
+        }
+
         PlayerController.instance.OnSelectNode -= ValidateMoves;
     }
 
@@ -78,6 +83,9 @@ public class Player {
             n.nodeSelection.SetState(NodeSelection.NodeState.Normal);
         }
         foreach (Node n in actableNodes) {
+            foreach (NodeState state in n.nodeStates)
+                if (state.blocking)
+                    continue;
             n.nodeSelection.SetState(NodeSelection.NodeState.Highlighted);
         }
     }
