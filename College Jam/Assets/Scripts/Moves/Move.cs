@@ -89,7 +89,6 @@ namespace Moves {
         }
 
         public override void Execute(Node node) {
-            Debug.Log("FORTIFY");
             base.Execute(node);
             faction = TurnManager.instance.currentPlayer.Value.faction;
             node.AddState(new FortifyState(node, faction, totalTurns, amount));
@@ -107,7 +106,6 @@ namespace Moves {
         }
 
         public override void Execute(Node node) {
-            Debug.Log("INVEST");
             base.Execute(node);
             node.SetValue(node.value - investment);
             node.AddState(new FortifyState(node, faction, totalTurns, amount, name: "Investing"));

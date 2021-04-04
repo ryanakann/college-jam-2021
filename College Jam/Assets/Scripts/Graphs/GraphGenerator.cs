@@ -144,7 +144,7 @@ namespace Graphs {
             print($"Start Nodes: {startNodes.Count} - Start Points: {startPoints.Count} - Player Count: {playerCount}");
             for (int i = 0; i < playerCount; i++) {
                 startNodes[i].SetOwner(i);
-                startNodes[i].SetValue(1);
+                startNodes[i].SetValue(100);
                 GameSettings.instance.players[i].nodes.Add(startNodes[i]);
             }
         }

@@ -18,7 +18,11 @@ public class PlayerController : MonoBehaviour
 
     public TMP_Text tooltip;
 
-    string defaultToolTip = "Click on a highlighted node to select a move.", toolTipSelectText = "Select a move from the list.";
+    [HideInInspector]
+    public string defaultToolTip = "Click on a highlighted node to select a move.";
+
+    [HideInInspector]
+    public string toolTipSelectText = "Select a move from the list.";
 
     public static PlayerController instance;
     public void Awake()
@@ -58,9 +62,16 @@ public class PlayerController : MonoBehaviour
         OnClickNode?.Invoke(node);
         if (context == null)
         {
-            tooltip.text = toolTipSelectText;
+            
             if (TurnManager.instance.currentPlayer.Value.actableNodes.Contains(node))
+            {
                 OnSelectNode?.Invoke(node);
+                tooltip.text = toolTipSelectText;
+            }
+            else
+            {
+                tooltip.text = defaultToolTip;
+            }
             node.nodeSelection.OnSelect?.Invoke(node);
         }
     }
