@@ -99,7 +99,7 @@ public class TurnManager : MonoBehaviour {
             }
         }
 
-        turnText.SetText($"{currentPlayer.Value.colorName}'s turn");
+        turnText.SetText($"{currentPlayer.Value.colorName}'s turn ({currentPlayer.Value.faction.name})");
         currentPlayer.Value.Activate();
     }
 
