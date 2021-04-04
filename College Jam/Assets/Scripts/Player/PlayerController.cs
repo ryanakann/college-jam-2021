@@ -55,7 +55,6 @@ public class PlayerController : MonoBehaviour
 
     public void HandleClickNode(Node node)
     {
-        print("GOO GOOO");
         OnClickNode?.Invoke(node);
         if (context == null)
         {
@@ -64,5 +63,10 @@ public class PlayerController : MonoBehaviour
                 OnSelectNode?.Invoke(node);
             node.nodeSelection.OnSelect?.Invoke(node);
         }
+    }
+
+    public void HandleMoveNode(Node node)
+    {
+        TurnManager.instance.currentPlayer.Value.actableNodes.Remove(node);
     }
 }

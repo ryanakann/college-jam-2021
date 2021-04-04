@@ -57,6 +57,7 @@ namespace Graphs
                             actionButton.button.onClick.AddListener(() =>
                                 {
                                     move.Item1.Execute(GetComponent<Node>());
+                                    PlayerController.instance.HandleMoveNode(GetComponent<Node>());
                                 }
                             );
                         }
