@@ -20,6 +20,9 @@ public class CollideWithTarget : MonoBehaviour {
             } else {
                 //subtract phages
             }
+            //destroy animation target
+            Destroy(GetComponent<OrbitTarget>().target.gameObject);
+            //destroy self
             Destroy(gameObject);
         }
     }
