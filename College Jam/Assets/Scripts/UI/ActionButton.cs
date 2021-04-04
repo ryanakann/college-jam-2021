@@ -18,6 +18,7 @@ public class ActionButton : MonoBehaviour
     public void SetErrorDescription(string description)
     {
         errorDescription.SetText(description);
+        ActivateDescription(); // sorry
     }
 
     public void ActivateButton()
