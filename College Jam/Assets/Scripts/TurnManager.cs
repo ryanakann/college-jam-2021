@@ -141,7 +141,8 @@ public class TurnManager : MonoBehaviour {
     }
 
     public void EndGame(Player winner) {
-        print($"{winner.color} wins!");
+        WinMenu.instance.gameObject.SetActive(true);
+        WinMenu.instance.Win(winner.colorName);
     }
 
     public void UnlockActions() {
@@ -150,5 +151,13 @@ public class TurnManager : MonoBehaviour {
 
     public void LockActions() {
         locked = false;
+    }
+
+    private void OnGUI()
+    {
+        if (GUI.Button(new Rect(0f, 0f, 120f, 30f), "Current player win"))
+        {
+            EndGame(currentPlayer.Value);
+        }
     }
 }
