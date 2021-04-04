@@ -3,7 +3,6 @@
 -remove nodes from ActableNodes after they act
 -bring tutorial up to date
 -remove node states on capture
--end turn button
 -highlights for actable nodes
 -UI should not appear unless node is actable
 -TurnOver context/tooltip
