@@ -95,9 +95,9 @@ MonoBehaviour:
   m_fontSize: 20
   m_fontSizeBase: 20
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 1
+  m_fontSizeMax: 20
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -406,9 +406,6 @@ MonoBehaviour:
   colorMultiplier: 1
   fadeDuration: 0.1
   fresnelAmount: 0
-  OnSelect:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &-7998086542745889056
 MonoBehaviour:
   m_ObjectHideFlags: 0
