@@ -99,6 +99,7 @@ namespace Graphs
                 }
             }
 
+            /*
             private void OnMouseDown()
             {
                 if (mouseState == NodeState.Hovering)
@@ -106,6 +107,7 @@ namespace Graphs
                     SetState(NodeState.Pressed);
                 }
             }
+            */
 
             private void OnMouseEnter()
             {
@@ -125,7 +127,8 @@ namespace Graphs
 
             private void OnMouseUpAsButton()
             {
-                SetState(NodeState.Selected);
+                PlayerController.instance.HandleClickNode(GetComponent<Node>());
+                // SetState(NodeState.Selected);
             }
         }
     }
