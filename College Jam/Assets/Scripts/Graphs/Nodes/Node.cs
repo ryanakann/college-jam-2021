@@ -65,7 +65,11 @@ namespace Graphs {
                 SetValue(value - 1);
                 if (value <= 0) {
                     SetOwner(decrementingPlayerNum);
-                    SetValue(1);
+                    if (value < 0) {
+                        SetValue(1);
+                    } else {
+                        SetValue(0);
+                    }
                 }
             }
 
