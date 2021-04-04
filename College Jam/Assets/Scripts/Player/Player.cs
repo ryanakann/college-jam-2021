@@ -74,6 +74,7 @@ public class Player {
     public void highlightActableNodes() {
 
         foreach (Node n in Graphs.Graph.instance.nodes) {
+            n.nodeUI.SetDetailVisibility(false);
             n.nodeSelection.SetState(NodeSelection.NodeState.Normal);
         }
         foreach (Node n in actableNodes) {
