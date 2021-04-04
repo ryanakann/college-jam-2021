@@ -7,14 +7,17 @@ using Graphs.Nodes;
 
 namespace Graphs {
     public class Graph : MonoBehaviour {
+        public static Graph instance;
+
         public Node activeNode;
         public List<Node> nodes;
         public Dictionary<Node, List<Node>> edges;
 
-        public GameObject phagePrefab;
+        public GameObject PhagePrefab;
         public GameObject PhageTarget;
 
         void Awake() {
+            instance = this;
             nodes = new List<Node>();
             edges = new Dictionary<Node, List<Node>>();
         }
@@ -130,7 +133,7 @@ namespace Graphs {
             phageTarget.name = $"Phage Target {id}";
             phageTarget.GetComponent<TravelBetween>().from = start.transform;
             phageTarget.GetComponent<TravelBetween>().to = finish.transform;
-            GameObject phageObj = Instantiate(phagePrefab, start.transform.position, Quaternion.identity, transform);
+            GameObject phageObj = Instantiate(PhagePrefab, start.transform.position, Quaternion.identity, transform);
             phageObj.name = $"Phage {id}";
             ParticleSystem.MainModule mainModule = phageObj.GetComponent<ParticleSystem>().main;
             mainModule.startColor = GameSettings.instance.players[start.owner].color;

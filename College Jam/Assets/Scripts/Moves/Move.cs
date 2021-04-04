@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Graphs.Nodes;
+using Graphs;
 
 namespace Moves {
     [System.Serializable]
@@ -45,9 +46,10 @@ namespace Moves {
         public override void Execute(Node node) {
             base.Execute(node);
             foreach (var neighbor in node.neighbors) {
-                node.SetValue(node.value - 1);
-                
-                // neighbor.SendPhage(1, node.faction) // Phage Count, owned faction
+                Debug.Log("PROPAGATE");
+                node.SetValue(node.value - 1);//TODO: move this functionality into SendPhages
+
+                Graph.instance.SendPhages(node, neighbor, 1);
             }
         }
     }
@@ -69,8 +71,9 @@ namespace Moves {
 
         public void FinalExecute(Node srcNode, Node tgtNode) {
             Debug.Log("SPLIT");
-            srcNode.SetValue(srcNode.value / 2);
-            // tgtNode.SendPhage((int)(srcNode.phageCount / 2), srcNode.faction)
+            int amountToSend = srcNode.value / 2;
+            srcNode.SetValue(srcNode.value - amountToSend);//TODO: move this functionality into SendPhages
+            Graph.instance.SendPhages(srcNode, tgtNode, amountToSend);
         }
     }
 
@@ -86,6 +89,7 @@ namespace Moves {
         }
 
         public override void Execute(Node node) {
+            Debug.Log("FORTIFY");
             base.Execute(node);
             faction = TurnManager.instance.currentPlayer.Value.faction;
             node.AddState(new FortifyState(node, faction, totalTurns, amount));
@@ -103,6 +107,7 @@ namespace Moves {
         }
 
         public override void Execute(Node node) {
+            Debug.Log("INVEST");
             base.Execute(node);
             node.SetValue(node.value - investment);
             node.AddState(new FortifyState(node, faction, totalTurns, amount, name: "Investing"));
