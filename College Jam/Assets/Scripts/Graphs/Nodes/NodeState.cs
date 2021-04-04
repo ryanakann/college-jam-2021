@@ -15,6 +15,7 @@ namespace Graphs
             public NodeState(Node node, string name = "Idle")
             {
                 this.node = node;
+                this.name = name;
             }
 
             public virtual void PreActivate()

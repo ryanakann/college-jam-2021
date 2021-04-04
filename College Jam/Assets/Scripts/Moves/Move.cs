@@ -92,7 +92,9 @@ namespace Moves {
         public override void Execute(Node node) {
             base.Execute(node);
             faction = TurnManager.instance.currentPlayer.Value.faction;
-            node.AddState(new FortifyState(node, faction, totalTurns, amount));
+            var state = new FortifyState(node, faction, totalTurns, amount);
+            TurnManager.instance.currentPlayer.Value.nodeStates.Add(state);
+            node.AddState(state);
         }
     }
 
@@ -124,7 +126,7 @@ namespace Moves {
         public override (bool, string) Validate(Node node) {
             foreach (var nodeState in node.nodeStates) {
                 if (!nodeState.inactive && nodeState.blocking) {
-                    return (false, $"Node is blocked by action: {nodeState.name}");
+                    return (false, $"Node is blocked by state: {nodeState.name}");
                 }
             }
             return (true, "");

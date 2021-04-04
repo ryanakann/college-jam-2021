@@ -80,7 +80,7 @@ namespace Graphs {
             }
 
             public void AddState(NodeState nodeState) {
-
+                nodeStates.Add(nodeState); // maybe do some validation n stuff
             }
 
             public void RemoveState(NodeState nodeState, bool killState = true) {
