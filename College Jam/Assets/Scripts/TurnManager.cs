@@ -111,19 +111,23 @@ public class TurnManager : MonoBehaviour {
     }
 
     public void NextPlayer(bool start = false) {
-        if (!start)
-            currentPlayer.Value.EndTurn();
-
         if (players.Count <= 1)
             print("GAME OVER"); // signal that the game is over... this should be an error!
 
+        if (!start)
+        {
+            currentPlayer.Value.EndTurn();
 
-        if (currentPlayer.Next == null) {
-            currentPlayer = players.First;
-            currentTurn++;
-            // update turn counters and stuff
-        } else {
-            currentPlayer = currentPlayer.Next;
+            if (currentPlayer.Next == null)
+            {
+                currentPlayer = players.First;
+                currentTurn++;
+                // update turn counters and stuff
+            }
+            else
+            {
+                currentPlayer = currentPlayer.Next;
+            }
         }
 
         currentPlayer.Value.Activate();
