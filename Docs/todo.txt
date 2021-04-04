@@ -1,0 +1,16 @@
+-lock turn until action is done animating
+-remove nodes from ActableNodes after they act
+-bring tutorial up to date
+-remove node states on capture
+-end turn button
+-highlights for actable nodes
+-UI should not appear unless node is actable
+-stop skipping first turn
+-detect when propagate can't happen
+
+-handle edge cases with cancelling moves
+    -split, then hit another move while in split context
+
+-game win screen
+
+-if possible, select color by color and not text

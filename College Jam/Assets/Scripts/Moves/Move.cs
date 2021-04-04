@@ -21,7 +21,7 @@ namespace Moves {
             bool result = true;
             foreach (var check in validationChecks) {
                 (bool subResult, string subMsg) = check.Validate(node);
-                if (!result) {
+                if (!subResult) {
                     result = false;
                     msg += $"{subMsg}\n";
                 }
