@@ -7,6 +7,7 @@ using Moves;
 [System.Serializable]
 public class Player {
     public Faction faction;
+    public string colorName;
     public Color color;
     public bool isHuman;
     public int nodeCount;
@@ -16,9 +17,10 @@ public class Player {
     public List<Node> actableNodes;
 
 
-    public Player(Faction faction, Color color, bool isHuman) {
+    public Player(Faction faction, NamedColor namedColor, bool isHuman) {
         this.faction = faction;
-        this.color = color;
+        this.colorName = namedColor.name;
+        this.color = namedColor.color;
         this.isHuman = isHuman;
         nodeCount = 0;
 

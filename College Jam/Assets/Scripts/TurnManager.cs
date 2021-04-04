@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Graphs.Nodes;
 using Graphs;
+using TMPro;
+
 //public class Faction {
 //    List<ScriptableObject> moves; //things this faction can do in a turn
 //    //TODO: List<Move> moveSet;
@@ -55,6 +57,9 @@ public class TurnManager : MonoBehaviour {
 
     public static TurnManager instance;
 
+    public bool locked;
+    public TMP_Text turnText;
+
     public void Awake() {
         if (!instance) {
             instance = this;
@@ -72,6 +77,7 @@ public class TurnManager : MonoBehaviour {
 
 
     public void StartGame() {
+        locked = false;
         SyncPlayers();
         graphGenerator.Generate();
         currentPlayer = players.First;
@@ -126,6 +132,7 @@ public class TurnManager : MonoBehaviour {
             currentPlayer = currentPlayer.Next;
         }
 
+        turnText.SetText($"{currentPlayer.Value.colorName}'s turn");
         currentPlayer.Value.Activate();
     }
 
@@ -134,10 +141,10 @@ public class TurnManager : MonoBehaviour {
     }
 
     public void UnlockActions() {
-
+        locked = true;
     }
 
     public void LockActions() {
-
+        locked = false;
     }
 }

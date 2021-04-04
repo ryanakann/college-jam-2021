@@ -55,9 +55,9 @@ public class PlayerUIList : MonoBehaviour
         {
             PanelPlayer panelPlayer = playerObj.GetComponent<PanelPlayer>();
             Faction faction = Faction.factionList[panelPlayer.factionIndex];
-            Color color = GameSettings.instance.colors[panelPlayer.colorIndex].color;
+            NamedColor namedColor = GameSettings.instance.colors[panelPlayer.colorIndex];
             bool isHuman = panelPlayer.typeDropdown.value == 0 ? true : false;
-            Player player = new Player(faction, color, isHuman);
+            Player player = new Player(faction, namedColor, isHuman);
             players.Add(player);
         }
         GameSettings.instance.players = players;

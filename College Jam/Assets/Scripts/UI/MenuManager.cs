@@ -44,7 +44,7 @@ public class MenuManager : MonoBehaviour
 
     private void Update()
     {
-        if (enableEscape && !transitioning && Input.GetKeyDown(KeyCode.Escape))
+        if (enableEscape && PlayerController.instance.context == null && !transitioning && Input.GetKeyDown(KeyCode.Escape))
         {
             if (menuOpen)
             {
