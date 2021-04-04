@@ -1,5 +1,4 @@
 bugs
--taking over a node while it's being fortified causes an exception
 -bring tutorial up to date
 
 polish
@@ -8,7 +7,7 @@ polish
 -Plexus shader
 
 balance
-
+-propagate is really weak
 
 stretch goals
 -more moves
