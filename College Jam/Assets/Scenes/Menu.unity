@@ -3656,7 +3656,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sizes:
   - label: Small
-    nodeCount: 3
+    nodeCount: 8
   - label: Medium
     nodeCount: 16
   - label: Large

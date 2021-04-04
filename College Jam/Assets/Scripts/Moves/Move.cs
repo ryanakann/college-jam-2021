@@ -29,8 +29,7 @@ namespace Moves {
             return (result) ? (result, description) : (result, msg);
         }
 
-        public virtual void Finish(Node node)
-        {
+        public virtual void Finish(Node node) {
             Player currentPlayer = TurnManager.instance.currentPlayer.Value;
             //remove node from player's actableNodes
             currentPlayer.actableNodes.Remove(node);
@@ -80,6 +79,9 @@ namespace Moves {
         public void FinalExecute(Node srcNode, Node tgtNode) {
             base.Execute(srcNode);
             int amountToSend = srcNode.value / 2;
+            if (srcNode.value % 2 == 1) {//if odd, go above half
+                amountToSend++;
+            }
             Graph.instance.SendPhages(srcNode, tgtNode, amountToSend);
         }
     }
