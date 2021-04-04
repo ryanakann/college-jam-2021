@@ -1,3 +1,16 @@
+bugs
+-taking over a node while it's being fortified causes an exception
 -bring tutorial up to date
 
--if possible, select color by color and not text
+polish
+-select color by color and not text
+-sound effects
+-Plexus shader
+
+balance
+
+
+stretch goals
+-more moves
+-Node states could be indicated somehow
+-AI
