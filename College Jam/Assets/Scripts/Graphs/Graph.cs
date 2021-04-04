@@ -25,7 +25,8 @@ namespace Graphs {
         public void AddNode(Node node) {
             if (!nodes.Contains(node)) {
                 nodes.Add(node);
-                node.nodeSelection.OnSelect += SetNodeActive;
+                if (node.nodeSelection)
+                    node.nodeSelection.OnSelect += SetNodeActive;
             }
         }
 

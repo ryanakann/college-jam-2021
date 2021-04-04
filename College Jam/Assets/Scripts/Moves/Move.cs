@@ -29,8 +29,8 @@ namespace Moves {
             return (result) ? (result, description) : (result, msg);
         }
 
-        // execute this move from this node.
-        public virtual void Execute(Node node) {
+        public virtual void Finish(Node node)
+        {
             Player currentPlayer = TurnManager.instance.currentPlayer.Value;
             //remove node from player's actableNodes
             currentPlayer.actableNodes.Remove(node);
@@ -38,6 +38,11 @@ namespace Moves {
             node.nodeUI.SetDetailVisibility(false);
             //update node highlights
             currentPlayer.highlightActableNodes();
+        }
+
+        // execute this move from this node.
+        public virtual void Execute(Node node) {
+            Finish(node);
         }
     }
 
@@ -109,7 +114,7 @@ namespace Moves {
         }
 
         public override void Execute(Node node) {
-            base.Execute(node);
+            Finish(node);
             node.SetValue(node.value - investment);
             node.AddState(new FortifyState(node, faction, totalTurns, amount, name: "Investing"));
         }

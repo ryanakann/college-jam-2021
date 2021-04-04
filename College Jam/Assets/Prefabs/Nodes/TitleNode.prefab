@@ -249,9 +249,7 @@ GameObject:
   - component: {fileID: -3941482243430063526}
   - component: {fileID: 359930088819778244}
   - component: {fileID: 2020540673200374419}
-  - component: {fileID: -2430865339950803763}
   - component: {fileID: -7998086542745889056}
-  - component: {fileID: 5335017279724630125}
   m_Layer: 0
   m_Name: TitleNode
   m_TagString: Untagged
@@ -382,9 +380,9 @@ MonoBehaviour:
   fortifying: 0
   movedThisTurn: 0
   neighbors: []
-  nodeSelection: {fileID: -2430865339950803763}
+  nodeSelection: {fileID: 0}
   nodePhysics: {fileID: -7998086542745889056}
-  nodeUI: {fileID: 5335017279724630125}
+  nodeUI: {fileID: 0}
   introTime: 1
   tweenCurve:
     serializedVersion: 2
@@ -410,27 +408,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &-2430865339950803763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2100136317679725383}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a156e9973e26eb04e93f7fd7da5b6385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mat: {fileID: 0}
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  highlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-  pressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-  selectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-  disabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-  colorMultiplier: 1
-  fadeDuration: 0.187
-  fresnelAmount: 0
 --- !u!114 &-7998086542745889056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,23 +422,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetDistance: 10
   forceMultiplier: 0.1
---- !u!114 &5335017279724630125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2100136317679725383}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47d158e66bca0fb4ea62494dac604df5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeSelection: {fileID: -2430865339950803763}
-  basicUI: {fileID: 0}
-  detailedUI: {fileID: 4323436021230382249}
-  phagePrefab: {fileID: 0}
-  actionButtonPrefab: {fileID: 0}
 --- !u!1 &2412399738743553039
 GameObject:
   m_ObjectHideFlags: 0
