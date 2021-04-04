@@ -130,6 +130,8 @@ namespace Graphs {
         public IEnumerator SendPhage(Node start, Node finish, int id) {
             yield return new WaitForSeconds(UnityEngine.Random.Range(0f, 1.5f));
 
+            start.SetValue(start.value - 1);
+
             //give phage the right info
             GameObject phageObj = Instantiate(PhagePrefab, start.transform.position, Quaternion.identity, transform);
             phageObj.name = $"Phage {id}";

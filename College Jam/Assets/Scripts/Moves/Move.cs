@@ -45,10 +45,8 @@ namespace Moves {
 
         public override void Execute(Node node) {
             base.Execute(node);
+            Debug.Log("PROPAGATE");
             foreach (var neighbor in node.neighbors) {
-                Debug.Log("PROPAGATE");
-                node.SetValue(node.value - 1);//TODO: move this functionality into SendPhages
-
                 Graph.instance.SendPhages(node, neighbor, 1);
             }
         }
@@ -72,7 +70,6 @@ namespace Moves {
         public void FinalExecute(Node srcNode, Node tgtNode) {
             Debug.Log("SPLIT");
             int amountToSend = srcNode.value / 2;
-            srcNode.SetValue(srcNode.value - amountToSend);//TODO: move this functionality into SendPhages
             Graph.instance.SendPhages(srcNode, tgtNode, amountToSend);
         }
     }
