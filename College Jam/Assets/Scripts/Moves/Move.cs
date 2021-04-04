@@ -63,7 +63,19 @@ namespace Moves {
         }
     }
 
-    public class Split : Move {
+    public class TargetedMove : Move {
+        public TargetedMove() : base() {
+        }
+        public override void Execute(Node node) {
+            PlayerController.instance.SetContext(new AdjacentSelectContext(node));
+            ((AdjacentSelectContext)PlayerController.instance.context).OnSelect += FinalExecute;
+        }
+        public virtual void FinalExecute(Node srcNode, Node tgtNode) {
+            base.Execute(srcNode);
+        }
+    }
+
+    public class Split : TargetedMove {
 
         public Split() : base() {
             name = "Split";
@@ -71,13 +83,8 @@ namespace Moves {
             description = "Send half of the source node's phages to a target neighboring node.";
         }
 
-        public override void Execute(Node node) {
-            PlayerController.instance.SetContext(new AdjacentSelectContext(node));
-            ((AdjacentSelectContext)PlayerController.instance.context).OnSelect += FinalExecute;
-        }
-
-        public void FinalExecute(Node srcNode, Node tgtNode) {
-            base.Execute(srcNode);
+        public override void FinalExecute(Node srcNode, Node tgtNode) {
+            base.FinalExecute(srcNode, tgtNode);
             int amountToSend = srcNode.value / 2;
             if (srcNode.value % 2 == 1) {//if odd, go above half
                 amountToSend++;
@@ -85,6 +92,10 @@ namespace Moves {
             Graph.instance.SendPhages(srcNode, tgtNode, amountToSend);
         }
     }
+
+    //public class Leech : TargetedMove {
+
+    //}
 
     public class Fortify : Move {
         public Faction faction;
