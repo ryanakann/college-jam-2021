@@ -156,12 +156,6 @@ namespace Graphs {
             edges.Clear();
         }
 
-        public void Iterate() {
-            //foreach (var node in nodes) {
-            //    node.NextTurn();
-            // }
-        }
-
         public Vector3 Center() {
             Vector3 center = Vector3.zero;
             foreach (Node node in nodes) {
