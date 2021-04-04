@@ -9,6 +9,7 @@ namespace Moves
     public class Move
     {
         public List<MoveValidationCheck> validationChecks;
+        public string name;
         public string description;
 
         public Move()
@@ -65,6 +66,7 @@ namespace Moves
 
         public Split() : base()
         {
+            name = "Split";
             validationChecks.Add(new AtLeast_MCV(2));
             description = "Send half of the source node's phages to a target neighboring node.";
         }
@@ -91,10 +93,11 @@ namespace Moves
 
         public Fortify(Faction faction, int totalTurns = 2, int amount = 4)
         {
+            name = "Fortify";
             this.faction = faction;
             this.totalTurns = totalTurns;
             this.amount = amount;
-            description = "Node stays inactive for 2 turns, then gains 4 phages.";
+            description = $"Node stays inactive for {totalTurns} turns, then gains {amount} phages.";
         }
 
         public override void Execute(Node node)
@@ -111,8 +114,9 @@ namespace Moves
 
         public Invest(Faction faction, int totalTurns=3, int amount=6, int investment=3) : base(faction, totalTurns, amount)
         {
+            name = "Invest";
             this.investment = investment;
-            description = "Spend 3 phages, then node remains inactive for 3 turns, then gain 6 phages.";
+            description = $"Spend {investment} phages. Node remains inactive for {totalTurns} turns, then gain {amount} phages.";
         }
 
         public override void Execute(Node node)

@@ -4,7 +4,7 @@ using UnityEngine;
 using Graphs.Nodes;
 using TMPro;
 
-public delegate void NodeEvent(Node node);
+
 public delegate void TargetNodeEvent(Node srcNode, Node tgtNode);
 public delegate void GameEvent();
 

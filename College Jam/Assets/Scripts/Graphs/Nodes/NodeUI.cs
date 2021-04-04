@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Moves;
 
 namespace Graphs
 {
@@ -14,6 +15,7 @@ namespace Graphs
             public TMP_Text basicUI;
             public GameObject detailedUI;
             public GameObject phagePrefab;
+            public GameObject actionButtonPrefab;
 
             private void Start()
             {
@@ -22,7 +24,49 @@ namespace Graphs
 
             public void SetDetailVisibility(bool visibile)
             {
+                //if (visibile == true)
+                //{
+                //    Faction faction = TurnManager.instance.currentPlayer.Value.faction;
+                //    action1.transform.GetChild(0).GetComponent<TMP_Text>().SetText(faction.moveSet[0].name);
+                //    action1.onClick.RemoveAllListeners();
+
+                //    action2.transform.GetChild(0).GetComponent<TMP_Text>().SetText(faction.moveSet[1].name);
+                //    action2.onClick.RemoveAllListeners();
+
+                //    action3.transform.GetChild(0).GetComponent<TMP_Text>().SetText(faction.moveSet[2].name);
+                //    action3.onClick.RemoveAllListeners();
+                //}
                 detailedUI.SetActive(visibile);
+            }
+
+            public void PopulateUI(List<(Move, bool, string)> moves)
+            {
+                foreach (Transform child in detailedUI.transform.GetChild(0).GetChild(0))
+                {
+                    Destroy(child.gameObject);
+                }
+
+                moves.ForEach(move =>
+                    {
+                        GameObject buttonObj = Instantiate(actionButtonPrefab, detailedUI.transform.GetChild(0).GetChild(0));
+                        ActionButton actionButton = buttonObj.GetComponent<ActionButton>();
+                        actionButton.SetActionName(move.Item1.name);
+                        if (move.Item2)
+                        {
+                            actionButton.ActivateButton();
+                            actionButton.button.onClick.AddListener(() =>
+                                {
+                                    move.Item1.Execute(GetComponent<Node>());
+                                }
+                            );
+                        }
+                        else
+                        {
+                            actionButton.DeactivateButton();
+                        }
+                        actionButton.SetErrorDescription(move.Item3);
+                    }
+                );
             }
 
             public void SendPhages(Node node, int quantity)
@@ -41,7 +85,7 @@ namespace Graphs
             
             public void ToggleVisibility()
             {
-                detailedUI.SetActive(!detailedUI.activeSelf);
+                SetDetailVisibility(!detailedUI.activeSelf);
             }
         }
     }

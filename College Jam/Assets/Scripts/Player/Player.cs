@@ -23,6 +23,10 @@ public class Player
         this.color = color;
         this.isHuman = isHuman;
         nodeCount = 0;
+
+        nodeStates = new List<NodeState>();
+        nodes = new List<Node>();
+        actableNodes = new List<Node>();
     }
 
     public virtual void Activate()
@@ -37,23 +41,37 @@ public class Player
                 continue;
             }
             nodeStates[i].PreActivate();
+            actableNodes[i].nodeSelection.OnSelect += ValidateMoves;
         }
 
-        if (isHuman)
-            PlayerController.instance.OnSelectNode += ValidateMoves;
-        else
+
+
+        //if (isHuman)
+        //    PlayerController.instance.OnSelectNode += ValidateMoves;
+        //else
+        //{
+        //    // do AI stuff...
+        //}
+    }
+
+    public virtual void Deactivate()
+    {
+        foreach (var node in actableNodes)
         {
-            // do AI stuff...
+            node.nodeSelection.OnSelect -= ValidateMoves;
         }
     }
 
     public void ValidateMoves(Node node)
     {
-        Dictionary<Move, (bool, string)> validMoves = new Dictionary<Move, (bool, string)>();
+        List<(Move, bool, string)> validMoves = new List<(Move, bool, string)> ();
         foreach (Move move in faction.moveSet)
-            validMoves[move] = move.Validate(node);
+        {
+            (bool allowed, string description) = move.Validate(node);
+            validMoves.Add((move, allowed, description));
+        }
 
-        // populate Node selection ui with validated (and invalidated) moves
+        node.nodeUI.PopulateUI(validMoves);
     }
 
     public void EndTurn()

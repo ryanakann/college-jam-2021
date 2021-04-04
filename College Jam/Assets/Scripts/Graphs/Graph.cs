@@ -22,7 +22,7 @@ namespace Graphs {
         public void AddNode(Node node) {
             if (!nodes.Contains(node)) {
                 nodes.Add(node);
-                node.nodeSelection.OnSelect?.AddListener(SetNodeActive);
+                node.nodeSelection.OnSelect += SetNodeActive;
             }
         }
 
@@ -47,8 +47,7 @@ namespace Graphs {
         public void SetNodeActive(Node node) {
             activeNode?.nodeSelection.SetState(NodeSelection.NodeState.Normal);
             activeNode = node;
-
-            if (activeNode.owner == 1) {
+            if (GameSettings.instance.players[activeNode.owner] == TurnManager.instance.currentPlayer.Value) {
                 activeNode.nodeUI.SetDetailVisibility(true);
             }
             CameraPivot.instance?.SetTarget(node.transform);

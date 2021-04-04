@@ -59,11 +59,16 @@ public class TurnManager : MonoBehaviour {
             Destroy(gameObject);
             return;
         }
+
+        StartGame();
     }
 
     public void SyncPlayers()
     {
+        print(GameSettings.instance.players.Count);
         players = new LinkedList<Player>(GameSettings.instance.players);
+        print(players.Count);
+        print(players.First.Value);
     }
 
 
@@ -101,18 +106,10 @@ public class TurnManager : MonoBehaviour {
 
         List<Player> winningPlayers = CheckGraphDomination();
 
-        switch (winningPlayers.Count) {
-            case 0:
-                // No one wins!
-                break;
-            case 1:
-                // winningPlayers[0] wins!
-                break;
-            default:
-                // winningPlayers win!
-                break;
+        if (winningPlayers.Count == 1)
+        {
+            EndGame(winningPlayers[0]);
         }
-
         // might add faction-specific victories!
     }
 
@@ -124,13 +121,32 @@ public class TurnManager : MonoBehaviour {
             print("GAME OVER"); // signal that the game is over... this should be an error!
 
 
-        if (currentPlayer.Next == null) {
+        if (currentPlayer.Next == null) 
+        {
             currentPlayer = players.First;
             currentTurn++;
             // update turn counters and stuff
-        } else
+        } 
+        else
+        {
             currentPlayer = currentPlayer.Next;
+        }
 
         currentPlayer.Value.Activate();
+    }
+
+    public void EndGame(Player winner)
+    {
+        print($"{winner.color} wins!");
+    }
+
+    public void UnlockActions()
+    {
+
+    }
+
+    public void LockActions()
+    {
+
     }
 }

@@ -7,6 +7,8 @@ namespace Graphs
 {
     namespace Nodes
     {
+        public delegate void NodeEvent(Node node);
+
         public class NodeSelection : MonoBehaviour
         {
             public enum NodeState
@@ -33,7 +35,7 @@ namespace Graphs
             [SerializeField] private float fresnelAmount;
             private float fresnelAmountLF;
 
-            public UnityEvent<Node> OnSelect;
+            public NodeEvent OnSelect;
 
             void Awake()
             {
@@ -66,7 +68,6 @@ namespace Graphs
             public void SetState(NodeState state)
             {
                 if (MenuManager.instance.menuOpen) return;
-
                 mouseState = state;
                 switch (state)
                 {

@@ -159,6 +159,7 @@ namespace Graphs {
             {
                 startNodes[i].SetOwner(i);
                 startNodes[i].SetValue(1);
+                GameSettings.instance.players[i].nodes.Add(startNodes[i]);
             }
         }
 
