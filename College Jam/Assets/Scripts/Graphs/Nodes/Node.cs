@@ -41,6 +41,7 @@ namespace Graphs {
                     if (oldOwner.nodes.Count <= 0) {
                         TurnManager.instance.players.Remove(oldOwner);
                         //update players remaining UI to alert that player is dead
+                        NotificationMenu.instance?.AddToQueue($"{oldOwner} has been eliminated!");
                     }
                 }
                 RemoveStates();

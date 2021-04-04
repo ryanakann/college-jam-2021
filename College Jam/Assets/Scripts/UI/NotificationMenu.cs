@@ -5,6 +5,7 @@ using TMPro;
 
 public class NotificationMenu : MonoBehaviour
 {
+    public static NotificationMenu instance;
     public AnimationCurve tween;
     public float tweenDuration = 2f;
     public TMP_Text textArea;
@@ -13,10 +14,12 @@ public class NotificationMenu : MonoBehaviour
     private RectTransform rectTransform;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        instance = this;
         notificationQueue = new Queue<string>();
         rectTransform = textArea.GetComponent<RectTransform>();
+        textArea.SetText("");
     }
 
     public void AddToQueue(string message)
@@ -31,8 +34,8 @@ public class NotificationMenu : MonoBehaviour
 
     IEnumerator Animate()
     {
-        Vector2 min = new Vector2(-Screen.width, 0f);
-        Vector2 max = new Vector2(2 * Screen.width, 0f);
+        Vector2 min = new Vector2(900f, -150f);
+        Vector2 max = new Vector2(-900f, -150f);
         Vector2 target;
         Rect rect = rectTransform.rect;
         while (notificationQueue.Count > 0)
@@ -43,7 +46,7 @@ public class NotificationMenu : MonoBehaviour
             while (t < 1f)
             {
                 target = Vector2.Lerp(min, max, tween.Evaluate(t));
-                rectTransform.rect.Set(target.x, target.y, rect.width, rect.height);
+                rectTransform.anchoredPosition = target;
                 t += Time.deltaTime / tweenDuration;
                 yield return new WaitForEndOfFrame();
             }

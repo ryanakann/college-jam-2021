@@ -3673,7 +3673,7 @@ MonoBehaviour:
   - name: Green
     color: {r: 0.5568628, g: 1, b: 0.41960785, a: 1}
   - name: Orange
-    color: {r: 0.9098039, g: 0.77254903, b: 0.38039216, a: 1}
+    color: {r: 0.9098039, g: 0.68283576, b: 0.3803921, a: 1}
   - name: Red
     color: {r: 1, g: 0.53333336, b: 0.47058824, a: 1}
   - name: Purple
