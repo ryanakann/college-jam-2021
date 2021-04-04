@@ -18,8 +18,11 @@ public class TurnManager : MonoBehaviour {
 
     public static TurnManager instance;
 
-    public bool locked;
     public TMP_Text turnText;
+
+    public int phageCounter = 0;
+
+    public bool locked { get { return phageCounter > 0; } }
 
     public void Awake() {
         if (!instance) {
@@ -38,7 +41,6 @@ public class TurnManager : MonoBehaviour {
 
 
     public void StartGame() {
-        locked = false;
         SyncPlayers();
         graphGenerator.Generate();
         currentPlayer = players.First;
@@ -78,6 +80,10 @@ public class TurnManager : MonoBehaviour {
     }
 
     public void NextPlayer(bool start = false) {
+
+        if (locked)
+            return;
+
         if (players.Count <= 1)
             print("GAME OVER"); // signal that the game is over... this should be an error!
 
@@ -100,14 +106,6 @@ public class TurnManager : MonoBehaviour {
     public void EndGame(Player winner) {
         WinMenu.instance.gameObject.SetActive(true);
         WinMenu.instance.Win(winner.colorName);
-    }
-
-    public void UnlockActions() {
-        locked = true;
-    }
-
-    public void LockActions() {
-        locked = false;
     }
 
     private void OnGUI() {
