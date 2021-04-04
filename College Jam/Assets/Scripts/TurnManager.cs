@@ -133,6 +133,28 @@ public class TurnManager : MonoBehaviour {
         else
         {
             WinMenu.instance.Win(winner.colorName);
+            StartCoroutine(EndGameCR(winner));
+        }
+    }
+
+    private IEnumerator EndGameCR(Player winner)
+    {
+        CameraPivot.instance.EndGame();
+
+        int winnerIndex = GameSettings.instance.players.IndexOf(winner);
+        List<Node> loserNodes = new List<Node>();
+        foreach (var node in Graph.instance.nodes)
+        {
+            if (node.owner != winnerIndex)
+            {
+                loserNodes.Add(node);
+            }
+        }
+
+        for (int i = 0; i < loserNodes.Count; i++)
+        {
+            yield return new WaitForSeconds(0.4f);
+            loserNodes[i].SetOwner(winnerIndex);
         }
     }
 

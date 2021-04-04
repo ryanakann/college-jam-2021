@@ -7,6 +7,8 @@ public class CameraPivot : MonoBehaviour {
 
     public static CameraPivot instance;
 
+    public bool active;
+
     [Header("Position")]
     public Transform target;
     public Vector3 targetPosition;
@@ -45,6 +47,7 @@ public class CameraPivot : MonoBehaviour {
     void Initialize() {
         instance = this;
         dragging = false;
+        active = true;
 
         SetRotationSpeed();
         SetScrollSpeed();
@@ -53,7 +56,7 @@ public class CameraPivot : MonoBehaviour {
 
     // Update is called once per frame
     void LateUpdate() {
-        if (MenuManager.instance.menuOpen) return;
+        if (MenuManager.instance.menuOpen || !active) return;
 
         // Position
         if (target) {
@@ -125,6 +128,27 @@ public class CameraPivot : MonoBehaviour {
     public void SetScrollDirection() {
         if (PlayerPrefs.HasKey("InvertScroll")) {
             invertScale = PlayerPrefs.GetInt("InvertScroll") == 0 ? false : true;
+        }
+    }
+
+    public void EndGame()
+    {
+        active = false;
+        StartCoroutine(EndGameCR());
+    }
+
+    private IEnumerator EndGameCR()
+    {
+        float targetScaleRef = 0;
+        targetPosition = Graph.instance.Center();
+
+        while (true)
+        {
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref positionVelRef, positionDamping);
+
+            targetScale = Mathf.SmoothDamp(targetScale, maxScale, ref targetScaleRef, positionDamping);
+            transform.localScale = Vector3.one * targetScale;
+            yield return new WaitForEndOfFrame();
         }
     }
 }
