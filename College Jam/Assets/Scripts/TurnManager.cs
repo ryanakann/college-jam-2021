@@ -5,45 +5,6 @@ using Graphs.Nodes;
 using Graphs;
 using TMPro;
 
-//public class Faction {
-//    List<ScriptableObject> moves; //things this faction can do in a turn
-//    //TODO: List<Move> moveSet;
-
-//    public List<Node> nodes; //all nodes controlled by this faction
-
-//    public int numNodes; // temp var for win condition checking
-//}
-
-
-//public class Player {
-//    public Faction faction;
-
-//    public virtual void Activate() {
-//        //TODO: this goes in the Controller class
-//        foreach (Node n in faction.nodes) {
-//            //if node has stuff to do at the beginning of the turn, do it
-//            //fortify check goes here
-//        }
-
-//        //actableNodes = new List<Node>(faction.nodes); //this is separate because taking over a node should not give you more moves
-//        //while(Player wants to do stuff){
-//        //   click on a node
-//        //   node figures out what moves can do
-//        //   you click one of them
-//        //   execute action RIGHT NOW
-//        //   if(action results in losing a node){
-//        //     remove that node from actableNodes
-//        //   }
-//        //   remove node from actableNodes
-//        //}
-
-//        foreach (Node n in faction.nodes) {
-//            //if node has stuff to do at the end of the turn, do it
-//            //troop movement goes here
-//        }
-//    }
-//}
-
 public class TurnManager : MonoBehaviour {
 
     [Range(10, 100)]
@@ -120,18 +81,14 @@ public class TurnManager : MonoBehaviour {
         if (players.Count <= 1)
             print("GAME OVER"); // signal that the game is over... this should be an error!
 
-        if (!start)
-        {
+        if (!start) {
             currentPlayer.Value.EndTurn();
 
-            if (currentPlayer.Next == null)
-            {
+            if (currentPlayer.Next == null) {
                 currentPlayer = players.First;
                 currentTurn++;
                 // update turn counters and stuff
-            }
-            else
-            {
+            } else {
                 currentPlayer = currentPlayer.Next;
             }
         }
@@ -153,10 +110,8 @@ public class TurnManager : MonoBehaviour {
         locked = false;
     }
 
-    private void OnGUI()
-    {
-        if (GUI.Button(new Rect(0f, 0f, 120f, 30f), "Current player win"))
-        {
+    private void OnGUI() {
+        if (GUI.Button(new Rect(0f, 0f, 120f, 30f), "Current player win")) {
             EndGame(currentPlayer.Value);
         }
     }
