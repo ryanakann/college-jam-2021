@@ -85,7 +85,8 @@ namespace Graphs
                         mat.SetColor("_Highlight", selectedColor);
                         mat.SetColor("_FresnelColor", Color.white);
                         // OnSelect?.Invoke(GetComponent<Node>());
-                        PlayerController.instance.HandleClickNode(GetComponent<Node>());
+                        CameraPivot.instance?.SetTarget(transform);
+                        PlayerController.instance?.HandleClickNode(GetComponent<Node>());
                         break;
                     case NodeState.Highlighted:
                         mat.SetColor("_Highlight", selectedColor);

@@ -23,6 +23,7 @@ namespace Graphs {
                 value = 0;
                 fortifying = 0;
                 movedThisTurn = false;
+                owner = -1;
             }
 
             public virtual void ReceivePhage(int phageOwner) {
@@ -34,8 +35,11 @@ namespace Graphs {
             }
 
             public virtual void SetOwner(int playerNum) {
-                Player oldOwner = GameSettings.instance.players[owner];
-                oldOwner.nodes.Remove(this);
+                if (owner >= 0)
+                {
+                    Player oldOwner = GameSettings.instance.players[owner];
+                    oldOwner.nodes.Remove(this);
+                }
                 Player newOwner = GameSettings.instance.players[playerNum];
                 owner = playerNum;
                 Color color = newOwner.color;

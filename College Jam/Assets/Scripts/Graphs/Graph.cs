@@ -54,7 +54,6 @@ namespace Graphs {
             if (GameSettings.instance.players[activeNode.owner] == TurnManager.instance.currentPlayer.Value) {
                 activeNode.nodeUI.SetDetailVisibility(true);
             }
-            CameraPivot.instance?.SetTarget(node.transform);
         }
 
         public static List<Node> GetImmediateNeighbors(Node start) {
