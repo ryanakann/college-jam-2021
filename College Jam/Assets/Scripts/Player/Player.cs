@@ -42,13 +42,6 @@ public class Player {
 
         highlightActableNodes();
         PlayerController.instance.OnSelectNode += ValidateMoves; // we're specifically subscribing to this event
-
-        //if (isHuman)
-        //    PlayerController.instance.OnSelectNode += ValidateMoves;
-        //else
-        //{
-        //    // do AI stuff...
-        //}
     }
 
     public void ValidateMoves(Node node) {
