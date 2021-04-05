@@ -34,8 +34,8 @@ public class NotificationMenu : MonoBehaviour
 
     IEnumerator Animate()
     {
-        Vector2 min = new Vector2(900f, -150f);
-        Vector2 max = new Vector2(-900f, -150f);
+        Vector2 min = new Vector2(1000f, -150f);
+        Vector2 max = new Vector2(-1000f, -150f);
         Vector2 target;
         Rect rect = rectTransform.rect;
         while (notificationQueue.Count > 0)

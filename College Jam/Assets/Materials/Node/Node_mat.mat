@@ -65,7 +65,7 @@ Material:
     - _FresnelExponentMax: 3
     - _FresnelExponentMin: 1
     - _GlossMapScale: 1
-    - _Glossiness: 1
+    - _Glossiness: 0.6
     - _GlossyEnabled: 0
     - _GlossyReflections: 1
     - _Metallic: 1

@@ -33,7 +33,11 @@ public class SlideDeck : MonoBehaviour
     public void PreviousSlide()
     {
         slides[activeIndex].SetActive(false);
-        activeIndex = (activeIndex - 1) % slides.Count;
+        activeIndex--;
+        if (activeIndex < 0)
+        {
+            activeIndex = slides.Count - 1;
+        }
         slides[activeIndex].SetActive(true);
     }
 }

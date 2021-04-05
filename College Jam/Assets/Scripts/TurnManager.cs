@@ -122,7 +122,17 @@ public class TurnManager : MonoBehaviour {
             playerTurnElapsedTime = NotificationMenu.instance.tweenDuration;
             NotificationMenu.instance.AddToQueue($"Turn {currentTurn}");
         }
-        NotificationMenu.instance.AddToQueue($"{currentPlayer.Value.colorName}'s turn");
+
+        string playerName;
+        if (currentPlayer.Value.isHuman)
+        {
+            playerName = currentPlayer.Value.colorName;
+        }
+        else
+        {
+            playerName = "(AI) " + currentPlayer.Value.colorName;
+        }
+        NotificationMenu.instance.AddToQueue($"{playerName}'s move");
         turnText.SetText($"{currentPlayer.Value.colorName}'s turn ({currentPlayer.Value.faction.name})");
         currentPlayer.Value.Activate();
     }

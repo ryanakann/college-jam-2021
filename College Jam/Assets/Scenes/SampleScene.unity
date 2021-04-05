@@ -3572,7 +3572,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.2
+      time: 0.1
       value: 0.3
       inSlope: 1.2468655
       outSlope: 1.2468655
@@ -3581,7 +3581,7 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.8
+      time: 0.9
       value: 0.7
       inSlope: 1.2501919
       outSlope: 1.2501919
@@ -4076,6 +4076,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa8b2b1cc23dfa340ab0963f2c812336, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 0
   target: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   positionDamping: 0.2
