@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Graphs.Nodes;
+using Moves;
 
 public class MoveContext {
 
@@ -23,11 +24,13 @@ public class MoveContext {
 // this context involves forcing the controller to click on a node adjacent to the provided node
 public class AdjacentSelectContext : MoveContext {
     Node srcNode;
+    Move move;
     public TargetNodeEvent OnSelect;
     List<Node> highlightedNodes;
 
-    public AdjacentSelectContext(Node node) {
+    public AdjacentSelectContext(Node node, Move move) {
         srcNode = node;
+        this.move = move;
         PlayerController.instance.OnClickNode += ValidateSelection;
         PlayerController.instance.OnCancel += Clear;
         clearing = true;
@@ -50,10 +53,17 @@ public class AdjacentSelectContext : MoveContext {
 
     void ValidateSelection(Node node) {
         if (srcNode.neighbors.Contains(node)) {
+            foreach (var check in move.validationChecks) {
+                (bool valid, string msg) = check.Validate(srcNode, node);
+                if (!valid) {
+                    //TODO: where do I put this?
+                    Debug.Log(msg);
+                    PlayerController.instance.Clear();
+                    return;
+                }
+            }
             OnSelect?.Invoke(srcNode, node);
-        }
-        else
-        {
+        } else {
             PlayerController.instance.Clear();
         }
     }

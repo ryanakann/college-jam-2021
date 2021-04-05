@@ -67,7 +67,7 @@ namespace Moves {
         public TargetedMove() : base() {
         }
         public override void Execute(Node node) {
-            PlayerController.instance.SetContext(new AdjacentSelectContext(node));
+            PlayerController.instance.SetContext(new AdjacentSelectContext(node, this));
             ((AdjacentSelectContext)PlayerController.instance.context).OnSelect += FinalExecute;
         }
         public virtual void FinalExecute(Node srcNode, Node tgtNode) {
@@ -147,15 +147,22 @@ namespace Moves {
         public virtual (bool, string) Validate(Node node) {
             return (true, "");
         }
-    }
 
-    public class Targeted_MVC : MoveValidationCheck {
+        //for targeted moves
         public virtual (bool, string) Validate(Node srcNode, Node tgtNode) {
             return (true, "");
         }
     }
 
-    public class Leech_MVC : Targeted_MVC {
+    public class Leech_MVC : MoveValidationCheck {
+        public override (bool, string) Validate(Node node) {
+            foreach (Node neighbor in node.neighbors) {
+                if (neighbor.owner != node.owner && neighbor.value > 0) {
+                    return (true, "");
+                }
+            }
+            return (false, "Target node must have at least one phage to steal.");
+        }
         public override (bool, string) Validate(Node srcNode, Node tgtNode) {
             return (tgtNode.value > 0) ? (true, "") : (false, "Target node must have at least one phage to steal.");
         }
