@@ -4,6 +4,7 @@ using UnityEngine;
 using Graphs.Nodes;
 using Graphs;
 using TMPro;
+using Moves;
 
 public class TurnManager : MonoBehaviour {
 
@@ -162,5 +163,70 @@ public class TurnManager : MonoBehaviour {
         if (GUI.Button(new Rect(0f, 0f, 120f, 30f), "Current player win")) {
             EndGame(currentPlayer.Value);
         }
+    }
+
+    public void AIMovement()
+    {
+        print("AI LMAO");
+        List<(Node, Move)> moves = new List<(Node, Move)>();
+        foreach (var node in currentPlayer.Value.actableNodes)
+        {
+            List<(Move, bool, string)> validMoves = currentPlayer.Value.ValidateMoves(node);
+            List<Move> options = new List<Move>();
+            foreach (var item in validMoves)
+            {
+                Move move = item.Item1;
+                bool valid = item.Item2;
+                if (valid)
+                {
+                    options.Add(move);
+                }
+            }
+            moves.Add((node, options[Random.Range(0, options.Count)]));
+        }
+
+        StartCoroutine(AIMovementCR(moves));
+    }
+
+    IEnumerator AIMovementCR(List<(Node, Move)> nodeMoves)
+    {
+        // Randomly permute list
+        System.Random rng = new System.Random();
+        int n = nodeMoves.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            var value = nodeMoves[k];
+            nodeMoves[k] = nodeMoves[n];
+            nodeMoves[n] = value;
+        }
+
+        foreach (var nodeMove in nodeMoves)
+        {
+            Node node = nodeMove.Item1;
+            Move move = nodeMove.Item2;
+
+            // Ignore nodes that are currently fortifying. Probably unneeded check
+            if (node.fortifying > 0) continue;
+
+            if (move.GetType().IsEquivalentTo(typeof(Split)))
+            {
+                Split splitMove = (Split)move;
+                Node targetNode = node.neighbors[Random.Range(0, node.neighbors.Count)];
+                splitMove.FinalExecute(node, targetNode);
+            }
+            else if (move.GetType().IsEquivalentTo(typeof(Propagate)))
+            {
+                move.Execute(node);
+            }
+            else if (move.GetType().IsEquivalentTo(typeof(Fortify)))
+            {
+                move.Execute(node);
+            }
+            yield return new WaitForSeconds(3f);
+        }
+
+        NextPlayer();
     }
 }

@@ -43,13 +43,23 @@ public class Player {
         PlayerController.instance.UpdateToolTip(null);
 
         highlightActableNodes();
-        PlayerController.instance.OnSelectNode += ValidateMoves; // we're specifically subscribing to this event
+        PlayerController.instance.OnSelectNode += ValidateMovesVoid; // we're specifically subscribing to this event
 
         if (actableNodes.Count > 0)
             CameraPivot.instance.SetTarget(actableNodes[Random.Range(0, actableNodes.Count)].transform);
+
+        if (!isHuman)
+        {
+            TurnManager.instance.AIMovement();
+        }
     }
 
-    public void ValidateMoves(Node node) {
+    public void ValidateMovesVoid(Node node)
+    {
+        ValidateMoves(node);
+    }
+
+    public List<(Move, bool, string)> ValidateMoves(Node node) {
         List<(Move, bool, string)> validMoves = new List<(Move, bool, string)>();
         foreach (Move move in faction.moveSet) {
             (bool allowed, string description) = move.Validate(node);
@@ -57,6 +67,7 @@ public class Player {
         }
 
         node.nodeUI.PopulateUI(validMoves);
+        return validMoves;
     }
 
     public void EndTurn() {
@@ -73,7 +84,7 @@ public class Player {
             node.IncrementValue();
         }
 
-        PlayerController.instance.OnSelectNode -= ValidateMoves;
+        PlayerController.instance.OnSelectNode -= ValidateMovesVoid;
     }
 
     public void highlightActableNodes() {
