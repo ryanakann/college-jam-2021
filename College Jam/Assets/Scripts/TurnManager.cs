@@ -175,21 +175,20 @@ public class TurnManager : MonoBehaviour {
     IEnumerator AIMovementCR()
     {
         // Get a list of nodes the current player can perform actions on and randomly permute it
-        List<Node> actableNodes = currentPlayer.Value.actableNodes;
+        List<Node> actableNodes = new List<Node>(currentPlayer.Value.actableNodes);
         print("Actable node count: " + actableNodes.Count);
-        System.Random rng = new System.Random();
-        int n = actableNodes.Count;
-        while (n > 1)
-        {
-            n--;
-            int k = rng.Next(n + 1);
-            var value = actableNodes[k];
-            actableNodes[k] = actableNodes[n];
-            actableNodes[n] = value;
-        }
+        //System.Random rng = new System.Random();
+        //int n = actableNodes.Count;
+        //while (n > 1)
+        //{
+        //    n--;
+        //    int k = rng.Next(n + 1);
+        //    var value = actableNodes[k];
+        //    actableNodes[k] = actableNodes[n];
+        //    actableNodes[n] = value;
+        //}
 
         // For each node you can perform an action on, execute a random action
-        //foreach (var node in actableNodes)
         for (int i = 0; i < actableNodes.Count; i++)
         {
             Node node = actableNodes[i];
@@ -212,37 +211,105 @@ public class TurnManager : MonoBehaviour {
                 }
             }
 
-            if (options.Count <= 0) continue;
+            print("Count: " + options.Count);
+            if (options.Count <= 0)
+            {
+                yield return new WaitForSeconds(2f);
+                continue;
+            }
+
+            CameraPivot.instance.SetTarget(node.transform);
 
             // Choose a random move out of the options available
             Move move = options[Random.Range(0, options.Count)];
             // Execute the move in accordance with its type
             if (move.GetType().IsEquivalentTo(typeof(Split)))
             {
-                print("Splitting!");
+                print("Split");
+
                 Split splitMove = (Split)move;
+                List<Node> allyNodes = new List<Node>();
+                List<Node> enemyNodes = new List<Node>();
+                List<Node> neutralNodes = new List<Node>();
+                foreach (var item in node.neighbors)
+                {
+                    if (item.owner < 0) neutralNodes.Add(item);
+                    else if (item.owner == node.owner) allyNodes.Add(item);
+                    else enemyNodes.Add(item);
+                }
+
+                bool targetFound = false;
                 Node targetNode = node.neighbors[Random.Range(0, node.neighbors.Count)];
+                if (enemyNodes.Count > 0)
+                {
+                    if (Random.value < 0.75f)
+                    {
+                        targetFound = true;
+                        targetNode = enemyNodes[Random.Range(0, enemyNodes.Count)];
+                    }
+                }
+                if (!targetFound && neutralNodes.Count > 0)
+                {
+                    if (Random.value < 0.5f)
+                    {
+                        targetFound = true;
+                        targetNode = neutralNodes[Random.Range(0, neutralNodes.Count)];
+                    }
+                }
+                if (!targetFound && allyNodes.Count > 0)
+                {
+                    targetFound = true;
+                    targetNode = allyNodes[Random.Range(0, allyNodes.Count)];
+                }
+
                 splitMove.Execute(node);
                 splitMove.FinalExecute(node, targetNode);
             }
             else if (move.GetType().IsEquivalentTo(typeof(Propagate)))
             {
-                print("Propagating!");
+                print("Propagate");
+                move.Execute(node);
+            }
+            else if (move.GetType().IsEquivalentTo(typeof(Consolidate)))
+            {
+                print("Consolidate");
                 move.Execute(node);
             }
             else if (move.GetType().IsEquivalentTo(typeof(Fortify)))
             {
-                print("Fortifying!");
+                print("Fortify");
                 move.Execute(node);
             }
+            else if (move.GetType().IsEquivalentTo(typeof(Invest)))
+            {
+                print("Invest");
+                move.Execute(node);
+            }
+            else if (move.GetType().IsEquivalentTo(typeof(Leech)))
+            {
+                print("Leech");
+                Leech leechMove = (Leech)move;
+                List<Node> enemyNeighbors = new List<Node>();
+                foreach (var item in node.neighbors)
+                {
+                    if (item.owner >= 0 && item.owner != node.owner)
+                    {
+                        enemyNeighbors.Add(item);
+                    }
+                }
+                Node targetNode = enemyNeighbors[Random.Range(0, enemyNeighbors.Count)];
+                leechMove.Execute(node);
+                leechMove.FinalExecute(node, targetNode);
+            }
+            yield return new WaitForSeconds(2f);
         }
-        
+        yield return new WaitForSeconds(1f);
         // Wait for the last move to finish executing before continuing
         while (locked)
         {
             yield return new WaitForEndOfFrame();
         }
-        currentPlayer.Value.EndTurn();
+        //currentPlayer.Value.EndTurn();
         NextPlayer();
 
         //List<(Node, Move)> moves = new List<(Node, Move)>();
