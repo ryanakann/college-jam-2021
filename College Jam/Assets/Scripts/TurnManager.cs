@@ -171,12 +171,6 @@ public class TurnManager : MonoBehaviour {
         }
     }
 
-    private void OnGUI() {
-        if (GUI.Button(new Rect(0f, 0f, 120f, 30f), "Current player win")) {
-            EndGame(currentPlayer.Value);
-        }
-    }
-
     public void AIMovement()
     {
         StartCoroutine(AIMovementCR());
