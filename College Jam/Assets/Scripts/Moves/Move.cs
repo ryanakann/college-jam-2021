@@ -52,11 +52,12 @@ namespace Moves {
         public Propagate() : base() {
             name = "Propagate";
             validationChecks.Add(new GreaterThanDegree_MVC());
-            description = "Transfer 1 phage from the source node to each edge.";
+            description = "Transfer up to 3 phages from the source node to each edge.";
         }
 
         public override void Execute(Node node) {
             base.Execute(node);
+            //TODO: send phages in rounds
             foreach (var neighbor in node.neighbors) {
                 Graph.instance.SendPhages(node, neighbor, 1);
             }
@@ -67,13 +68,13 @@ namespace Moves {
         public Consolidate() : base() {
             name = "Consolidate";
             validationChecks.Add(new Consolidate_MVC());
-            description = "Gather 1 phage from each neighboring node that you own.";
+            description = "Gather up to 3 phages from each neighboring node that you own.";
         }
         public override void Execute(Node node) {
             base.Execute(node);
             foreach (var neighbor in node.neighbors) {
                 if (neighbor.owner == node.owner) {
-                    Graph.instance.SendPhages(neighbor, node, 1);
+                    Graph.instance.SendPhages(neighbor, node, Mathf.Min(3, neighbor.value - 1));
                 }
             }
         }
@@ -218,16 +219,22 @@ namespace Moves {
             foreach (Node neighbor in node.neighbors) {
                 if (neighbor.owner == node.owner) {
                     hasFriendlyNeighbor = true;
-                    if (neighbor.value > 0) {
+                    if (neighbor.value > 1) {
                         return (true, "");
                     }
                 }
             }
             if (hasFriendlyNeighbor) {
-                return (false, "There must be at least one phage to gather from your neighbors.");
+                return (false, "There must be at least one extra phage to gather from your neighbors.");
             } else {
                 return (false, "There must be at least one neighbor that you own.");
             }
+        }
+    }
+
+    public class Propagate_MVC : MoveValidationCheck {
+        public override (bool, string) Validate(Node node) {
+            return (true, "");
         }
     }
 

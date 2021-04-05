@@ -22,8 +22,8 @@ public class Faction {
             moveSet: new List<Move>
             {
                 new Split(),
-                new Propagate(),
-                new Invest(),
+                new Fortify(),
+                new Consolidate(),
             }
         ),
 
@@ -34,17 +34,6 @@ public class Faction {
                 new Split(),
                 new Propagate(),
                 new Consolidate(),
-            }
-        ),
-
-        new Faction(
-            name: "Garrison",
-            moveSet: new List<Move>
-            {
-                new Split(),
-                new Propagate(),
-                new Consolidate(),
-
             }
         ),
 
@@ -63,8 +52,8 @@ public class Faction {
             moveSet: new List<Move>
             {
                 new Split(),
-                new Propagate(),
-                new Leech(),
+                new Fortify(),
+                new Invest(),
             }
         ),
     };
@@ -76,7 +65,6 @@ public class Faction {
         { factionList[2].name, 2 },
         { factionList[3].name, 3 },
         { factionList[4].name, 4 },
-        { factionList[5].name, 5 },
     };
 
     public static Faction FindFactionWithName(string name) {

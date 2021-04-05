@@ -450,7 +450,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3038139862619028880, guid: ca9e59c22863eb445bbd833f14a835fa, type: 3}
       propertyPath: m_Options.m_Options.Array.size
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3038139862619028880, guid: ca9e59c22863eb445bbd833f14a835fa, type: 3}
       propertyPath: m_Options.m_Options.Array.data[0].m_Text
@@ -466,15 +466,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3038139862619028880, guid: ca9e59c22863eb445bbd833f14a835fa, type: 3}
       propertyPath: m_Options.m_Options.Array.data[3].m_Text
-      value: Garrison
-      objectReference: {fileID: 0}
-    - target: {fileID: 3038139862619028880, guid: ca9e59c22863eb445bbd833f14a835fa, type: 3}
-      propertyPath: m_Options.m_Options.Array.data[4].m_Text
       value: Parasite
       objectReference: {fileID: 0}
     - target: {fileID: 3038139862619028880, guid: ca9e59c22863eb445bbd833f14a835fa, type: 3}
-      propertyPath: m_Options.m_Options.Array.data[5].m_Text
+      propertyPath: m_Options.m_Options.Array.data[4].m_Text
       value: Hermit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3038139862619028880, guid: ca9e59c22863eb445bbd833f14a835fa, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[5].m_Text
+      value: Garrison
       objectReference: {fileID: 0}
     - target: {fileID: 3038139862619028880, guid: ca9e59c22863eb445bbd833f14a835fa, type: 3}
       propertyPath: m_Options.m_Options.Array.data[6].m_Text
