@@ -123,12 +123,16 @@ namespace Graphs {
 
         //unconditionally play animation for sending phages from start to finish
         public void SendPhages(Node start, Node finish, int numPhages) {
+            SendPhages(start, finish, numPhages, start.owner);
+        }
+
+        public void SendPhages(Node start, Node finish, int numPhages, int phageOwner) {
             for (int i = 0; i < numPhages; i++) {
-                StartCoroutine(SendPhage(start, finish, i));
+                StartCoroutine(SendPhage(start, finish, i, phageOwner));
             }
         }
 
-        public IEnumerator SendPhage(Node start, Node finish, int id) {
+        public IEnumerator SendPhage(Node start, Node finish, int id, int phageOwner) {
             yield return new WaitForSeconds(UnityEngine.Random.Range(0f, 1.5f));
 
             start.SetValue(start.value - 1);
@@ -136,7 +140,7 @@ namespace Graphs {
             //give phage the right info
             GameObject phageObj = Instantiate(PhagePrefab, start.transform.position, Quaternion.identity, transform);
             phageObj.name = $"Phage {id}";
-            phageObj.GetComponent<CollideWithTarget>().owner = start.owner;
+            phageObj.GetComponent<CollideWithTarget>().owner = phageOwner;
             phageObj.GetComponent<CollideWithTarget>().target = finish;
 
             //start animation
@@ -146,7 +150,7 @@ namespace Graphs {
             phageAnimTarget.GetComponent<TravelBetween>().to = finish.transform;
 
             ParticleSystem.MainModule mainModule = phageObj.GetComponent<ParticleSystem>().main;
-            mainModule.startColor = GameSettings.instance.players[start.owner].color;
+            mainModule.startColor = GameSettings.instance.players[phageOwner].color;
             phageObj.transform.position = start.transform.position + UnityEngine.Random.onUnitSphere * 0.2f;
             phageObj.GetComponent<OrbitTarget>().target = phageAnimTarget.transform;
         }

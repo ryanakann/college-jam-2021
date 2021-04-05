@@ -93,9 +93,17 @@ namespace Moves {
         }
     }
 
-    //public class Leech : TargetedMove {
-
-    //}
+    public class Leech : TargetedMove {
+        public Leech() : base() {
+            name = "Leech";
+            validationChecks.Add(new Leech_MVC());
+            description = "Steal one phage from a target neighboring node.";
+        }
+        public override void FinalExecute(Node srcNode, Node tgtNode) {
+            base.FinalExecute(srcNode, tgtNode);
+            Graph.instance.SendPhages(tgtNode, srcNode, 1, srcNode.owner);
+        }
+    }
 
     public class Fortify : Move {
         public Faction faction;
@@ -138,6 +146,18 @@ namespace Moves {
     public class MoveValidationCheck {
         public virtual (bool, string) Validate(Node node) {
             return (true, "");
+        }
+    }
+
+    public class Targeted_MVC : MoveValidationCheck {
+        public virtual (bool, string) Validate(Node srcNode, Node tgtNode) {
+            return (true, "");
+        }
+    }
+
+    public class Leech_MVC : Targeted_MVC {
+        public override (bool, string) Validate(Node srcNode, Node tgtNode) {
+            return (tgtNode.value > 0) ? (true, "") : (false, "Target node must have at least one phage to steal.");
         }
     }
 

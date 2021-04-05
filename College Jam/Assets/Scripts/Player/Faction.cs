@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Moves;
 
-public class Faction
-{
+public class Faction {
     #region STATIC
     public static List<Faction> factionList = new List<Faction>
     {
@@ -52,6 +51,7 @@ public class Faction
             {
                 new Split(),
                 new Propagate(),
+                new Leech(),
             }
         ),
 
@@ -61,6 +61,7 @@ public class Faction
             {
                 new Split(),
                 new Propagate(),
+                new Leech(),
             }
         ),
     };
@@ -74,9 +75,8 @@ public class Faction
         { factionList[4].name, 4 },
         { factionList[5].name, 5 },
     };
-    
-    public static Faction FindFactionWithName(string name)
-    {
+
+    public static Faction FindFactionWithName(string name) {
         if (!factionMap.ContainsKey(name)) return null;
         return factionList[factionMap[name]];
     }
@@ -85,8 +85,7 @@ public class Faction
     public string name;
     public List<Move> moveSet;
 
-    public Faction(string name, List<Move> moveSet)
-    {
+    public Faction(string name, List<Move> moveSet) {
         this.name = name;
         this.moveSet = moveSet;
     }
