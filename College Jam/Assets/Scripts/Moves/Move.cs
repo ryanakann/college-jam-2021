@@ -51,15 +51,17 @@ namespace Moves {
 
         public Propagate() : base() {
             name = "Propagate";
-            validationChecks.Add(new GreaterThanDegree_MVC());
-            description = "Transfer up to 3 phages from the source node to each edge.";
+            validationChecks.Add(new Propagate_MVC());
+            description = "Scatter phages from the source node to each neighboring node.";
         }
 
         public override void Execute(Node node) {
             base.Execute(node);
-            //TODO: send phages in rounds
-            foreach (var neighbor in node.neighbors) {
-                Graph.instance.SendPhages(node, neighbor, 1);
+            float sendChance = 0.5f;
+            int numToSend = Mathf.Min((int)(sendChance * node.value), node.value);
+            for (int i = 0; i < numToSend; i++) {
+                Node randomNeighbor = node.neighbors[Random.Range(0, node.neighbors.Count)];
+                Graph.instance.SendPhages(node, randomNeighbor, 1);
             }
         }
     }
@@ -234,7 +236,7 @@ namespace Moves {
 
     public class Propagate_MVC : MoveValidationCheck {
         public override (bool, string) Validate(Node node) {
-            return (true, "");
+            return (node.neighbors.Count > 0) ? (true, "") : (false, "This node must have at least one neighbor");
         }
     }
 
