@@ -1,3 +1,15 @@
+bugs
 -bring tutorial up to date
 
--if possible, select color by color and not text
+polish
+-select color by color and not text
+-sound effects
+-Plexus shader
+
+balance
+-propagate is really weak
+
+stretch goals
+-more moves
+-Node states could be indicated somehow
+-AI

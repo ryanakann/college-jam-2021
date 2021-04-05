@@ -91,8 +91,8 @@ namespace Graphs {
             }
 
             public void RemoveStates(bool killStates = true) {
-                foreach (NodeState nodeState in nodeStates) {
-                    RemoveState(nodeState, killStates);
+                for (int i = nodeStates.Count - 1; i >= 0; i--) {
+                    RemoveState(nodeStates[i], killStates);
                 }
             }
 
