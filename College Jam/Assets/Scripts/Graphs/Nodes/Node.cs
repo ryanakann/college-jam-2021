@@ -82,12 +82,22 @@ namespace Graphs {
 
             public void AddState(NodeState nodeState) {
                 nodeStates.Add(nodeState); // maybe do some validation n stuff
+
+                if (nodeState.name.Equals("Fortifying"))
+                {
+                    nodeSelection?.mat?.SetFloat("_GlossyEnabled", 1f);
+                }
             }
 
             public void RemoveState(NodeState nodeState, bool killState = true) {
                 if (killState)
                     nodeState.inactive = true;
                 nodeStates.Remove(nodeState);
+
+                if (nodeState.name.Equals("Fortifying"))
+                {
+                    nodeSelection?.mat?.SetFloat("_GlossyEnabled", 0f);
+                }
             }
 
             public void RemoveStates(bool killStates = true) {

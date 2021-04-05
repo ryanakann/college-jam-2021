@@ -19,6 +19,7 @@ namespace Graphs {
             }
 
             public void SetDetailVisibility(bool visibile) {
+                if (visibile && TurnManager.instance.currentPlayer.Value.isHuman == false) return;
                 detailedUI.SetActive(visibile);
             }
 

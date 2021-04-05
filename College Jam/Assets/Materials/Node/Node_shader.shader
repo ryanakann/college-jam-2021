@@ -5,7 +5,9 @@ Shader "Custom/Node_shader"
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
-        _Metallic ("Metallic", Range(0,1)) = 0.0
+        _Metallic ("Metallic", Range(0, 1)) = 0
+
+        _GlossyEnabled("Enable Smoothness", Range(0, 1)) = 0
 
         _Highlight("Highlight Color", Color) = (1,1,1,1)
         _FresnelColor("Fresnel Color", Color) = (1,1,1,1)
@@ -38,6 +40,8 @@ Shader "Custom/Node_shader"
         half _Metallic;
         fixed4 _Color;
 
+        float _GlossyEnabled;
+
         fixed4 _Highlight;
         float3 _FresnelColor;
         float _FresnelExponent;
@@ -56,10 +60,7 @@ Shader "Custom/Node_shader"
             fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color * _Highlight;
             o.Albedo = c.rgb;
 
-            // Metallic and smoothness come from slider variables
-            o.Metallic = _Metallic;
-            o.Smoothness = _Glossiness;
-            o.Alpha = c.a;
+            
 
             // Fresnel effect
             float fresnel = dot(IN.worldNormal, IN.viewDir);
@@ -69,6 +70,11 @@ Shader "Custom/Node_shader"
             float fresnelTime = (cos(_Time * _FresnelExponentFreq * 4 * 3.1415926535) + 1) / 2; // Cycle between 0 and 1
             float3 fresnelColor = lerp((0.0, 0.0, 0.0), fresnel * _FresnelColor, fresnelTime);
             o.Emission = fresnelColor;
+
+            // Metallic and smoothness come from slider variables
+            o.Metallic = _Metallic;
+            o.Smoothness = _GlossyEnabled * clamp(lerp(_Glossiness - 0.1, _Glossiness + 0.1, fresnelTime), 0, 1);
+            o.Alpha = c.a;
         }
         ENDCG
     }

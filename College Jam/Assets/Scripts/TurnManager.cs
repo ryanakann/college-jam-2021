@@ -77,8 +77,10 @@ public class TurnManager : MonoBehaviour {
         }
 
         if (currentTurn < maxTurns)
+        {
             EndGame(null);
-        return;
+            return;
+        }
 
         List<Player> winningPlayers = CheckGraphDomination();
         print("Winners:");
@@ -167,66 +169,136 @@ public class TurnManager : MonoBehaviour {
 
     public void AIMovement()
     {
-        print("AI LMAO");
-        List<(Node, Move)> moves = new List<(Node, Move)>();
-        foreach (var node in currentPlayer.Value.actableNodes)
-        {
-            List<(Move, bool, string)> validMoves = currentPlayer.Value.ValidateMoves(node);
-            List<Move> options = new List<Move>();
-            foreach (var item in validMoves)
-            {
-                Move move = item.Item1;
-                bool valid = item.Item2;
-                if (valid)
-                {
-                    options.Add(move);
-                }
-            }
-            moves.Add((node, options[Random.Range(0, options.Count)]));
-        }
-
-        StartCoroutine(AIMovementCR(moves));
+        StartCoroutine(AIMovementCR());
     }
 
-    IEnumerator AIMovementCR(List<(Node, Move)> nodeMoves)
+    IEnumerator AIMovementCR()
     {
-        // Randomly permute list
+        // Get a list of nodes the current player can perform actions on and randomly permute it
+        List<Node> actableNodes = currentPlayer.Value.actableNodes;
+        print("Actable node count: " + actableNodes.Count);
         System.Random rng = new System.Random();
-        int n = nodeMoves.Count;
+        int n = actableNodes.Count;
         while (n > 1)
         {
             n--;
             int k = rng.Next(n + 1);
-            var value = nodeMoves[k];
-            nodeMoves[k] = nodeMoves[n];
-            nodeMoves[n] = value;
+            var value = actableNodes[k];
+            actableNodes[k] = actableNodes[n];
+            actableNodes[n] = value;
         }
 
-        foreach (var nodeMove in nodeMoves)
+        // For each node you can perform an action on, execute a random action
+        //foreach (var node in actableNodes)
+        for (int i = 0; i < actableNodes.Count; i++)
         {
-            Node node = nodeMove.Item1;
-            Move move = nodeMove.Item2;
+            Node node = actableNodes[i];
+            // Wait for the graph to be unlocked before continuing
+            while (locked)
+            {
+                yield return new WaitForEndOfFrame();
+            }
 
-            // Ignore nodes that are currently fortifying. Probably unneeded check
-            if (node.fortifying > 0) continue;
+            // Get a list of possible actions to take for this node
+            List<(Move, bool, string)> validMoves = currentPlayer.Value.ValidateMoves(node);
+            List<Move> options = new List<Move>();
+            foreach (var item in validMoves)
+            {
+                Move itemMove = item.Item1;
+                bool itemValid = item.Item2;
+                if (itemValid)
+                {
+                    options.Add(itemMove);
+                }
+            }
 
+            if (options.Count <= 0) continue;
+
+            // Choose a random move out of the options available
+            Move move = options[Random.Range(0, options.Count)];
+            // Execute the move in accordance with its type
             if (move.GetType().IsEquivalentTo(typeof(Split)))
             {
+                print("Splitting!");
                 Split splitMove = (Split)move;
                 Node targetNode = node.neighbors[Random.Range(0, node.neighbors.Count)];
+                splitMove.Execute(node);
                 splitMove.FinalExecute(node, targetNode);
             }
             else if (move.GetType().IsEquivalentTo(typeof(Propagate)))
             {
+                print("Propagating!");
                 move.Execute(node);
             }
             else if (move.GetType().IsEquivalentTo(typeof(Fortify)))
             {
+                print("Fortifying!");
                 move.Execute(node);
             }
-            yield return new WaitForSeconds(3f);
         }
-
+        
+        // Wait for the last move to finish executing before continuing
+        while (locked)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        currentPlayer.Value.EndTurn();
         NextPlayer();
+
+        //List<(Node, Move)> moves = new List<(Node, Move)>();
+        //foreach (var node in currentPlayer.Value.actableNodes)
+        //{
+        //    List<(Move, bool, string)> validMoves = currentPlayer.Value.ValidateMoves(node);
+        //    List<Move> options = new List<Move>();
+        //    foreach (var item in validMoves)
+        //    {
+        //        Move move = item.Item1;
+        //        bool valid = item.Item2;
+        //        if (valid)
+        //        {
+        //            options.Add(move);
+        //        }
+        //    }
+        //    moves.Add((node, options[Random.Range(0, options.Count)]));
+        //}
+
+        //// Randomly permute list
+        //System.Random rng = new System.Random();
+        //int n = nodeMoves.Count;
+        //while (n > 1)
+        //{
+        //    n--;
+        //    int k = rng.Next(n + 1);
+        //    var value = nodeMoves[k];
+        //    nodeMoves[k] = nodeMoves[n];
+        //    nodeMoves[n] = value;
+        //}
+
+        //foreach (var nodeMove in nodeMoves)
+        //{
+        //    Node node = nodeMove.Item1;
+        //    Move move = nodeMove.Item2;
+
+        //    // Ignore nodes that are currently fortifying. Probably unneeded check
+        //    if (node.fortifying > 0) continue;
+
+        //    if (move.GetType().IsEquivalentTo(typeof(Split)))
+        //    {
+        //        Split splitMove = (Split)move;
+        //        Node targetNode = node.neighbors[Random.Range(0, node.neighbors.Count)];
+        //        splitMove.FinalExecute(node, targetNode);
+        //    }
+        //    else if (move.GetType().IsEquivalentTo(typeof(Propagate)))
+        //    {
+        //        move.Execute(node);
+        //    }
+        //    else if (move.GetType().IsEquivalentTo(typeof(Fortify)))
+        //    {
+        //        move.Execute(node);
+        //    }
+        //    yield return new WaitForSeconds(3f);
+        //}
+
+        //NextPlayer();
     }
 }

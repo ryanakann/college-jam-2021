@@ -65,7 +65,8 @@ Material:
     - _FresnelExponentMax: 3
     - _FresnelExponentMin: 1
     - _GlossMapScale: 1
-    - _Glossiness: 0
+    - _Glossiness: 1
+    - _GlossyEnabled: 0
     - _GlossyReflections: 1
     - _Metallic: 1
     - _Mode: 0
@@ -80,5 +81,5 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Highlight: {r: 1, g: 1, b: 1, a: 1}
+    - _Highlight: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
   m_BuildTextureStacks: []
