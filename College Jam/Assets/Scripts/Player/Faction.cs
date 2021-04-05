@@ -33,6 +33,7 @@ public class Faction {
             {
                 new Split(),
                 new Propagate(),
+                new Consolidate(),
             }
         ),
 
@@ -42,6 +43,8 @@ public class Faction {
             {
                 new Split(),
                 new Propagate(),
+                new Consolidate(),
+
             }
         ),
 

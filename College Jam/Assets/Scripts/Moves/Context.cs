@@ -56,12 +56,12 @@ public class AdjacentSelectContext : MoveContext {
             foreach (var check in move.validationChecks) {
                 (bool valid, string msg) = check.Validate(srcNode, node);
                 if (!valid) {
-                    //TODO: where do I put this?
-                    Debug.Log(msg);
+                    Debug.Log(msg);//TODO: where do I put this?
                     PlayerController.instance.Clear();
                     return;
                 }
             }
+            //execute the move
             OnSelect?.Invoke(srcNode, node);
         } else {
             PlayerController.instance.Clear();

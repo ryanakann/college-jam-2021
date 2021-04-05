@@ -63,6 +63,22 @@ namespace Moves {
         }
     }
 
+    public class Consolidate : Move {
+        public Consolidate() : base() {
+            name = "Consolidate";
+            validationChecks.Add(new Consolidate_MVC());
+            description = "Gather 1 phage from each neighboring node that you own.";
+        }
+        public override void Execute(Node node) {
+            base.Execute(node);
+            foreach (var neighbor in node.neighbors) {
+                if (neighbor.owner == node.owner) {
+                    Graph.instance.SendPhages(neighbor, node, 1);
+                }
+            }
+        }
+    }
+
     public class TargetedMove : Move {
         public TargetedMove() : base() {
         }
@@ -80,7 +96,7 @@ namespace Moves {
         public Split() : base() {
             name = "Split";
             validationChecks.Add(new AtLeast_MVC(2));
-            description = "Send half of the source node's phages to a target neighboring node.";
+            description = "Send half of the node's phages to a target neighboring node.";
         }
 
         public override void FinalExecute(Node srcNode, Node tgtNode) {
@@ -154,20 +170,6 @@ namespace Moves {
         }
     }
 
-    public class Leech_MVC : MoveValidationCheck {
-        public override (bool, string) Validate(Node node) {
-            foreach (Node neighbor in node.neighbors) {
-                if (neighbor.owner != node.owner && neighbor.value > 0) {
-                    return (true, "");
-                }
-            }
-            return (false, "Target node must have at least one phage to steal.");
-        }
-        public override (bool, string) Validate(Node srcNode, Node tgtNode) {
-            return (tgtNode.value > 0) ? (true, "") : (false, "Target node must have at least one phage to steal.");
-        }
-    }
-
     public class Blocking_MVC : MoveValidationCheck {
         public override (bool, string) Validate(Node node) {
             foreach (var nodeState in node.nodeStates) {
@@ -195,5 +197,39 @@ namespace Moves {
             return (node.value >= amount) ? (true, "") : (false, $"This node must have at least {amount} phages.");
         }
     }
+
+    public class Leech_MVC : MoveValidationCheck {
+        public override (bool, string) Validate(Node node) {
+            foreach (Node neighbor in node.neighbors) {
+                if (neighbor.owner != node.owner && neighbor.value > 0) {
+                    return (true, "");
+                }
+            }
+            return (false, "Target node must have at least one phage to steal.");
+        }
+        public override (bool, string) Validate(Node srcNode, Node tgtNode) {
+            return (tgtNode.value > 0) ? (true, "") : (false, "Target node must have at least one phage to steal.");
+        }
+    }
+
+    public class Consolidate_MVC : MoveValidationCheck {
+        public override (bool, string) Validate(Node node) {
+            bool hasFriendlyNeighbor = false;
+            foreach (Node neighbor in node.neighbors) {
+                if (neighbor.owner == node.owner) {
+                    hasFriendlyNeighbor = true;
+                    if (neighbor.value > 0) {
+                        return (true, "");
+                    }
+                }
+            }
+            if (hasFriendlyNeighbor) {
+                return (false, "There must be at least one phage to gather from your neighbors.");
+            } else {
+                return (false, "There must be at least one neighbor that you own.");
+            }
+        }
+    }
+
 
 }
