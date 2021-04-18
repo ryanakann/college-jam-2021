@@ -60,6 +60,7 @@ namespace Graphs {
 
             public void SetState(NodeState state) {
                 if (MenuManager.instance.menuOpen) return;
+                print("oog");
                 mouseState = state;
                 switch (state) {
                     case NodeState.Normal:
@@ -75,7 +76,7 @@ namespace Graphs {
                     case NodeState.Selected:
                         mat.SetColor("_Highlight", selectedColor);
                         mat.SetColor("_FresnelColor", Color.white);
-                        //CameraPivot.instance?.SetTarget(transform);
+                        CameraPivot.instance?.SetTarget(transform);
                         //PlayerController.instance?.HandleClickNode(GetComponent<Node>());
                         break;
                     case NodeState.Highlighted:
@@ -117,7 +118,7 @@ namespace Graphs {
             private void OnMouseUpAsButton() {
                 //if (EventSystem.current.currentSelectedGameObject != null &&
                 //    EventSystem.current.currentSelectedGameObject.layer == 1 << 5) return;
-                PlayerController.instance.HandleClickNode(GetComponent<Node>());
+                //PlayerController.instance.HandleClickNode(GetComponent<Node>());
                 // SetState(NodeState.Selected);
             }
         }

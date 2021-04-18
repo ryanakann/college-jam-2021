@@ -9,6 +9,7 @@ namespace Graphs {
         public Graph graph;
         public GameObject nodePrefab;
         public GameObject edgePrefab;
+        [SerializeField]
         protected int nodeCount;
         public float distanceThreshold = 1f;
 
@@ -71,16 +72,17 @@ namespace Graphs {
             Destroy(reference.gameObject);
             return points;
         }
-
-        public virtual void Generate() {
+        private void Start() {
+            Generate(nodeCount, 2);
+        }
+        public virtual void Generate(int nodeCount, int playerCount) {
             bounds = GetComponent<BoxCollider>().bounds.extents;
             GetComponent<BoxCollider>().enabled = false;
-            nodeCount = GameSettings.instance.mapSize.nodeCount;
-            playerCount = GameSettings.instance.playerCount;
             startPoints = new List<Vector3>();
             startNodes = new List<Node>();
             nodes = new List<GameObject>();
             startPoints = GetStartPoints();
+
 
             // Init start nodes to playerCount nulls
             startNodes = new List<Node>();
@@ -124,28 +126,15 @@ namespace Graphs {
                             graph.AddEdge(node, other.GetComponent<Node>());
                         }
                     }
-
-                    // Update start points
-                    for (int j = 0; j < playerCount; j++) {
-                        // Initial points are always closest
-                        if (startNodes[j] == null) {
-                            startNodes[j] = node;
-                        }
-                        // If new point is closer than existing point, update
-                        else if ((startPoints[j] - startNodes[j].transform.position).sqrMagnitude >
-                            (startPoints[j] - node.transform.position).sqrMagnitude) {
-                            startNodes[j] = node;
-                        }
-                    }
                 }
 
                 nodes.Add(nodeObj);
             }
-            for (int i = 0; i < playerCount; i++) {
-                startNodes[i].SetOwner(i);
-                startNodes[i].SetValue(2);
-                GameSettings.instance.players[i].nodes.Add(startNodes[i]);
-            }
+
+            //for (int i = 0; i < playerCount; i++) {
+            //    startNodes[i].SetOwner(i);
+            //    startNodes[i].SetValue(2);
+            //}
         }
 
         protected virtual void ResetGraph() {
@@ -157,7 +146,8 @@ namespace Graphs {
         }
 
         protected virtual Vector3 SampleRandomPoint() {
-            return new Vector3(Random.Range(-bounds.x, bounds.x), Random.Range(-bounds.y, bounds.y), Random.Range(-bounds.z, bounds.z));
+            return Random.insideUnitSphere * nodeCount * 0.1f;
+            //return new Vector3(Random.Range(-bounds.x, bounds.x), Random.Range(-bounds.y, bounds.y), Random.Range(-bounds.z, bounds.z));
         }
     }
 }
